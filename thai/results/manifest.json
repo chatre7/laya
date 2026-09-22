@@ -1,0 +1,41 @@
+{
+  "wongnai": {
+    "train": 1500,
+    "eval": 300
+  },
+  "prachathai": {
+    "train": 1500,
+    "eval": 300
+  },
+  "xnli_th": {
+    "train": 1500,
+    "eval": 300
+  },
+  "massive_th": {
+    "train": 1500,
+    "eval": 300
+  },
+  "thai_toxicity": {
+    "train": 980,
+    "eval": 0
+  },
+  "wisesight": {
+    "train": 0,
+    "eval": 300
+  },
+  "sib200_th": {
+    "train": 0,
+    "eval": 204
+  },
+  "_items": {
+    "train_items": 10674,
+    "dropped": 0,
+    "by_type": {
+      "choice": 3761,
+      "score": 1500,
+      "noul": 5413
+    },
+    "eval_records": 1704,
+    "mean_len": 436.0697020798201
+  }
+}

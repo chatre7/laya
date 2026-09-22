@@ -1,0 +1,91 @@
+{
+ "model": "openthai-systemone @ http://172.18.72.145:8010",
+ "order_invariant": false,
+ "errors": 1,
+ "mean_ms": 927.1917352906478,
+ "wall_s": 200.37109249999776,
+ "tickets": {
+  "department": 5,
+  "refund": 5,
+  "frustration_mae": 0.3864989370107651,
+  "rows": [
+   {
+    "state": "โดนหักเงินซ้ำสองครั้งเมื่อวานน",
+    "dept": "billing",
+    "p": 0.9828564524650574,
+    "frustration": 1.97,
+    "refund": 0.9908260703086853
+   },
+   {
+    "state": "เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่",
+    "dept": "technical",
+    "p": 0.993224561214447,
+    "frustration": 1.54,
+    "refund": 0.013666191138327122
+   },
+   {
+    "state": "สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ",
+    "dept": "sales",
+    "p": 0.99431312084198,
+    "frustration": 0.19,
+    "refund": 0.02749445289373398
+   },
+   {
+    "state": "ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ ",
+    "dept": "billing",
+    "p": 0.9907888770103455,
+    "frustration": 1.15,
+    "refund": 0.02381867915391922
+   },
+   {
+    "state": "แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ",
+    "dept": "technical",
+    "p": 0.9862203001976013,
+    "frustration": 1.98,
+    "refund": 0.032198697328567505
+   }
+  ]
+ },
+ "sources": {
+  "massive_th:choice": {
+   "n": 300,
+   "acc": 0.88,
+   "mae": null
+  },
+  "prachathai:choice": {
+   "n": 163,
+   "acc": 0.9693,
+   "mae": null
+  },
+  "prachathai:noul": {
+   "n": 588,
+   "acc": 0.9405,
+   "mae": null
+  },
+  "sib200_th:choice": {
+   "n": 204,
+   "acc": 0.7843,
+   "mae": null
+  },
+  "wisesight:choice": {
+   "n": 300,
+   "acc": 0.5467,
+   "mae": null
+  },
+  "wongnai:score": {
+   "n": 299,
+   "acc": 0.6421,
+   "mae": 0.4103
+  },
+  "xnli_th:choice": {
+   "n": 300,
+   "acc": 0.8233,
+   "mae": null
+  },
+  "xnli_th:noul": {
+   "n": 300,
+   "acc": 0.8667,
+   "mae": null
+  }
+ }
+}

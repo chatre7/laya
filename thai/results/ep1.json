@@ -1,0 +1,88 @@
+{
+ "model": "/work/out/laya-th/checkpoint_latest",
+ "mean_ms": 93.2729867349287,
+ "tickets": {
+  "department": 3,
+  "refund": 5,
+  "frustration_mae": 0.8329799999999999,
+  "rows": [
+   {
+    "state": "โดนหักเงินซ้ำสองครั้งเมื่อวานน",
+    "dept": "billing",
+    "p": 0.6689,
+    "frustration": 1.3,
+    "refund": 0.9328
+   },
+   {
+    "state": "เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่",
+    "dept": "technical",
+    "p": 0.5948,
+    "frustration": 1.25,
+    "refund": 0.0094
+   },
+   {
+    "state": "สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ",
+    "dept": "billing",
+    "p": 0.4209,
+    "frustration": 1.23,
+    "refund": 0.2127
+   },
+   {
+    "state": "ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ ",
+    "dept": "billing",
+    "p": 0.9531,
+    "frustration": 1.21,
+    "refund": 0.274
+   },
+   {
+    "state": "แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ",
+    "dept": "billing",
+    "p": 0.8769,
+    "frustration": 1.23,
+    "refund": 0.4665
+   }
+  ]
+ },
+ "sources": {
+  "massive_th:choice": {
+   "n": 300,
+   "acc": 0.61,
+   "mae": null
+  },
+  "prachathai:choice": {
+   "n": 163,
+   "acc": 0.7546,
+   "mae": null
+  },
+  "prachathai:noul": {
+   "n": 588,
+   "acc": 0.8282,
+   "mae": null
+  },
+  "sib200_th:choice": {
+   "n": 204,
+   "acc": 0.7549,
+   "mae": null
+  },
+  "wisesight:choice": {
+   "n": 300,
+   "acc": 0.3633,
+   "mae": null
+  },
+  "wongnai:score": {
+   "n": 300,
+   "acc": 0.57,
+   "mae": 0.4838
+  },
+  "xnli_th:choice": {
+   "n": 300,
+   "acc": 0.7433,
+   "mae": null
+  },
+  "xnli_th:noul": {
+   "n": 300,
+   "acc": 0.85,
+   "mae": null
+  }
+ }
+}
