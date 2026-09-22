@@ -1,0 +1,6 @@
+{
+  "title": "laya Thai distillation set",
+  "id": "chatre7/laya-thai-distill",
+  "licenses": [{"name": "apache-2.0"}],
+  "description": "Thai typed-decision cases in the laya {state, questions, gold} format. train.jsonl: 16,116 cases (Thai texts from prachathai, wisesight, wongnai, MASSIVE-th, thai_toxicity, XNLI-th with 2-4 questions each) labelled by OpenThai-SystemOne, gold = teacher probabilities. val_teacher.jsonl: 848 held-out teacher-labelled cases. val_human.jsonl: 1,704 human-labelled cases (wisesight, sib200_th, massive_th, prachathai, xnli_th, wongnai eval splits) as one-hot gold. Built with https://github.com/chatre7/laya (branch thai)."
+}

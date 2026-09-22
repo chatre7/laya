@@ -1,0 +1,103 @@
+| NVIDIA-SMI 580.159.04             Driver Version: 580.159.04     CUDA Version: 13.0     |
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |
+| N/A   33C    P8             10W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
+|   1  Tesla T4                       Off |   00000000:00:05.0 Off |                    0 |
+| N/A   32C    P8             10W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
+16116 cases -> 15311 train / 805 held-out
+train items: 45006 (skipped 0) | val items: 2373 (skipped 0)
+avg tokens / item: 242.0
+  epoch 1/2 | step 100 | loss 0.8822 | reward -0.297 | sigma 0.40 | lr 2.50e-05 | 88s
+  epoch 1/2 | step 200 | loss 0.5850 | reward -0.042 | sigma 0.40 | lr 2.49e-05 | 180s
+  epoch 1/2 | step 300 | loss 0.2900 | reward -0.279 | sigma 0.40 | lr 2.48e-05 | 279s
+  epoch 1/2 | step 400 | loss 0.2398 | reward 0.220 | sigma 0.40 | lr 2.47e-05 | 379s
+  epoch 1/2 | step 500 | loss 0.8051 | reward 0.025 | sigma 0.40 | lr 2.45e-05 | 479s
+  epoch 1/2 | step 600 | loss 0.5957 | reward -0.505 | sigma 0.40 | lr 2.43e-05 | 580s
+  epoch 1/2 | step 700 | loss 0.0606 | reward -0.509 | sigma 0.40 | lr 2.41e-05 | 679s
+  epoch 1/2 | step 800 | loss 0.7234 | reward -0.358 | sigma 0.40 | lr 2.38e-05 | 779s
+  epoch 1/2 | step 900 | loss 0.8576 | reward -0.622 | sigma 0.40 | lr 2.35e-05 | 878s
+  epoch 1/2 | step 1000 | loss 0.6620 | reward -0.192 | sigma 0.40 | lr 2.32e-05 | 978s
+  epoch 1/2 | step 1100 | loss 0.3025 | reward -0.116 | sigma 0.40 | lr 2.28e-05 | 1079s
+  epoch 1/2 | step 1200 | loss 0.4600 | reward 0.072 | sigma 0.40 | lr 2.24e-05 | 1180s
+  epoch 1/2 | step 1300 | loss 0.6347 | reward -0.163 | sigma 0.40 | lr 2.20e-05 | 1281s
+  epoch 1/2 | step 1400 | loss 0.7668 | reward 0.053 | sigma 0.40 | lr 2.15e-05 | 1383s
+  epoch 1/2 | step 1500 | loss 0.2861 | reward -0.138 | sigma 0.40 | lr 2.10e-05 | 1482s
+  epoch 1/2 | step 1600 | loss -0.4876 | reward 0.121 | sigma 0.40 | lr 2.05e-05 | 1583s
+  epoch 1/2 | step 1700 | loss 0.2569 | reward -0.042 | sigma 0.40 | lr 2.00e-05 | 1684s
+  epoch 1/2 | step 1800 | loss 0.1677 | reward -0.004 | sigma 0.40 | lr 1.94e-05 | 1784s
+  epoch 1/2 | step 1900 | loss 0.2496 | reward 0.311 | sigma 0.40 | lr 1.89e-05 | 1883s
+  epoch 1/2 | step 2000 | loss 0.1013 | reward 0.210 | sigma 0.40 | lr 1.83e-05 | 1982s
+  epoch 1/2 | step 2100 | loss 0.0335 | reward 0.099 | sigma 0.40 | lr 1.76e-05 | 2084s
+  epoch 1/2 | step 2200 | loss 1.2278 | reward 0.151 | sigma 0.40 | lr 1.70e-05 | 2185s
+  epoch 1/2 | step 2300 | loss 0.8265 | reward -0.320 | sigma 0.40 | lr 1.64e-05 | 2286s
+  epoch 1/2 | step 2400 | loss 0.8070 | reward -0.027 | sigma 0.40 | lr 1.57e-05 | 2387s
+  epoch 1/2 | step 2500 | loss 1.2152 | reward -0.385 | sigma 0.40 | lr 1.51e-05 | 2489s
+  epoch 1/2 | step 2600 | loss -0.2122 | reward 0.161 | sigma 0.40 | lr 1.44e-05 | 2591s
+  epoch 1/2 | step 2700 | loss 0.3354 | reward -0.142 | sigma 0.40 | lr 1.38e-05 | 2692s
+  epoch 1/2 | step 2800 | loss 0.4376 | reward 0.042 | sigma 0.40 | lr 1.31e-05 | 2794s
+  epoch 2/2 | step 100 | loss 0.4651 | reward 0.255 | sigma 0.10 | lr 1.23e-05 | 2907s
+  epoch 2/2 | step 200 | loss 0.3707 | reward 0.280 | sigma 0.10 | lr 1.16e-05 | 3009s
+  epoch 2/2 | step 300 | loss 0.5794 | reward 0.405 | sigma 0.10 | lr 1.10e-05 | 3108s
+  epoch 2/2 | step 400 | loss 0.6435 | reward 0.128 | sigma 0.10 | lr 1.03e-05 | 3208s
+  epoch 2/2 | step 500 | loss 0.1571 | reward 0.286 | sigma 0.10 | lr 9.67e-06 | 3306s
+  epoch 2/2 | step 600 | loss 0.8181 | reward -0.307 | sigma 0.10 | lr 9.03e-06 | 3405s
+  epoch 2/2 | step 700 | loss 0.1946 | reward 0.302 | sigma 0.10 | lr 8.40e-06 | 3505s
+  epoch 2/2 | step 800 | loss 0.6034 | reward -0.106 | sigma 0.10 | lr 7.79e-06 | 3602s
+  epoch 2/2 | step 900 | loss 0.8292 | reward -0.182 | sigma 0.10 | lr 7.19e-06 | 3702s
+  epoch 2/2 | step 1000 | loss 0.5155 | reward 0.240 | sigma 0.10 | lr 6.62e-06 | 3801s
+  epoch 2/2 | step 1100 | loss 0.6064 | reward -0.064 | sigma 0.10 | lr 6.06e-06 | 3900s
+  epoch 2/2 | step 1200 | loss 0.5226 | reward 0.427 | sigma 0.10 | lr 5.52e-06 | 3998s
+  epoch 2/2 | step 1300 | loss 0.3040 | reward 0.377 | sigma 0.10 | lr 5.01e-06 | 4095s
+  epoch 2/2 | step 1400 | loss 0.1518 | reward 0.060 | sigma 0.10 | lr 4.52e-06 | 4194s
+  epoch 2/2 | step 1500 | loss 0.2240 | reward 0.169 | sigma 0.10 | lr 4.06e-06 | 4294s
+  epoch 2/2 | step 1600 | loss 0.2831 | reward 0.251 | sigma 0.10 | lr 3.63e-06 | 4393s
+  epoch 2/2 | step 1700 | loss 0.2837 | reward 0.203 | sigma 0.10 | lr 3.23e-06 | 4491s
+  epoch 2/2 | step 1800 | loss 0.6749 | reward 0.268 | sigma 0.10 | lr 2.85e-06 | 4588s
+  epoch 2/2 | step 1900 | loss 0.0691 | reward -0.058 | sigma 0.10 | lr 2.51e-06 | 4688s
+  epoch 2/2 | step 2000 | loss 0.6319 | reward 0.153 | sigma 0.10 | lr 2.20e-06 | 4785s
+  epoch 2/2 | step 2100 | loss 0.2952 | reward 0.222 | sigma 0.10 | lr 1.93e-06 | 4882s
+  epoch 2/2 | step 2200 | loss 0.3667 | reward 0.126 | sigma 0.10 | lr 1.69e-06 | 4980s
+  epoch 2/2 | step 2300 | loss 0.1693 | reward 0.306 | sigma 0.10 | lr 1.48e-06 | 5079s
+  epoch 2/2 | step 2400 | loss 1.1911 | reward -0.257 | sigma 0.10 | lr 1.31e-06 | 5176s
+  epoch 2/2 | step 2500 | loss 0.4413 | reward 0.319 | sigma 0.10 | lr 1.18e-06 | 5276s
+  epoch 2/2 | step 2600 | loss 1.7177 | reward -0.038 | sigma 0.10 | lr 1.08e-06 | 5375s
+  epoch 2/2 | step 2700 | loss 0.1306 | reward 0.332 | sigma 0.10 | lr 1.02e-06 | 5472s
+  epoch 2/2 | step 2800 | loss 0.5697 | reward 0.196 | sigma 0.10 | lr 1.00e-06 | 5572s
+Saved fine-tuned Laya to /kaggle/working/laya_finetuned
+Held-out: 805 cases / 2373 decisions
+| model             |   accuracy |   brier |   ece |   score_mae |   p50 ms/case |
+|:------------------|-----------:|--------:|------:|------------:|--------------:|
+| base (zero-shot)  |      0.563 |   0.385 | 0.194 |       0.594 |        37.371 |
+| fine-tuned (RLCD) |      0.811 |   0.11  | 0.056 |       0.237 |        38.948 |
+|                          |   accuracy |   brier |   n |
+|:-------------------------|-----------:|--------:|----:|
+| ('about', 'noul')        |      0.94  |   0.06  | 117 |
+| ('aspect', 'choice')     |      0.833 |   0.083 | 102 |
+| ('dept', 'choice')       |      0.743 |   0.173 | 140 |
+| ('entails', 'noul')      |      0.824 |   0.096 | 142 |
+| ('frustration', 'score') |      0.83  |   0.082 | 135 |
+| ('intent', 'choice')     |      0.532 |   0.303 | 139 |
+| ('is_question', 'noul')  |      0.954 |   0.051 | 131 |
+| ('nli', 'choice')        |      0.764 |   0.13  | 148 |
+| ('rating', 'score')      |      0.768 |   0.087 |  99 |
+| ('recommend', 'noul')    |      0.826 |   0.064 | 115 |
+| ('refund', 'noul')       |      0.992 |   0.013 | 133 |
+| ('same_topic', 'noul')   |      0.855 |   0.093 | 138 |
+| ('sentiment', 'choice')  |      0.824 |   0.143 | 222 |
+| ('thailand', 'noul')     |      0.949 |   0.014 | 118 |
+| ('tone', 'score')        |      0.783 |   0.128 | 115 |
+| ('topic', 'choice')      |      0.739 |   0.214 | 115 |
+| ('toxic', 'noul')        |      0.91  |   0.083 | 122 |
+| ('urgency', 'score')     |      0.585 |   0.109 | 142 |
+Traceback (most recent call last):
+SyntaxError: unterminated f-string literal (detected at line 18)

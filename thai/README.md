@@ -47,7 +47,7 @@ Large in-domain gains, no generalisation: the held-out sets and the tickets do n
 temperatures (3.7 / 1.4 / 4.7) show the fine-tuned logits are badly over-confident. The model learned five
 training distributions, not Thai decisions. Details and the reading in the System One repo's `laya-ft/README.md`.
 
-## Run 2: distillation from OpenThai-SystemOne (in progress)
+## Run 2: distillation from OpenThai-SystemOne
 
 Instead of human labels, `distill_from_ots.py` sends Thai texts from six public corpora with 2–4
 questions each from a bank of ~20 question types (sentiment, intent, department, urgency, frustration,
@@ -78,6 +78,16 @@ i.e. soft targets fix the over-confidence by themselves).
 Student vs teacher on 848 held-out teacher-labelled records: argmax agreement choice 0.759,
 noul 0.933, score 0.746; mean total-variation distance
 0.231 / 0.080 / 0.189.
+
+**Same data on Kaggle 2xT4** (`kaggle_notebook/`, a copy of batprem's public notebook pointed at the dataset
+`chatre7/laya-thai-distill`, fp16 + DDP, effective batch 64, its own 5% split as val): 1 h 45 min wall (~1 s/step for
+16 sequences, i.e. the same throughput as one A2), fitted temperatures 1.17 / 1.19 / 1.17. Its own held-out
+(805 teacher-labelled cases): base 0.563 -> fine-tuned 0.811 accuracy, Brier 0.385 -> 0.110, ECE 0.194 -> 0.056.
+Evaluated with our script on the same records as the A2 run: overall 0.697 / Brier 0.418 / ECE 0.041,
+wisesight 0.553, sib200 0.735, massive 0.500, tickets 4/5, 5/5, MAE 0.31;
+teacher agreement 0.752 / 0.916 / 0.751. Slightly below the A2 run everywhere
+(half the optimizer updates at twice the batch, 5% less data), so the A2 checkpoint is the one published as
+[Chatre7/laya-thai-distill](https://huggingface.co/Chatre7/laya-thai-distill) (private). `results/kaggle.json`, `results/kaggle_v2.log`.
 
 **Reading.** Distillation did what supervised fine-tuning could not: the held-out sets moved (wisesight 0.27 -> 0.59,
 above the teacher's 0.55 on that set; sib200 within 4 points of the teacher), the tickets now behave (department 4/5,
