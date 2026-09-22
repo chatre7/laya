@@ -57,7 +57,35 @@ OpenThai-SystemOne server and keeps its probabilities as soft targets. The teach
 teacher, but at ~40 ms and 322M parameters. It has no abstain slot, so the teacher's abstain mass is
 dropped and the remaining probabilities renormalised.
 
-Results: _pending_ (see `results/distill*.json` when done).
+Data: 16,964 Thai texts (6 corpora, 3,000 each) x 2-4 questions -> 47,379 sequences, labelled in 29 min at 8
+concurrent requests. Training: 2 epochs, 98 min on one A2, fitted temperatures 1.03 / 1.22 / 0.95 (run 1: 3.7 / 1.4 / 4.7,
+i.e. soft targets fix the over-confidence by themselves).
+
+| source : type | n | laya base | run 1 (supervised) | **run 2 (distilled)** | OpenThai teacher |
+|---|---|---|---|---|---|
+| massive_th : choice | 300 | 0.347 | 0.610 | 0.540 | 0.880 |
+| prachathai : choice | 163 | 0.362 | 0.804 | 0.767 | 0.969 |
+| prachathai : noul | 588 | 0.558 | 0.861 | 0.806 | 0.940 |
+| xnli_th : choice | 300 | 0.723 | 0.753 | 0.770 | 0.823 |
+| xnli_th : noul | 300 | 0.843 | 0.843 | 0.847 | 0.867 |
+| wongnai : score (exact / MAE) | 300 | 0.257 / 0.97 | 0.573 / 0.49 | 0.633 / 0.44 | 0.642 / 0.41 |
+| **wisesight : choice (held-out)** | 300 | 0.290 | 0.273 | **0.587** | 0.547 |
+| **sib200_th : choice (held-out)** | 204 | 0.755 | 0.740 | 0.745 | 0.784 |
+| tickets: department / refund / frustration MAE | 5 | 3/5, 4/5, 0.86 | 3/5, 4/5, 0.82 | 4/5, 4/5, 0.31 | 5/5, 5/5, 0.39 |
+| overall accuracy / Brier / ECE (2,455 decisions) | | | | 0.719 / 0.400 / 0.054 | |
+| latency per record (A2) | | 44 ms | 39 ms | 38 ms | ~100 ms |
+
+Student vs teacher on 848 held-out teacher-labelled records: argmax agreement choice 0.759,
+noul 0.933, score 0.746; mean total-variation distance
+0.231 / 0.080 / 0.189.
+
+**Reading.** Distillation did what supervised fine-tuning could not: the held-out sets moved (wisesight 0.27 -> 0.59,
+above the teacher's 0.55 on that set; sib200 within 4 points of the teacher), the tickets now behave (department 4/5,
+frustration MAE 0.31 vs the teacher's 0.39, score no longer stuck at ~1.2) and calibration is good (ECE 0.054) without
+any post-hoc temperature. Where it stays far behind the teacher is massive_th (0.54 vs 0.88): those
+questions carry up to 60 intent options, which laya's 256-token option budget squeezes to ~4 tokens each. The
+in-domain sources of run 1 (prachathai, wongnai) are a little lower than run 1 because run 2 never saw their labels,
+only the teacher's opinion of similar texts.
 
 ## Known limits of laya for our use
 
