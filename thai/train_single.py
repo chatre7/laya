@@ -75,7 +75,9 @@ def save_checkpoint(model, tok, cfg, path, extra):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="convaiinnovations/laya-multilingual")
-    ap.add_argument("--items", default="/work/thai/data/train_items.pt")
+    ap.add_argument("--items", default="/work/thai/data/train_items.pt", help="one or more .pt files, comma-separated (concatenated)")
+    ap.add_argument("--head-max-len", type=int, default=0, help="must equal the value the items were tokenised with; written to the saved config")
+    ap.add_argument("--max-len", type=int, default=0)
     ap.add_argument("--out", default="/work/thai/out/laya-th")
     ap.add_argument("--epochs", type=int, default=3)
     ap.add_argument("--micro-batch", type=int, default=8)
@@ -93,6 +95,10 @@ def main():
     model_dir = snapshot_download(args.model, allow_patterns=["rl_agent_config.json", "model.safetensors", "tokenizer/*", "encoder/*"])
     _fix_tokenizer_config(model_dir)
     cfg = json.load(open(os.path.join(model_dir, "rl_agent_config.json")))
+    if args.head_max_len:
+        cfg["head_max_len"] = args.head_max_len
+    if args.max_len:
+        cfg["max_len"] = args.max_len
     tok = AutoTokenizer.from_pretrained(os.path.join(model_dir, "tokenizer"))
     model = build_model(cfg, encoder_dir=os.path.join(model_dir, "encoder"))
     model.load_state_dict(load_file(os.path.join(model_dir, "model.safetensors")), strict=True)
@@ -103,7 +109,11 @@ def main():
         pass
     model.to(device).train()
 
-    items = torch.load(args.items, weights_only=True)  # plain lists/dicts/ints written by prep_thai.py
+    items = []
+    for path in args.items.split(","):
+        part = torch.load(path, weights_only=True)  # plain lists/dicts/ints written by prep_thai.py / distill_from_ots.py
+        print(f"  {path}: {len(part)} items", flush=True)
+        items.extend(part)
     if args.max_items:
         items = items[: args.max_items]
     # length-bucketed micro-batches: sort by length inside chunks of 50 micro-batches, so padding stays small

@@ -73,6 +73,17 @@ DEPTS = {"billing": "ค่าบริการ ใบแจ้งหนี้ 
          "other": "เรื่องอื่นที่ไม่เข้าสามหมวดข้างต้น"}
 INTENTS = ["ถามข้อมูล", "ร้องเรียน", "ขอความช่วยเหลือ", "ชื่นชม", "สั่งซื้อหรือจอง", "ยกเลิก", "ขอเงินคืน", "แจ้งปัญหา", "ทักทาย", "อื่น ๆ"]
 FOOD_ASPECTS = ["รสชาติ", "ราคา", "บริการ", "บรรยากาศ", "ความสะอาด", "ที่จอดรถ", "การรอคิว"]
+# the 60 MASSIVE intents (underscores -> spaces, as the upstream OpenThai converter renders them): wide-option
+# questions so the student learns to work above 10 options, which is where its 256-token budget failed in run 2
+MASSIVE_INTENTS = [i.replace("_", " ") for i in """alarm_query alarm_remove alarm_set audio_volume_down audio_volume_mute audio_volume_other
+audio_volume_up calendar_query calendar_remove calendar_set cooking_query cooking_recipe datetime_convert datetime_query
+email_addcontact email_query email_querycontact email_sendemail general_affirm general_commandstop general_confirm
+general_dontcare general_explain general_greet general_joke general_negate general_praise general_quirky general_repeat
+iot_cleaning iot_coffee iot_hue_lightchange iot_hue_lightdim iot_hue_lightoff iot_hue_lighton iot_hue_lightup iot_wemo_off
+iot_wemo_on lists_createoradd lists_query lists_remove music_dislikeness music_likeness music_query music_settings
+news_query play_audiobook play_game play_music play_podcasts play_radio qa_currency qa_definition qa_factoid qa_maths
+qa_stock recommendation_events recommendation_locations recommendation_movies social_post social_query takeaway_order
+takeaway_query transport_query transport_taxi transport_ticket transport_traffic weather_query""".split()]
 
 
 def question_bank(kind, rng):
@@ -87,6 +98,10 @@ def question_bank(kind, rng):
         asp = rng.sample(FOOD_ASPECTS, 3)
         qs["aspect"] = {"type": "choice", "instructions": "รีวิวนี้พูดถึงเรื่องใดเป็นหลัก", "criteria": {a: None for a in asp + ["ไม่มีข้อใดตรง"]}}
         qs["recommend"] = {"type": "noul", "instructions": rng.choice(["ผู้รีวิวแนะนำร้านนี้หรือไม่", "ผู้เขียนน่าจะกลับมาใช้บริการอีกหรือไม่"])}
+    if kind == "utterance":  # assistant-style utterances: wide intent taxonomies (20-60 options)
+        k = rng.choice([20, 40, 60])
+        qs["wide_intent"] = {"type": "choice", "instructions": rng.choice(["ผู้ใช้ต้องการทำอะไร (intent)", "What does the user want to do?"]),
+                             "criteria": {i: None for i in rng.sample(MASSIVE_INTENTS, k)}}
     if kind in ("social", "utterance"):
         qs["intent"] = {"type": "choice", "instructions": rng.choice(["ผู้เขียนต้องการทำอะไร", "เจตนาของข้อความนี้คืออะไร"]),
                         "criteria": {i: None for i in rng.sample(INTENTS, rng.choice([4, 6, 10]))}}
@@ -110,12 +125,17 @@ def question_bank(kind, rng):
         qs["same_topic"] = {"type": "noul", "instructions": "สองประโยคพูดถึงเรื่องเดียวกันหรือไม่"}
     keys = list(qs)
     rng.shuffle(keys)
-    return {k: qs[k] for k in keys[: rng.choice([2, 3, 4])]}
+    keep = keys[: rng.choice([2, 3, 4])]
+    if "wide_intent" in qs and "wide_intent" not in keep:  # every utterance carries one wide question
+        keep[-1] = "wide_intent"
+    return {k: qs[k] for k in keep}
 
 
 # ----------------------------------------------------------------------------- teacher
-def ask_teacher(url, state, questions):
-    body = json.dumps({"state": state, "questions": questions, "order_invariant": False}, ensure_ascii=False).encode()
+def ask_teacher(url, state, questions, order_invariant_min_options=0):
+    # average the teacher over option orders for wide choice questions: cleaner soft targets where position bias is worst
+    oi = bool(order_invariant_min_options) and any(q["type"] == "choice" and len(q["criteria"]) >= order_invariant_min_options for q in questions.values())
+    body = json.dumps({"state": state, "questions": questions, "order_invariant": oi}, ensure_ascii=False).encode()
     req = urllib.request.Request(f"{url}/v1/systemone", body, {"content-type": "application/json"})
     for attempt in range(4):
         try:
@@ -152,6 +172,10 @@ def main():
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--model", default="convaiinnovations/laya-multilingual", help="student tokenizer/config")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--head-max-len", type=int, default=0, help="override the checkpoint option budget for tokenisation (train with the same value)")
+    ap.add_argument("--max-len", type=int, default=0)
+    ap.add_argument("--order-invariant-min-options", type=int, default=11, help="ask the teacher for order-invariant answers when a choice has >= this many options (0 = never)")
+    ap.add_argument("--prefix", default="distill", help="output file prefix")
     args = ap.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -172,7 +196,7 @@ def main():
     done = 0
 
     def work(j):
-        r = ask_teacher(args.teacher, j["state"], j["questions"])
+        r = ask_teacher(args.teacher, j["state"], j["questions"], args.order_invariant_min_options)
         return None if r is None else {**j, "targets": targets_from(r["answers"], j["questions"]), "teacher_tokens": r["usage"]["input_tokens"]}
 
     records = []
@@ -188,10 +212,10 @@ def main():
 
     rng.shuffle(records)
     n_eval = max(200, len(records) // 20)
-    with open(out / "distill_eval.jsonl", "w", encoding="utf-8") as f:
+    with open(out / f"{args.prefix}_eval.jsonl", "w", encoding="utf-8") as f:
         for r in records[:n_eval]:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    with open(out / "distill.jsonl", "w", encoding="utf-8") as f:
+    with open(out / f"{args.prefix}.jsonl", "w", encoding="utf-8") as f:
         for r in records[n_eval:]:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
@@ -199,6 +223,10 @@ def main():
     _fix_tokenizer_config(model_dir)
     tok = AutoTokenizer.from_pretrained(os.path.join(model_dir, "tokenizer"))
     cfg = json.load(open(os.path.join(model_dir, "rl_agent_config.json")))
+    if args.head_max_len:
+        cfg["head_max_len"] = args.head_max_len
+    if args.max_len:
+        cfg["max_len"] = args.max_len
     items, dropped, by_type = [], 0, [0, 0, 0]
     for r in records[n_eval:]:
         for qid, q in r["questions"].items():
@@ -213,12 +241,13 @@ def main():
                           "label": max(range(len(target)), key=target.__getitem__), "source": r["source"]})
             by_type[QTYPES[q["type"]]] += 1
     rng.shuffle(items)
-    torch.save(items, out / "distill_items.pt")
+    torch.save(items, out / f"{args.prefix}_items.pt")
     summary = {"records": len(records), "eval_records": n_eval, "items": len(items), "dropped": dropped,
+               "head_max_len": cfg["head_max_len"], "max_len": cfg["max_len"], "order_invariant_min_options": args.order_invariant_min_options,
                "by_type": {"choice": by_type[0], "score": by_type[1], "noul": by_type[2]},
                "mean_len": sum(len(i["ids"]) for i in items) / max(1, len(items)),
                "minutes": round((time.perf_counter() - t0) / 60, 1)}
-    (out / "distill_manifest.json").write_text(json.dumps(summary, indent=2))
+    (out / f"{args.prefix}_manifest.json").write_text(json.dumps(summary, indent=2))
     print(json.dumps(summary, indent=2))
 
 

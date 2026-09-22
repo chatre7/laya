@@ -69,6 +69,9 @@ def main():
     ap.add_argument("--eval-cap", type=int, default=300, help="eval records per source")
     ap.add_argument("--model", default="convaiinnovations/laya-multilingual")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--head-max-len", type=int, default=0, help="override the option budget for tokenisation")
+    ap.add_argument("--max-len", type=int, default=0)
+    ap.add_argument("--items-name", default="train_items.pt")
     args = ap.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -106,6 +109,10 @@ def main():
     _fix_tokenizer_config(model_dir)
     tok = AutoTokenizer.from_pretrained(os.path.join(model_dir, "tokenizer"))
     cfg = json.load(open(os.path.join(model_dir, "rl_agent_config.json")))
+    if args.head_max_len:
+        cfg["head_max_len"] = args.head_max_len
+    if args.max_len:
+        cfg["max_len"] = args.max_len
 
     items, dropped, by_type = [], 0, {0: 0, 1: 0, 2: 0}
     for r in recs["train"]:
@@ -120,8 +127,8 @@ def main():
             items.append(it)
             by_type[it["qtype"]] += 1
     random.Random(args.seed).shuffle(items)
-    torch.save(items, out / "train_items.pt")
-    manifest["_items"] = {"train_items": len(items), "dropped": dropped,
+    torch.save(items, out / args.items_name)
+    manifest["_items"] = {"train_items": len(items), "dropped": dropped, "head_max_len": cfg["head_max_len"], "max_len": cfg["max_len"],
                           "by_type": {"choice": by_type[0], "score": by_type[1], "noul": by_type[2]},
                           "eval_records": len(recs["eval"]),
                           "mean_len": sum(len(i["ids"]) for i in items) / max(1, len(items))}
