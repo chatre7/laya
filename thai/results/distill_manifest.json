@@ -1,0 +1,13 @@
+{
+  "records": 16964,
+  "eval_records": 848,
+  "items": 47379,
+  "dropped": 0,
+  "by_type": {
+    "choice": 17574,
+    "score": 9873,
+    "noul": 19932
+  },
+  "mean_len": 242.57270098566875,
+  "minutes": 29.0
+}

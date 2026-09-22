@@ -26,6 +26,20 @@ TICKETS = [
 ]
 
 
+def ece(calib, bins=15):
+    """Expected calibration error over (confidence, correct) pairs, 15 equal-width bins (as in laya.common.ece_score)."""
+    if not calib:
+        return 0.0
+    total = 0.0
+    for b in range(bins):
+        lo, hi = b / bins, (b + 1) / bins
+        sel = [c for conf, c in calib if lo < conf <= hi or (b == 0 and conf == 0.0)]
+        confs = [conf for conf, _ in calib if lo < conf <= hi or (b == 0 and conf == 0.0)]
+        if sel:
+            total += len(sel) / len(calib) * abs(sum(sel) / len(sel) - sum(confs) / len(confs))
+    return total
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
@@ -63,8 +77,9 @@ def main():
         for k, v in sorted(teacher.items()):
             print(f"  {k:7s} n={v['n']:5d} argmax agreement {v['argmax_agreement']:.3f}  mean TV distance {v['mean_tv']:.3f}")
 
-    stats = defaultdict(lambda: {"n": 0, "correct": 0, "abs_err": 0.0, "type": ""})
+    stats = defaultdict(lambda: {"n": 0, "correct": 0, "abs_err": 0.0, "brier": 0.0, "type": ""})
     lat = []
+    calib = []  # (confidence = max prob, correct) over every decision, for ECE
     for line in open(args.eval, encoding="utf-8"):
         r = json.loads(line)
         t = time.perf_counter()
@@ -82,13 +97,25 @@ def main():
             s = stats[key]
             s["type"] = q["type"]
             s["n"] += 1
+            # probability vector + gold index, for Brier and calibration (same definitions as the Kaggle notebook)
             if q["type"] == "choice":
-                s["correct"] += a["choice"] == lab
+                keys = list(q["criteria"])
+                p = [a["probabilities"][k] for k in keys]
+                gold = keys.index(lab) if lab in keys else None
+                ok = a["choice"] == lab
             elif q["type"] == "noul":
-                s["correct"] += (a["noul"] > 0.5) == bool(lab)
+                p = [1 - a["noul"], a["noul"]]
+                gold = int(bool(lab))
+                ok = (a["noul"] > 0.5) == bool(lab)
             else:
-                s["correct"] += round(a["score"]) == int(lab)
+                p = [a["probabilities"][str(i)] for i in range(len(q["criteria"]))]
+                gold = int(lab)
+                ok = round(a["score"]) == int(lab)
                 s["abs_err"] += abs(a["score"] - int(lab))
+            s["correct"] += ok
+            if gold is not None:
+                s["brier"] += sum((v - (1.0 if i == gold else 0.0)) ** 2 for i, v in enumerate(p))
+                calib.append((max(p), float(max(range(len(p)), key=p.__getitem__) == gold)))
 
     tickets = {"department": 0, "refund": 0, "frustration_mae": 0.0, "rows": []}
     for state, dept, fr, refund in TICKETS:
@@ -99,15 +126,20 @@ def main():
         tickets["rows"].append({"state": state[:30], "dept": a["department"]["choice"], "p": a["department"]["probabilities"][a["department"]["choice"]],
                                 "frustration": round(a["frustration"]["score"], 2), "refund": a["refund"]["noul"]})
 
-    summary = {"model": args.model, "mean_ms": sum(lat) / max(1, len(lat)), "tickets": tickets, "teacher": teacher, "sources": {}}
+    summary = {"model": args.model, "mean_ms": sum(lat) / max(1, len(lat)), "tickets": tickets, "teacher": teacher, "sources": {},
+               "overall": {"decisions": len(calib), "accuracy": round(sum(c for _, c in calib) / max(1, len(calib)), 4),
+                           "brier": round(sum(s["brier"] for s in stats.values()) / max(1, len(calib)), 4), "ece": round(ece(calib), 4)}}
     print(f"\n{args.model}: {len(lat)} eval records, {summary['mean_ms']:.0f} ms/record")
-    print(f"{'source:type':28s} {'n':>5s} {'acc':>6s} {'mae':>6s}")
+    o = summary["overall"]
+    print(f"overall: {o['decisions']} decisions, accuracy {o['accuracy']:.3f}, Brier {o['brier']:.3f}, ECE {o['ece']:.3f}")
+    print(f"{'source:type':28s} {'n':>5s} {'acc':>6s} {'brier':>6s} {'mae':>6s}")
     for key in sorted(stats):
         s = stats[key]
         acc = s["correct"] / max(1, s["n"])
         mae = s["abs_err"] / max(1, s["n"]) if s["type"] == "score" else None
-        summary["sources"][key] = {"n": s["n"], "acc": round(acc, 4), "mae": None if mae is None else round(mae, 4)}
-        print(f"{key:28s} {s['n']:5d} {acc:6.3f} {'' if mae is None else f'{mae:6.3f}'}")
+        brier = s["brier"] / max(1, s["n"])
+        summary["sources"][key] = {"n": s["n"], "acc": round(acc, 4), "brier": round(brier, 4), "mae": None if mae is None else round(mae, 4)}
+        print(f"{key:28s} {s['n']:5d} {acc:6.3f} {brier:6.3f} {'' if mae is None else f'{mae:6.3f}'}")
     print(f"tickets: department {tickets['department']}/5  refund {tickets['refund']}/5  frustration MAE {tickets['frustration_mae']:.2f}")
     for row in tickets["rows"]:
         print(f"   {row['state']:30s} {row['dept']:9s} p={row['p']:.2f} frustration={row['frustration']:.2f} refund={row['refund']:.2f}")
