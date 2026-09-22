@@ -97,6 +97,32 @@ questions carry up to 60 intent options, which laya's 256-token option budget sq
 in-domain sources of run 1 (prachathai, wongnai) are a little lower than run 1 because run 2 never saw their labels,
 only the teacher's opinion of similar texts.
 
+## Using the speed: student -> teacher cascade (`cascade.py`)
+
+The student answers every decision; the teacher is called when the question has more than 10 options
+(the student's option budget) or the student's confidence (max probability) is below a threshold. Measured on
+the 2,455 human-labelled decisions with both models on the dev box:
+
+| confidence threshold | cascade accuracy | sent to teacher | student acc on kept | teacher acc on sent | est. latency per record* |
+|---|---|---|---|---|---|
+| 0.00 | 0.758 | 12% | 0.738 | 0.902 | ~51 ms |
+| 0.50 | 0.774 | 22% | 0.768 | 0.795 | ~61 ms |
+| 0.60 | 0.782 | 34% | 0.798 | 0.750 | ~73 ms |
+| 0.70 | 0.793 | 46% | 0.834 | 0.746 | ~85 ms |
+| 0.80 | 0.795 | 58% | 0.866 | 0.744 | ~97 ms |
+| 0.90 | 0.805 | 73% | 0.913 | 0.765 | ~112 ms |
+| 0.95 | 0.809 | 82% | 0.949 | 0.779 | ~121 ms |
+| 1.01 | 0.814 | 100% | 0.000 | 0.814 | ~139 ms |
+
+\* 39 ms student + fraction x ~100 ms teacher (single request; the teacher's batched latency under 8 concurrent
+callers was 883 ms in this run). Student alone 0.719, teacher alone 0.814.
+
+- The option-count rule alone (threshold 0) recovers most of the gap: 0.719 -> 0.758 with 12.5% teacher calls.
+- Threshold 0.7 gives 0.793 (97% of the teacher's accuracy) with 46% teacher calls, i.e. roughly 2x the
+  teacher-only throughput on the same GPU.
+- Above 0.8 the student keeps only its easy decisions and the cascade converges to the teacher; not worth it.
+- The student is well calibrated (ECE 0.05), which is what makes the confidence gate usable at all.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
