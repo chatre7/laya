@@ -15,6 +15,7 @@ package is untouched so far, so upstream can still be merged.
 | `train_single.py` | laya's fine-tune recipe (REINFORCE with a proper-scoring-rule reward + soft cross-entropy) on one GPU, bf16, gradient checkpointing, temperature calibration |
 | `eval_thai.py` | accuracy on the human-labelled eval set, 5 support tickets, and (with `--teacher`) student-vs-teacher agreement |
 | `eval_ots.py` | the same metrics for the OpenThai server, so both models are scored on identical records |
+| `run3.sh` | run 3 end to end (bigger distillation set, option budget 768, human labels mixed in, train, eval), unattended |
 | `results/` | json summaries and the training log of every run |
 
 ```bash
@@ -23,6 +24,7 @@ bash thai/run.sh prep 1500                                   # human-labelled se
 bash thai/run.sh distill --per-source 3000                   # teacher-labelled set, background
 bash thai/run.sh train-distill --epochs 2                    # background
 bash thai/run.sh eval-distill /work/thai/out/laya-th-distill distill
+nohup bash thai/run3.sh > thai/out/run3.log 2>&1 &            # run 3, ~6 h on one A2
 ```
 
 ## Run 1: supervised fine-tune on 5 public Thai datasets (2026-09-22)
@@ -96,6 +98,42 @@ any post-hoc temperature. Where it stays far behind the teacher is massive_th (0
 questions carry up to 60 intent options, which laya's 256-token option budget squeezes to ~4 tokens each. The
 in-domain sources of run 1 (prachathai, wongnai) are a little lower than run 1 because run 2 never saw their labels,
 only the teacher's opinion of similar texts.
+
+## Run 3: bigger distillation set + human labels, option budget 768 (2026-09-23)
+
+`run3.sh`, unattended on GPU 1 (6 h 10 min wall). Changes from run 2: 8,000 texts per source instead of 3,000
+(42,160 texts, 117,465 teacher-labelled sequences, 77 min at 8 concurrent requests, 5.1 rec/s), a bank of
+wide-intent questions aimed at massive_th, the option budget raised from 256 to 768 tokens (`head_max_len`),
+and the 10,674 human-labelled sequences of run 1 re-tokenised at 768 and mixed in (128,139 items in all).
+Order-invariant teacher answers were tried and dropped: labelling fell to 2 rec/s for no visible gain. 2 epochs,
+8,008 updates, 0.54 s/step, 286 min; fitted temperatures 1.04 / 1.15 / 1.12.
+
+| source : type | n | run 1 (supervised) | run 2 (distilled) | **run 3 (distilled + human)** | OpenThai teacher |
+|---|---|---|---|---|---|
+| massive_th : choice | 300 | 0.610 | 0.540 | **0.857** | 0.880 |
+| prachathai : choice | 163 | 0.804 | 0.767 | **0.865** | 0.969 |
+| prachathai : noul | 588 | 0.861 | 0.806 | **0.900** | 0.940 |
+| xnli_th : choice | 300 | 0.753 | 0.770 | 0.743 | 0.823 |
+| xnli_th : noul | 300 | 0.843 | 0.847 | 0.830 | 0.867 |
+| wongnai : score (exact / MAE) | 300 | 0.573 / 0.49 | 0.633 / 0.44 | 0.623 / 0.43 | 0.642 / 0.41 |
+| **wisesight : choice (held-out)** | 300 | 0.273 | 0.587 | 0.557 | 0.547 |
+| **sib200_th : choice (held-out)** | 204 | 0.740 | 0.745 | 0.701 | 0.784 |
+| tickets: department / refund / frustration MAE | 5 | 3/5, 4/5, 0.82 | 4/5, 4/5, 0.31 | 4/5, 5/5, 0.25 | 5/5, 5/5, 0.39 |
+| overall accuracy / Brier / ECE (2,455 decisions) | | | 0.719 / 0.400 / 0.054 | **0.772 / 0.314 / 0.045** | |
+| latency per record (A2) | | 39 ms | 38 ms | 38 ms | ~100 ms |
+
+Student vs teacher on 2,108 held-out teacher-labelled records: argmax agreement choice 0.765, noul 0.927,
+score 0.789; mean total-variation distance 0.218 / 0.080 / 0.171 (run 2: 0.759 / 0.933 / 0.746). `results/run3.json`,
+`results/run3.log`, `results/distill3_manifest.json`. Checkpoint `thai/out/laya-th-run3` on the dev box, not published.
+
+**Reading.** Overall accuracy 0.719 -> 0.772 (teacher 0.814) and Brier 0.400 -> 0.314, with calibration still good.
+The gain is in-domain: massive_th 0.54 -> 0.86 (the 768-token option budget plus wide-intent questions did what
+they were meant to), prachathai +10 points from seeing its human labels again. The held-out sets did not improve:
+wisesight 0.587 -> 0.557 (still at the teacher's 0.547), sib200 0.745 -> 0.701, so the extra 2.5x teacher data and the
+human labels bought no new generalisation, and sib200 hints at mild over-fitting to the training corpora. Tickets:
+the same login ticket is still routed to billing (p=0.70); everything else is right and frustration MAE is the best so far.
+Cascade numbers (next section) are from run 2 and have not been re-measured with this checkpoint; with the student
+alone at 0.772 the gate should need fewer teacher calls for the same accuracy.
 
 ## Using the speed: student -> teacher cascade (`cascade.py`)
 

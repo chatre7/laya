@@ -1,0 +1,16 @@
+{
+  "records": 42160,
+  "eval_records": 2108,
+  "items": 117465,
+  "dropped": 0,
+  "head_max_len": 768,
+  "max_len": 1024,
+  "order_invariant_min_options": 0,
+  "by_type": {
+    "choice": 48098,
+    "score": 22478,
+    "noul": 46889
+  },
+  "mean_len": 253.68744732473502,
+  "minutes": 77.5
+}
