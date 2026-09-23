@@ -124,7 +124,7 @@ Order-invariant teacher answers were tried and dropped: labelling fell to 2 rec/
 
 Student vs teacher on 2,108 held-out teacher-labelled records: argmax agreement choice 0.765, noul 0.927,
 score 0.789; mean total-variation distance 0.218 / 0.080 / 0.171 (run 2: 0.759 / 0.933 / 0.746). `results/run3.json`,
-`results/run3.log`, `results/distill3_manifest.json`. Checkpoint `thai/out/laya-th-run3` on the dev box, not published.
+`results/run3.log`, `results/distill3_manifest.json`. Published as [Chatre7/laya-thai-distill-run3](https://huggingface.co/Chatre7/laya-thai-distill-run3) (private); run 2 stays at `Chatre7/laya-thai-distill`.
 
 **Reading.** Overall accuracy 0.719 -> 0.772 (teacher 0.814) and Brier 0.400 -> 0.314, with calibration still good.
 The gain is in-domain: massive_th 0.54 -> 0.86 (the 768-token option budget plus wide-intent questions did what
