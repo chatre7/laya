@@ -26,14 +26,14 @@ INTENTS = {
 }
 QUESTIONS = {
     "intent": {"type": "choice", "instructions": "ลูกค้าต้องการอะไร", "criteria": INTENTS},
-    "is_customer": {"type": "noul", "instructions": "ข้อความนี้เป็นข้อความที่ลูกค้าเขียนถึงฝ่ายบริการ (ไม่ใช่พนักงานตอบลูกค้า) ใช่หรือไม่"},
+    "is_customer": {"type": "noul", "instructions": "ผู้เขียนข้อความนี้คือลูกค้าที่กำลังขอความช่วยเหลือใช่หรือไม่", "criteria": {"true": "ลูกค้าเขียนมาถาม/ขอ/บ่น", "false": "พนักงานหรือบริษัทเขียนตอบลูกค้า"}},
     "natural": {"type": "score", "instructions": "ข้อความนี้อ่านเป็นภาษาไทยที่คนจริงพิมพ์หรือพูดแค่ไหน",
                 "criteria": ["แข็งเหมือนแปลจากภาษาอื่น", "พอใช้", "เป็นธรรมชาติเหมือนคนไทยพิมพ์เอง"]},
 }
 
 
-def ask(url, text):
-    body = json.dumps({"state": text, "questions": QUESTIONS, "order_invariant": True}, ensure_ascii=False).encode()
+def ask(url, text, order_invariant=False):
+    body = json.dumps({"state": text, "questions": QUESTIONS, "order_invariant": order_invariant}, ensure_ascii=False).encode()
     req = urllib.request.Request(url + "/v1/systemone", body, {"content-type": "application/json"})
     for _ in range(3):
         try:
@@ -49,10 +49,11 @@ def main():
     ap.add_argument("--out")
     ap.add_argument("--teacher", default="http://172.18.72.145:8010")
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--order-invariant", action="store_true", help="average over option orders (slower, ~2x)")
     args = ap.parse_args()
     rows = [json.loads(l) for l in open(args.inp, encoding="utf-8")]
     with ThreadPoolExecutor(args.workers) as ex:
-        answers = list(ex.map(lambda r: ask(args.teacher, r["text"]), rows))
+        answers = list(ex.map(lambda r: ask(args.teacher, r["text"], args.order_invariant), rows))
     by_style = collections.defaultdict(lambda: [0, 0, 0.0, 0.0, 0.0])
     bad = []
     for r, a in zip(rows, answers):
