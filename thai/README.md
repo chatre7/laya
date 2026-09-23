@@ -16,6 +16,7 @@ package is untouched so far, so upstream can still be merged.
 | `eval_thai.py` | accuracy on the human-labelled eval set, 5 support tickets, and (with `--teacher`) student-vs-teacher agreement |
 | `eval_ots.py` | the same metrics for the OpenThai server, so both models are scored on identical records |
 | `run3.sh` | run 3 end to end (bigger distillation set, option budget 768, human labels mixed in, train, eval), unattended |
+| `cascade.py`, `cascade3.sh` | student -> teacher cascade sweep on the human-labelled decisions (accuracy vs teacher-call fraction per confidence threshold) |
 | `results/` | json summaries and the training log of every run |
 
 ```bash
@@ -132,8 +133,26 @@ they were meant to), prachathai +10 points from seeing its human labels again. T
 wisesight 0.587 -> 0.557 (still at the teacher's 0.547), sib200 0.745 -> 0.701, so the extra 2.5x teacher data and the
 human labels bought no new generalisation, and sib200 hints at mild over-fitting to the training corpora. Tickets:
 the same login ticket is still routed to billing (p=0.70); everything else is right and frustration MAE is the best so far.
-Cascade numbers (next section) are from run 2 and have not been re-measured with this checkpoint; with the student
-alone at 0.772 the gate should need fewer teacher calls for the same accuracy.
+
+**Cascade with this checkpoint** (`cascade3.sh`, same 2,455 decisions, teacher 0.815 alone; `results/cascade3.json`,
+`results/cascade3_opt60.json`). Left: the run 2 rule (questions with more than 10 options always go to the teacher).
+Right: option gate off (`--max-options 60`), since this student has the 768-token option budget.
+
+| confidence threshold | run 2 cascade: acc / to teacher | **run 3, max-options 10: acc / to teacher** | run 3, option gate off: acc / to teacher |
+|---|---|---|---|
+| 0.00 | 0.758 / 12% | 0.780 / 12% | 0.772 / 0% |
+| 0.50 | 0.774 / 22% | 0.791 / 20% | 0.785 / 8% |
+| 0.60 | 0.782 / 34% | **0.801 / 29%** | 0.797 / 18% |
+| 0.70 | 0.793 / 46% | **0.804 / 38%** | **0.803 / 28%** |
+| 0.80 | 0.795 / 58% | 0.809 / 50% | 0.809 / 40% |
+| 0.90 | 0.805 / 73% | 0.813 / 62% | 0.813 / 53% |
+| teacher only | 0.814 / 100% | 0.815 / 100% | 0.816 / 100% |
+
+Better at every point: threshold 0.7 now gives 0.804 (98.7% of the teacher) with 38% teacher calls instead of
+0.793 with 46%; with the option gate off, 0.803 with 28% of calls, i.e. ~3.5x the teacher-only throughput
+for a 1.3-point loss. The option-count rule no longer pays: the student's massive_th (up to 60 intents) is 0.857 on its
+own, and at threshold 0 the two rules differ by 0.8 points for 12% of teacher calls. Teacher batched latency under
+8 concurrent callers was ~880 ms again, so the estimated per-record latency at 0.7 / gate off is ~283 ms vs ~912 ms teacher-only.
 
 ## Using the speed: student -> teacher cascade (`cascade.py`)
 
