@@ -1,0 +1,38 @@
+# Student -> teacher cascade on the dev GPU box: laya run 3 on GPU 1 at :8011, teacher = the existing
+# openthai-systemone container at :8010 (GPU 0). Run from the fork root:
+#   docker compose -f thai/docker-compose.cascade.yml up -d --build
+services:
+  laya-cascade:
+    build:
+      context: ..
+      dockerfile: thai/Dockerfile.cascade
+    image: laya-cascade:run3
+    container_name: laya-cascade
+    restart: unless-stopped
+    ports:
+      - "8011:8011"
+    environment:
+      LAYA_STUDENT: /model
+      TEACHER_URL: http://172.18.72.145:8010
+      CASCADE_THRESHOLD: "0.7"     # student max-prob below this -> teacher (measured: 0.803 acc, 28% teacher calls)
+      CASCADE_MAX_OPTIONS: "0"     # 0 = no option-count gate (run 3 has the 768-token option budget)
+    volumes:
+      - ./out/laya-th-run3:/model:ro
+      - docker_hf-cache:/hf
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8011/healthz', timeout=5).status == 200 else 1)"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 120s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["1"]
+              capabilities: [gpu]
+
+volumes:
+  docker_hf-cache:
+    external: true

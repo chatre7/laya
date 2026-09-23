@@ -1,0 +1,10 @@
+# Serving image for the student -> teacher cascade (thai/cascade_server.py). Build context = fork root:
+#   docker compose -f thai/docker-compose.cascade.yml up -d --build
+# Based on the training image (the OpenThai-SystemOne serving image + datasets), so torch/transformers/fastapi match.
+FROM laya-train
+COPY laya /app/laya
+COPY thai/cascade_server.py /app/cascade_server.py
+WORKDIR /app
+ENV PYTHONPATH=/app HF_HOME=/hf PYTHONUNBUFFERED=1
+EXPOSE 8011
+CMD ["uvicorn", "cascade_server:app", "--host", "0.0.0.0", "--port", "8011"]

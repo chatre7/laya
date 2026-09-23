@@ -17,6 +17,7 @@ package is untouched so far, so upstream can still be merged.
 | `eval_ots.py` | the same metrics for the OpenThai server, so both models are scored on identical records |
 | `run3.sh` | run 3 end to end (bigger distillation set, option budget 768, human labels mixed in, train, eval), unattended |
 | `cascade.py`, `cascade3.sh` | student -> teacher cascade sweep on the human-labelled decisions (accuracy vs teacher-call fraction per confidence threshold) |
+| `cascade_server.py`, `Dockerfile.cascade`, `docker-compose.cascade.yml`, `smoke_cascade.py` | **the cascade as a service**: same `/v1/systemone` contract as the teacher, student on GPU 1 at `:8011`, teacher at `:8010`; smoke test with a 60-option question and 8 concurrent callers |
 | `results/` | json summaries and the training log of every run |
 
 ```bash
@@ -179,6 +180,27 @@ callers was 883 ms in this run). Student alone 0.719, teacher alone 0.814.
   teacher-only throughput on the same GPU.
 - Above 0.8 the student keeps only its easy decisions and the cascade converges to the teacher; not worth it.
 - The student is well calibrated (ECE 0.05), which is what makes the confidence gate usable at all.
+
+## Serving the cascade (`cascade_server.py`, port 8011)
+
+Deployed on the dev box next to the teacher (2026-09-23): `docker compose -f thai/docker-compose.cascade.yml up -d --build`
+builds `laya-cascade:run3` from the training image, mounts `thai/out/laya-th-run3` read-only, GPU 1 (~1.6 GB), `restart: unless-stopped`.
+
+- `POST http://172.18.72.145:8011/v1/systemone`: the same request and response as the teacher at `:8010` (state, typed
+  questions, `model`, `order_invariant` / `permutations` are passed through to the teacher for the questions it answers).
+  The student answers all questions in one forward pass; every question whose max probability is below
+  `CASCADE_THRESHOLD` (0.7) goes to the teacher in one follow-up request with the same state. `usage.cascade` lists
+  the questions that reached the teacher and why (`confidence<0.70`, `options>N`, `student_error`), plus both latencies.
+  Teacher answers keep their `abstain`; student answers have none. If the teacher is down, the student's low-confidence
+  answer is returned with reason `...;teacher_unavailable` instead of failing.
+- `GET /healthz` (student loaded + teacher `/healthz`), `GET /stats` (teacher-question fraction, mean latencies), `/docs`.
+- Routing lives in one function, `route()`: one global threshold and an optional option-count gate (`CASCADE_MAX_OPTIONS`,
+  0 = off as measured). Per-type thresholds or a per-request override go there.
+- Smoke test (`smoke_cascade.py`, from a LAN machine): ticket 3 questions -> department and refund kept by the student,
+  frustration (score, max p 0.42) sent to the teacher, 130-450 ms; a 60-intent question answered by the student alone
+  in 84 ms (max p 0.98); "อืม" sent to the teacher, which returns abstain 0.98. 32 ticket requests at 8 concurrent:
+  mean 368 ms, p95 485 ms, 20.5 req/s (teacher-only under the same load: ~880 ms). The student runs one forward at a
+  time behind a lock, so its share grows with concurrency; batching it is the next step if 8011 gets real traffic.
 
 ## Known limits of laya for our use
 

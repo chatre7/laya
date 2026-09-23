@@ -1,0 +1,4 @@
+# BuildKit picks this up for thai/Dockerfile.cascade: only the laya package and the server enter the build context
+*
+!laya/**
+!thai/cascade_server.py
