@@ -3,13 +3,16 @@
 # are stopped for the duration), then train from the run 3 checkpoint on cc_items + the human-labelled items, eval on
 # the held-out call-center set (run 3 evaluated on the same set as baseline) and on the old eval set, then bring :8011 back.
 #   nohup bash thai/run4.sh > thai/out/run4.log 2>&1 &
+# START=2 skips the teacher stages and rebuilds the items from the labelled records on disk (label_cc.py --from-records).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 HOST=172.18.72.145
 RUN=(docker run --rm --gpus '"device=1"' -v "$PWD":/work -w /work/thai -v docker_hf-cache:/hf --shm-size 2g laya-train)
 CPU=(docker run --rm -v "$PWD":/work -w /work/thai -v docker_hf-cache:/hf laya-train)
 mkdir -p thai/out
+START="${START:-0}"
 
+if [ "$START" -le 1 ]; then
 echo "== [$(date +%H:%M)] 0/5 free GPU 1 (vllm-rewrite, laya-cascade) and start a second teacher on it (:8013)"
 docker rm -f vllm-rewrite >/dev/null 2>&1 || true
 docker stop laya-cascade >/dev/null 2>&1 || true
@@ -23,9 +26,14 @@ echo
 
 echo "== [$(date +%H:%M)] 1/5 label with two teachers"
 "${CPU[@]}" python label_cc.py --teacher http://$HOST:8010,http://$HOST:8013 --workers 16 --wisesight 12000 --questions-per-record 2
-
-echo "== [$(date +%H:%M)] 2/5 stop the second teacher, train from run 3 (cc_items + human items, 2 epochs)"
 docker rm -f ots-gpu1 >/dev/null
+else
+echo "== [$(date +%H:%M)] 1/5 (START=$START) rebuild items from the labelled records"
+docker stop laya-cascade >/dev/null 2>&1 || true
+"${CPU[@]}" python label_cc.py --from-records --questions-per-record 2
+fi
+
+echo "== [$(date +%H:%M)] 2/5 train from run 3 (cc_items + human items, 2 epochs)"
 "${RUN[@]}" python train_single.py --model /work/thai/out/laya-th-run3 --items /work/thai/data/cc/cc_items.pt,/work/thai/data/train_items768.pt \
   --head-max-len 768 --epochs 2 --out /work/thai/out/laya-th-run4
 

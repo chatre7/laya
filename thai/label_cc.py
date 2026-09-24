@@ -70,6 +70,7 @@ def main():
     ap.add_argument("--student", default="/work/thai/out/laya-th-run3", help="tokenizer + config (head_max_len) to tokenise with")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--limit", type=int, default=0, help="smoke: only this many records per source")
+    ap.add_argument("--from-records", action="store_true", help="skip the teacher: rebuild the split and items from cc.jsonl + cc_eval.jsonl already on disk")
     args = ap.parse_args()
     rng = random.Random(args.seed)
     data = Path(args.data)
@@ -93,9 +94,14 @@ def main():
         r["questions"] = QUESTIONS
     print(f"{len(recs)} records ({Counter(r['source'] for r in recs)})", flush=True)
 
-    # ---- teacher
+    # ---- teacher (or reuse labelled records)
     t0 = time.perf_counter()
     done = [0]
+    if args.from_records:
+        labelled = [json.loads(l) for f in ("cc.jsonl", "cc_eval.jsonl") for l in open(data / f, encoding="utf-8")]
+        for r in labelled:
+            r["questions"] = QUESTIONS
+        print(f"reusing {len(labelled)} labelled records from disk", flush=True)
 
     def work(ir):
         i, r = ir
@@ -111,9 +117,10 @@ def main():
             targets[qid] = one_hot(r["questions"][qid], lab)
         return {**r, "targets": targets, "teacher_tokens": res["usage"]["input_tokens"]}
 
-    with ThreadPoolExecutor(args.workers) as ex:
-        labelled = [x for x in ex.map(work, enumerate(recs)) if x]
-    print(f"teacher labelled {len(labelled)}/{len(recs)} in {(time.perf_counter() - t0) / 60:.1f} min", flush=True)
+    if not args.from_records:
+        with ThreadPoolExecutor(args.workers) as ex:
+            labelled = [x for x in ex.map(work, enumerate(recs)) if x]
+        print(f"teacher labelled {len(labelled)}/{len(recs)} in {(time.perf_counter() - t0) / 60:.1f} min", flush=True)
 
     # ---- split by source sentence
     groups = sorted({r["group"] for r in labelled})
@@ -137,9 +144,9 @@ def main():
     cfg = json.load(open(os.path.join(args.student, "rl_agent_config.json")))
     items, dropped, by_type = [], 0, Counter()
     for r in tr:
-        labelled_q = list(r["labels"])
-        others = [q for q in QUESTIONS if q not in labelled_q]
-        chosen = labelled_q[:1] + rng.sample(others, max(0, args.questions_per_record - 1))
+        first = rng.choice(list(r["labels"]))  # one human-labelled question (intent or category for cc rows) ...
+        others = [q for q in QUESTIONS if q != first]  # ... plus sampled others, the second labelled one included
+        chosen = [first] + rng.sample(others, max(0, args.questions_per_record - 1))
         for qid in chosen:
             q = QUESTIONS[qid]
             qi = {"t": q["type"], "ins": q["instructions"], "crit": q.get("criteria") or ({} if q["type"] == "noul" else None)}
