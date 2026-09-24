@@ -56,6 +56,10 @@ training distributions, not Thai decisions. Details and the reading in the Syste
 
 ## Run 2: distillation from OpenThai-SystemOne
 
+> Teacher version: OpenThai-SystemOne **v0.3** (HF `f3709948`) for runs 2-4 and for every teacher number below; the serving container
+> picked up v0.3 at its 2026-09-22 rebuild (verified 2026-09-24, byte-identical outputs). v0.2 on the same 2,455 decisions scores 0.816 vs
+> v0.3 0.814 overall, with massive_th +1.7 / sib200 +4.4 for v0.3 and wongnai -2.5 / xnli -0.4, -1.3 (`results/ots_v02.json`).
+
 Instead of human labels, `distill_from_ots.py` sends Thai texts from six public corpora with 2–4
 questions each from a bank of ~20 question types (sentiment, intent, department, urgency, frustration,
 topic, rating, NLI, several yes/no checks; paraphrased instructions, option subsets of varying size) to the
