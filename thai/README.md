@@ -237,6 +237,8 @@ Nexdata listings are sales samples, non-commercial), so the data is built:
    train), human labels for intent/category/sentiment plus student-vs-teacher agreement on the rest; run 3 is scored on the
    same set as the baseline, and the old public eval set is re-run as a regression check.
 
+Published as [Chatre7/laya-thai-callcenter](https://huggingface.co/Chatre7/laya-thai-callcenter) (private).
+
 **Results** (2026-09-24; `results/run4_cc.json`, `run3_cc.json`, `run4.json`, `cascade4*.json`). Labelling 69,635 texts x 9
 questions took 2 h 32 min with two teachers (7.7 rec/s); training 132,304 cc items + 10,674 human items, 2 epochs, 4 h 38 min from
 the run 3 checkpoint, fitted temperatures 1.60 / 1.03 / 1.03 (choice over-confident after one-hot intent labels). A first attempt
