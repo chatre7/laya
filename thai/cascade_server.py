@@ -16,8 +16,10 @@ gives accuracy 0.803 vs 0.816 teacher-only, with 28% of questions reaching the t
     LAYA_STUDENT=/model TEACHER_URL=http://172.18.72.145:8010 uvicorn cascade_server:app --host 0.0.0.0 --port 8011
 """
 import asyncio
+import concurrent.futures
 import json
 import os
+import queue
 import threading
 import time
 import urllib.error
@@ -65,22 +67,131 @@ def route(q: Dict[str, Any], a: Dict[str, Any], conf: float) -> Optional[str]:
 
 # ---------------------------------------------------------------- models
 class Student:
-    """laya agent behind a lock: one forward at a time on the GPU, called from a worker thread."""
+    """laya agent with dynamic batching: one thread owns the GPU. Requests are encoded on the caller's thread, queued,
+    and the GPU thread collates everything that arrived within STUDENT_MAX_WAIT_MS (bounded by STUDENT_MAX_BATCH
+    requests and STUDENT_MAX_BATCH_TOKENS padded tokens) into one forward, then decodes each request with laya's own
+    formula (temperature buckets, confidence, act head), so a batched answer equals a single one up to bf16 noise.
+    STUDENT_COMPILE=1 wraps the model in torch.compile (dynamic shapes)."""
 
     def __init__(self, path: str):
         import laya  # imported here so the module loads without torch (tests, docs)
+        import torch
+        from laya.common import QTYPES as qtypes, build_sequence, collate_items, render_options
 
+        self.torch, self.build_sequence, self.collate_items, self.render_options, self.qtypes = torch, build_sequence, collate_items, render_options, qtypes
         self.agent = laya.Agent(path, device="cuda")
         self.cfg = dict(self.agent.cfg)
-        self.lock = threading.Lock()
+        self.max_batch = int(os.environ.get("STUDENT_MAX_BATCH", "32"))
+        self.max_batch_tokens = int(os.environ.get("STUDENT_MAX_BATCH_TOKENS", "24576"))
+        self.max_wait = float(os.environ.get("STUDENT_MAX_WAIT_MS", "6")) / 1000
+        self.compiled = os.environ.get("STUDENT_COMPILE", "0") == "1"
+        if self.compiled:
+            self.agent.model = torch.compile(self.agent.model, dynamic=True)
+        self.q: "queue.Queue" = queue.Queue()
+        self.stats = {"student_forwards": 0, "student_max_batch": 0, "student_max_rows": 0, "student_batch_failures": 0}
+        self.thread = threading.Thread(target=self._loop, name="student-gpu", daemon=True)
+        self.thread.start()
+
+    # -- encode on the caller's thread (CPU), same steps as Agent.system_one up to the forward
+    def encode(self, state: Any, questions: Dict[str, Dict[str, Any]]):
+        items, qs = [], []
+        max_len, head_max_len = self.cfg.get("max_len", 512), self.cfg.get("head_max_len", 192)
+        for qid, qd in questions.items():
+            q = self.agent._to_internal(qd)
+            seq, markers = self.build_sequence(self.agent.tok, state, q, max_len, head_max_len)
+            if len(markers) != len(self.render_options(q)):
+                raise ValueError("question %r options exceed head_max_len=%d" % (qid, head_max_len))
+            items.append({"ids": seq, "markers": markers, "qtype": self.qtypes[q["t"]]})
+            qs.append((qid, q))
+        return items, qs
 
     def predict(self, state: Any, questions: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
-        with self.lock:
-            out = self.agent.system_one(state, questions)
-        for qid, a in out["answers"].items():
-            if a.get("type") == "score" and "legend" not in a:  # match the teacher's ScoreAnswer shape
-                a["legend"] = {i: c for i, c in enumerate(questions[qid].get("criteria") or [])}
-        return out
+        items, qs = self.encode(state, questions)
+        fut: "concurrent.futures.Future" = concurrent.futures.Future()
+        self.q.put((items, qs, fut))
+        return fut.result()
+
+    # -- GPU thread: gather a batch, forward once, decode per request
+    def _loop(self):
+        while True:
+            jobs = [self.q.get()]
+            deadline = time.perf_counter() + self.max_wait
+            rows = len(jobs[0][0])
+            longest = max(len(it["ids"]) for it in jobs[0][0])
+            while len(jobs) < self.max_batch:
+                remaining = deadline - time.perf_counter()
+                if remaining <= 0:
+                    break
+                try:
+                    j = self.q.get(timeout=remaining)
+                except queue.Empty:
+                    break
+                r, l = rows + len(j[0]), max(longest, max(len(it["ids"]) for it in j[0]))
+                if r * l > self.max_batch_tokens:
+                    self.q.put(j)  # over the padded-token budget: leave it for the next batch
+                    break
+                jobs.append(j)
+                rows, longest = r, l
+            try:
+                outs = self._forward([j[0] for j in jobs])
+                for (items, qs, fut), (logits, act, n_tok) in zip(jobs, outs):
+                    fut.set_result(self._decode(items, qs, logits, act, n_tok))
+            except Exception:  # noqa: BLE001  (e.g. OOM on a large batch): retry one by one
+                self.stats["student_batch_failures"] += 1
+                for items, qs, fut in jobs:
+                    try:
+                        logits, act, n_tok = self._forward([items])[0]
+                        fut.set_result(self._decode(items, qs, logits, act, n_tok))
+                    except Exception as e:  # noqa: BLE001
+                        fut.set_exception(e)
+
+    def _forward(self, groups):
+        torch = self.torch
+        b = self.collate_items(groups, self.agent.tok.pad_token_id)
+        dev = self.agent.device
+        with torch.no_grad(), torch.autocast(device_type=dev.type, dtype=self.agent.dtype, enabled=dev.type == "cuda"):
+            logits, act = self.agent.model(b["input_ids"].to(dev), b["attention_mask"].to(dev), b["marker_pos"].to(dev),
+                                           b["marker_mask"].to(dev), b["qtype"].to(dev))
+        logits = logits.float().cpu().numpy()
+        act = torch.softmax(act.float(), -1).cpu().numpy()
+        self.stats["student_forwards"] += 1
+        self.stats["student_max_batch"] = max(self.stats["student_max_batch"], len(groups))
+        self.stats["student_max_rows"] = max(self.stats["student_max_rows"], int(b["input_ids"].shape[0]))
+        tokens = b["attention_mask"].sum(1).tolist()
+        outs, r0 = [], 0
+        for g in groups:
+            r1 = r0 + len(g)
+            outs.append((logits[r0:r1], act[r0:r1], int(sum(tokens[r0:r1]))))
+            r0 = r1
+        return outs
+
+    def _decode(self, items, qs, logits, act, n_tokens):
+        import numpy as np
+        from laya.common import confidence_from_probs, temp_bucket
+
+        ag = self.agent
+        answers = {}
+        for r, (qid, q) in enumerate(qs):
+            k = len(items[r]["markers"])
+            qt = self.qtypes[q["t"]]
+            t_scale = ag.temperature_by_options.get(temp_bucket(qt, k), ag.temperature[qt])
+            z = logits[r, :k] / t_scale
+            p = np.exp(z - z.max())
+            p = p / p.sum()
+            conf = round(confidence_from_probs(p, k), 4)
+            ext = {"act_probability": round(float(act[r, 0]), 4)}
+            if q["t"] == "choice":
+                keys = list(q["crit"].keys())
+                answers[qid] = {"type": "choice", "choice": keys[int(p.argmax())],
+                                "probabilities": {kk: round(float(v), 4) for kk, v in zip(keys, p)}, "confidence": conf, "action": ext}
+            elif q["t"] == "score":
+                answers[qid] = {"type": "score", "score": round(float((np.arange(k) * p).sum()), 4),
+                                "legend": {str(i): c for i, c in enumerate(q["crit"])},
+                                "probabilities": {str(i): round(float(v), 4) for i, v in enumerate(p)}, "confidence": conf, "action": ext}
+            else:
+                answers[qid] = {"type": "noul", "noul": round(float(p[1]), 4),
+                                "confidence": round(max(float(p[1]), 1.0 - float(p[1])), 4), "action": ext}
+        return {"model": "laya-rl-agent", "answers": answers, "usage": {"input_tokens": n_tokens, "output_tokens": 0}}
 
 
 def teacher_call(body: Dict[str, Any]) -> Dict[str, Any]:
@@ -113,12 +224,37 @@ def teacher_healthy() -> bool:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     t = time.perf_counter()
+    # asyncio.to_thread uses the loop's default executor; widen it so 64 requests can wait on the student/teacher at once
+    asyncio.get_running_loop().set_default_executor(concurrent.futures.ThreadPoolExecutor(max_workers=64, thread_name_prefix="cascade"))
     app.state.student = Student(STUDENT)
-    app.state.student.predict("ทดสอบระบบ", {"w": {"type": "noul", "instructions": "เป็นข้อความทดสอบหรือไม่"}})  # warm-up
+    # warm-up over representative shapes (question counts, option counts, state lengths, batch sizes) so that torch.compile,
+    # when enabled, does its compiling here rather than on the first live requests of each shape (several seconds each)
+    warm = []
+    for n_opt in (2, 4, 12, 30, 60):
+        crit = {"opt%d" % i: "ตัวเลือกที่ %d สำหรับทดสอบ" % i for i in range(n_opt)}
+        warm.append({"c": {"type": "choice", "instructions": "ข้อความนี้เข้าข่ายข้อใด", "criteria": crit}})
+    for n_q in (1, 3, 5, 9):
+        qs = {}
+        for i in range(n_q):
+            qs["q%d" % i] = [{"type": "noul", "instructions": "คำถามทดสอบที่ %d ใช่หรือไม่" % i},
+                             {"type": "score", "instructions": "ระดับทดสอบ", "criteria": ["ต่ำ", "กลาง", "สูง"]},
+                             {"type": "choice", "instructions": "หมวดทดสอบ", "criteria": {"a": "ก", "b": "ข", "c": "ค", "d": "ง", "e": "จ"}}][i % 3]
+        warm.append(qs)
+    states = ["ทดสอบระบบ", "โดนหักเงินซ้ำสองครั้งเมื่อวานนี้ ขอเงินคืนด่วนนะครับ ติดต่อไปแล้วยังไม่มีใครตอบเลย " * 3,
+              "ลูกค้าโทรมาแจ้งว่าอินเทอร์เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่อวาน รีสตาร์ทเราเตอร์แล้วก็ยังเป็นอยู่ อยากให้ช่างเข้ามาดูภายในวันนี้ " * 12]
+    t_w = time.perf_counter()
+    for st_text in states:
+        for qs in warm:
+            app.state.student.predict(st_text, qs)
+    with concurrent.futures.ThreadPoolExecutor(16) as ex:  # a few batched shapes too
+        list(ex.map(lambda i: app.state.student.predict(states[i % 3], warm[i % len(warm)]), range(48)))
+    print("[cascade] warm-up: %d shapes in %.0f s" % (len(states) * len(warm) + 48, time.perf_counter() - t_w), flush=True)
     app.state.stats = {"requests": 0, "questions": 0, "teacher_calls": 0, "teacher_questions": 0,
                        "student_errors": 0, "teacher_failures": 0, "student_ms_total": 0.0, "teacher_ms_total": 0.0}
-    print("[cascade] student %s loaded in %.1f s, head_max_len=%s, teacher %s, threshold %.2f, max_options %d"
-          % (STUDENT, time.perf_counter() - t, app.state.student.cfg.get("head_max_len"), TEACHER_URL, THRESHOLD, MAX_OPTIONS), flush=True)
+    st = app.state.student
+    print("[cascade] student %s loaded in %.1f s, head_max_len=%s, batching max %d req / %d tokens / %.0f ms, compile=%s, teacher %s, threshold %.2f, max_options %d"
+          % (STUDENT, time.perf_counter() - t, st.cfg.get("head_max_len"), st.max_batch, st.max_batch_tokens, st.max_wait * 1000, st.compiled,
+             TEACHER_URL, THRESHOLD, MAX_OPTIONS), flush=True)
     yield
 
 
@@ -139,18 +275,22 @@ app = FastAPI(
 def healthz():
     if not hasattr(app.state, "student"):
         raise HTTPException(status_code=503, detail="student not loaded")
+    if not app.state.student.thread.is_alive():
+        raise HTTPException(status_code=503, detail="student gpu thread is dead")
     return {"ok": True, "student": STUDENT, "teacher": TEACHER_URL, "teacher_ok": teacher_healthy(),
             "threshold": THRESHOLD, "max_options": MAX_OPTIONS}
 
 
 @app.get("/stats", tags=["ops"], summary="ตัวนับสะสม: request, คำถาม, สัดส่วนที่ไปถึง teacher, เวลาเฉลี่ย")
 def stats():
-    s = app.state.stats
+    s = {**app.state.stats, **app.state.student.stats}
     return {**s,
             "teacher_question_fraction": round(s["teacher_questions"] / s["questions"], 4) if s["questions"] else None,
             "student_ms_mean": round(s["student_ms_total"] / s["requests"], 1) if s["requests"] else None,
             "teacher_ms_mean": round(s["teacher_ms_total"] / s["teacher_calls"], 1) if s["teacher_calls"] else None,
-            "config": {"threshold": THRESHOLD, "max_options": MAX_OPTIONS, "teacher": TEACHER_URL, "student": STUDENT}}
+            "config": {"threshold": THRESHOLD, "max_options": MAX_OPTIONS, "teacher": TEACHER_URL, "student": STUDENT,
+                       "student_max_batch": app.state.student.max_batch, "student_max_batch_tokens": app.state.student.max_batch_tokens,
+                       "student_max_wait_ms": app.state.student.max_wait * 1000, "student_compile": app.state.student.compiled}}
 
 
 @app.post("/v1/systemone", tags=["decision"], summary="ตัดสินใจจาก state: student ก่อน, teacher เมื่อไม่มั่นใจ")

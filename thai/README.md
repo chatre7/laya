@@ -17,7 +17,7 @@ package is untouched so far, so upstream can still be merged.
 | `eval_ots.py` | the same metrics for the OpenThai server, so both models are scored on identical records |
 | `run3.sh` | run 3 end to end (bigger distillation set, option budget 768, human labels mixed in, train, eval), unattended |
 | `cascade.py`, `cascade3.sh` | student -> teacher cascade sweep on the human-labelled decisions (accuracy vs teacher-call fraction per confidence threshold) |
-| `cascade_server.py`, `Dockerfile.cascade`, `docker-compose.cascade.yml`, `smoke_cascade.py` | **the cascade as a service**: same `/v1/systemone` contract as the teacher, student on GPU 1 at `:8011`, teacher at `:8010`; smoke test with a 60-option question and 8 concurrent callers |
+| `cascade_server.py`, `Dockerfile.cascade`, `docker-compose.cascade.yml`, `smoke_cascade.py`, `bench_cascade.py` | **the cascade as a service**: same `/v1/systemone` contract as the teacher, student on GPU 1 at `:8011`, teacher at `:8010`; smoke test with a 60-option question and 8 concurrent callers |
 | `rewrite_colloquial.py`, `check_rewrites.py`, `run_rewrite.sh` | run 4 data: rewrite the Thai Bitext customer-support set into spoken/chat Thai with a local LLM (vLLM), then let the teacher check that each rewrite still carries its intent |
 | `label_cc.py`, `run4.sh`, `cascade4.sh` | run 4: the call-center question set labelled by two teacher instances, items, grouped eval split, train from run 3, eval |
 | `research-generalisation.md` | research note: why the held-out sets are flat and what could move them (ranked, with sources) |
@@ -206,6 +206,25 @@ sent it to the teacher and got abstain 0.98. Raise `CASCADE_THRESHOLD` if unansw
 - `GET /healthz` (student loaded + teacher `/healthz`), `GET /stats` (teacher-question fraction, mean latencies), `/docs`.
 - Routing lives in one function, `route()`: one global threshold and an optional option-count gate (`CASCADE_MAX_OPTIONS`,
   0 = off as measured). Per-type thresholds or a per-request override go there.
+- **Student batching + torch.compile (2026-09-24 evening).** The student now has a dynamic batcher (one GPU thread; requests
+  arriving within `STUDENT_MAX_WAIT_MS`=6 are collated into one forward, at most `STUDENT_MAX_BATCH`=32 requests /
+  `STUDENT_MAX_BATCH_TOKENS`=24576 padded tokens; decode uses laya's own formula, so answers match single requests: argmax
+  64/64, max probability difference 0.015 from bf16) and, with `STUDENT_COMPILE=1`, `torch.compile(dynamic=True)` with a
+  75-shape warm-up at start so live requests do not pay the compile (start-up 200 s instead of 25 s; set 0 to disable).
+  `bench_cascade.py`, same script before and after (`results/bench_before*.txt`, `bench_batched.txt`, `bench_compiled*.txt`, `bench_final.txt`):
+
+  | path | concurrent | before: mean ms / req/s | batching | batching + compile |
+  |---|---|---|---|---|
+  | student only (60-intent question) | 1 | 56 / 18 | 72 / 14 | **52 / 19** |
+  | | 8 | 345 / 22 | 230 / 34 | **189 / 41** |
+  | | 32 | 1,067 / 28 | 826 / 38 | **668 / 47** |
+  | ticket (3 questions, one to the teacher) | 1 | 151 / 6.6 | 169 / 5.9 | 158 / 6.3 |
+  | | 8 | 315 / 25 | 255 / 30 | **242 / 31** |
+  | | 32 | 1,207 / 25 | 640 / 48 | **575 / 54** |
+
+  About 2x under load, not the 3x the teacher's batcher gave: the 60-option question is ~800 tokens, so a batch of 30 is
+  24k tokens and the A2 is compute-bound (batching only removes launch overhead and idle gaps). Shorter questions batch better
+  (ticket path 2.1x). The next lever is the forward itself (fp16 TensorRT export) or shorter option lists.
 - Smoke test (`smoke_cascade.py`, from a LAN machine): ticket 3 questions -> department and refund kept by the student,
   frustration (score, max p 0.42) sent to the teacher, 130-450 ms; a 60-intent question answered by the student alone
   in 84 ms (max p 0.98); "อืม" sent to the teacher, which returns abstain 0.98. 32 ticket requests at 8 concurrent:

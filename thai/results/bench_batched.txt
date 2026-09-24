@@ -1,0 +1,12 @@
+stats before: {'student_errors': 0, 'student_ms_total': 0.0, 'student_forwards': 1, 'student_max_batch': 1, 'student_max_rows': 1, 'student_batch_failures': 0, 'student_ms_mean': None}
+equivalence on 64 records: max |p_single - p_batched| = 0.0184, mean 0.00044, same argmax 64/64
+
+path           workers  mean ms    p50    p95   req/s
+student-only         1       72     71     89    13.8
+student-only         8      230    227    269    34.1
+student-only        32      826    828    870    38.4
+ticket               1      169    173    188     5.9
+ticket               8      255    260    329    29.5
+ticket              32      640    628    905    47.8
+
+stats after: {'student_errors': 0, 'student_ms_total': 376921.9979317859, 'student_forwards': 230, 'student_max_batch': 30, 'student_max_rows': 87, 'student_batch_failures': 0, 'student_ms_mean': 451.9}

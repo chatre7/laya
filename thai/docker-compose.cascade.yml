@@ -16,6 +16,7 @@ services:
       TEACHER_URL: http://172.18.72.145:8010
       CASCADE_THRESHOLD: "0.7"     # student max-prob below this -> teacher (measured: 0.803 acc, 28% teacher calls)
       CASCADE_MAX_OPTIONS: "0"     # 0 = no option-count gate (run 3 has the 768-token option budget)
+      STUDENT_COMPILE: "1"         # torch.compile the student (dynamic shapes); set 0 to disable
     volumes:
       - ./out/laya-th-run4:/model:ro
       - docker_hf-cache:/hf
@@ -24,7 +25,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 20
-      start_period: 120s
+      start_period: 600s
     deploy:
       resources:
         reservations:

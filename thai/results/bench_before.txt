@@ -1,0 +1,12 @@
+stats before: {'student_errors': 0, 'student_ms_total': 0.0, 'student_ms_mean': None}
+equivalence on 64 records: max |p_single - p_batched| = 0.0000, mean 0.00000, same argmax 64/64
+
+path           workers  mean ms    p50    p95   req/s
+student-only         1      163    168    176     6.1
+student-only         8      348    371    404    21.8
+student-only        32     1352   1344   1690    22.9
+ticket               1      151    154    174     6.6
+ticket               8      315    323    394    24.5
+ticket              32     1207   1185   1585    25.5
+
+stats after: {'student_errors': 0, 'student_ms_total': 406174.63757283986, 'student_ms_mean': 487.0}
