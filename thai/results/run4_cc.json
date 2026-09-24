@@ -1,0 +1,83 @@
+{
+ "model": "/work/thai/out/laya-th-run4",
+ "mean_ms": 60.57608633684789,
+ "tickets": {
+  "department": 5,
+  "refund": 5,
+  "frustration_mae": 0.47551999999999994,
+  "rows": [
+   {
+    "state": "โดนหักเงินซ้ำสองครั้งเมื่อวานน",
+    "dept": "billing",
+    "p": 0.9203,
+    "frustration": 1.71,
+    "refund": 0.9793
+   },
+   {
+    "state": "เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่",
+    "dept": "technical",
+    "p": 0.9502,
+    "frustration": 1.64,
+    "refund": 0.0236
+   },
+   {
+    "state": "สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ",
+    "dept": "sales",
+    "p": 0.8639,
+    "frustration": 0.24,
+    "refund": 0.0274
+   },
+   {
+    "state": "ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ ",
+    "dept": "billing",
+    "p": 0.9726,
+    "frustration": 1.06,
+    "refund": 0.044
+   },
+   {
+    "state": "แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ",
+    "dept": "technical",
+    "p": 0.6361,
+    "frustration": 1.85,
+    "refund": 0.0935
+   }
+  ]
+ },
+ "teacher": {
+  "choice": {
+   "n": 13932,
+   "argmax_agreement": 0.9055,
+   "mean_tv": 0.1331
+  },
+  "score": {
+   "n": 6966,
+   "argmax_agreement": 0.8402,
+   "mean_tv": 0.1063
+  },
+  "noul": {
+   "n": 10449,
+   "argmax_agreement": 0.9871,
+   "mean_tv": 0.0273
+  }
+ },
+ "sources": {
+  "cc:choice": {
+   "n": 5784,
+   "acc": 0.9981,
+   "brier": 0.003,
+   "mae": null
+  },
+  "wisesight:choice": {
+   "n": 591,
+   "acc": 0.7343,
+   "brier": 0.3936,
+   "mae": null
+  }
+ },
+ "overall": {
+  "decisions": 6375,
+  "accuracy": 0.9736,
+  "brier": 0.0392,
+  "ece": 0.0096
+ }
+}

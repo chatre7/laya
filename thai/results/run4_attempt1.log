@@ -1,0 +1,197 @@
+== [08:58] 0/5 free GPU 1 (vllm-rewrite, laya-cascade) and start a second teacher on it (:8013)
+{"ok":true,"queued":0}
+== [09:00] 1/5 label with two teachers
+69635 records (Counter({'cc': 57635, 'wisesight': 12000}))
+  1000/69635 labelled, 2.2 min, 7.7 rec/s
+  2000/69635 labelled, 4.3 min, 7.7 rec/s
+  3000/69635 labelled, 6.5 min, 7.7 rec/s
+  4000/69635 labelled, 8.7 min, 7.7 rec/s
+  5000/69635 labelled, 10.8 min, 7.7 rec/s
+  6000/69635 labelled, 13.0 min, 7.7 rec/s
+  7000/69635 labelled, 15.2 min, 7.7 rec/s
+  8000/69635 labelled, 17.3 min, 7.7 rec/s
+  9000/69635 labelled, 19.5 min, 7.7 rec/s
+  10000/69635 labelled, 21.6 min, 7.7 rec/s
+  11000/69635 labelled, 23.8 min, 7.7 rec/s
+  12000/69635 labelled, 26.0 min, 7.7 rec/s
+  13000/69635 labelled, 28.1 min, 7.7 rec/s
+  14000/69635 labelled, 30.3 min, 7.7 rec/s
+  15000/69635 labelled, 32.5 min, 7.7 rec/s
+  16000/69635 labelled, 34.6 min, 7.7 rec/s
+  17000/69635 labelled, 36.8 min, 7.7 rec/s
+  18000/69635 labelled, 38.9 min, 7.7 rec/s
+  19000/69635 labelled, 41.1 min, 7.7 rec/s
+  20000/69635 labelled, 43.2 min, 7.7 rec/s
+  21000/69635 labelled, 45.4 min, 7.7 rec/s
+  22000/69635 labelled, 47.5 min, 7.7 rec/s
+  23000/69635 labelled, 49.7 min, 7.7 rec/s
+  24000/69635 labelled, 51.9 min, 7.7 rec/s
+  25000/69635 labelled, 54.0 min, 7.7 rec/s
+  26000/69635 labelled, 56.2 min, 7.7 rec/s
+  27000/69635 labelled, 58.3 min, 7.7 rec/s
+  28000/69635 labelled, 60.5 min, 7.7 rec/s
+  29000/69635 labelled, 62.7 min, 7.7 rec/s
+  30000/69635 labelled, 64.8 min, 7.7 rec/s
+  31000/69635 labelled, 67.0 min, 7.7 rec/s
+  32000/69635 labelled, 69.2 min, 7.7 rec/s
+  33000/69635 labelled, 71.3 min, 7.7 rec/s
+  34000/69635 labelled, 73.5 min, 7.7 rec/s
+  35000/69635 labelled, 75.6 min, 7.7 rec/s
+  36000/69635 labelled, 77.8 min, 7.7 rec/s
+  37000/69635 labelled, 79.9 min, 7.7 rec/s
+  38000/69635 labelled, 82.1 min, 7.7 rec/s
+  39000/69635 labelled, 84.2 min, 7.7 rec/s
+  40000/69635 labelled, 86.4 min, 7.7 rec/s
+  41000/69635 labelled, 88.6 min, 7.7 rec/s
+  42000/69635 labelled, 90.7 min, 7.7 rec/s
+  43000/69635 labelled, 92.9 min, 7.7 rec/s
+  44000/69635 labelled, 95.0 min, 7.7 rec/s
+  45000/69635 labelled, 97.2 min, 7.7 rec/s
+  46000/69635 labelled, 99.3 min, 7.7 rec/s
+  47000/69635 labelled, 101.5 min, 7.7 rec/s
+  48000/69635 labelled, 103.7 min, 7.7 rec/s
+  49000/69635 labelled, 105.8 min, 7.7 rec/s
+  50000/69635 labelled, 108.0 min, 7.7 rec/s
+  51000/69635 labelled, 110.2 min, 7.7 rec/s
+  52000/69635 labelled, 112.3 min, 7.7 rec/s
+  53000/69635 labelled, 114.5 min, 7.7 rec/s
+  54000/69635 labelled, 116.6 min, 7.7 rec/s
+  55000/69635 labelled, 118.8 min, 7.7 rec/s
+  56000/69635 labelled, 121.0 min, 7.7 rec/s
+  57000/69635 labelled, 123.1 min, 7.7 rec/s
+  58000/69635 labelled, 125.3 min, 7.7 rec/s
+  59000/69635 labelled, 127.5 min, 7.7 rec/s
+  60000/69635 labelled, 129.7 min, 7.7 rec/s
+  61000/69635 labelled, 132.0 min, 7.7 rec/s
+  62000/69635 labelled, 134.2 min, 7.7 rec/s
+  63000/69635 labelled, 136.3 min, 7.7 rec/s
+  64000/69635 labelled, 138.6 min, 7.7 rec/s
+  65000/69635 labelled, 140.8 min, 7.7 rec/s
+  66000/69635 labelled, 143.0 min, 7.7 rec/s
+  67000/69635 labelled, 145.2 min, 7.7 rec/s
+  68000/69635 labelled, 147.4 min, 7.7 rec/s
+  69000/69635 labelled, 149.6 min, 7.7 rec/s
+teacher labelled 69635/69635 in 151.0 min
+{
+  "records": 69635,
+  "train_records": 66152,
+  "eval_records": 3483,
+  "items": 132304,
+  "dropped": 0,
+  "by_type": {
+    "choice": 86086,
+    "score": 18456,
+    "noul": 27762
+  },
+  "questions_per_record": 2,
+  "head_max_len": 768,
+  "max_len": 1024,
+  "mean_len": 279.4954120812674,
+  "teachers": [
+    "http://172.18.72.145:8010",
+    "http://172.18.72.145:8013"
+  ],
+  "minutes": 152.3
+}
+== [11:32] 2/5 stop the second teacher, train from run 3 (cc_items + human items, 2 epochs)
+  /work/thai/data/cc/cc_items.pt: 132304 items
+  /work/thai/data/train_items768.pt: 10674 items
+train: 142978 items, 2 epochs, 8936 updates, micro 8 x accum 4
+  epoch 1/2 step 50/17873 loss -0.4443 ce 0.0234 reward 0.722 lr 2.50e-05 0.5 min, 0.58 s/step
+  epoch 1/2 step 100/17873 loss 0.4096 ce 0.5973 reward 0.008 lr 2.50e-05 1.0 min, 0.58 s/step
+  epoch 1/2 step 150/17873 loss -0.2426 ce 0.0092 reward 0.740 lr 2.50e-05 1.5 min, 0.59 s/step
+  epoch 1/2 step 200/17873 loss 0.3860 ce 0.5134 reward 0.043 lr 2.50e-05 1.9 min, 0.57 s/step
+  epoch 1/2 step 250/17873 loss 0.3532 ce 0.7066 reward -0.356 lr 2.50e-05 2.3 min, 0.56 s/step
+  epoch 1/2 step 300/17873 loss -0.1959 ce 0.0000 reward 0.750 lr 2.50e-05 2.8 min, 0.56 s/step
+  epoch 1/2 step 350/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.50e-05 3.2 min, 0.55 s/step
+  epoch 1/2 step 400/17873 loss 0.5122 ce 0.9034 reward -0.566 lr 2.50e-05 3.7 min, 0.55 s/step
+  epoch 1/2 step 450/17873 loss 0.3549 ce 0.6954 reward -0.197 lr 2.50e-05 4.0 min, 0.54 s/step
+  epoch 1/2 step 500/17873 loss -0.1424 ce 0.7639 reward -0.220 lr 2.50e-05 4.5 min, 0.54 s/step
+  epoch 1/2 step 550/17873 loss -0.0554 ce 0.0000 reward 0.750 lr 2.50e-05 5.0 min, 0.54 s/step
+  epoch 1/2 step 600/17873 loss 0.6703 ce 0.6281 reward -0.025 lr 2.50e-05 5.4 min, 0.54 s/step
+  epoch 1/2 step 650/17873 loss -0.0342 ce -0.0000 reward 0.750 lr 2.50e-05 5.8 min, 0.54 s/step
+  epoch 1/2 step 700/17873 loss 0.4592 ce 0.7429 reward -0.240 lr 2.50e-05 6.3 min, 0.54 s/step
+  epoch 1/2 step 750/17873 loss 2.1598 ce 1.0425 reward -0.354 lr 2.50e-05 6.8 min, 0.54 s/step
+  epoch 1/2 step 800/17873 loss 0.9428 ce 0.7739 reward -0.276 lr 2.50e-05 7.2 min, 0.54 s/step
+  epoch 1/2 step 850/17873 loss 0.2993 ce 0.4627 reward 0.140 lr 2.50e-05 7.7 min, 0.54 s/step
+  epoch 1/2 step 900/17873 loss 3.5497 ce 3.0776 reward -0.835 lr 2.50e-05 8.2 min, 0.54 s/step
+  epoch 1/2 step 950/17873 loss 0.3268 ce 0.5953 reward -0.034 lr 2.50e-05 8.6 min, 0.54 s/step
+  epoch 1/2 step 1000/17873 loss -0.0686 ce 0.0000 reward 0.750 lr 2.50e-05 9.1 min, 0.55 s/step
+  epoch 1/2 step 1050/17873 loss 0.0889 ce 0.3668 reward 0.259 lr 2.49e-05 9.5 min, 0.55 s/step
+  epoch 1/2 step 1100/17873 loss 0.3868 ce 0.1811 reward 0.537 lr 2.49e-05 10.0 min, 0.55 s/step
+  epoch 1/2 step 1150/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.49e-05 10.5 min, 0.55 s/step
+  epoch 1/2 step 1200/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.49e-05 10.9 min, 0.55 s/step
+  epoch 1/2 step 1250/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.49e-05 11.4 min, 0.55 s/step
+  epoch 1/2 step 1300/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.49e-05 11.9 min, 0.55 s/step
+  epoch 1/2 step 1350/17873 loss 0.1399 ce 0.3499 reward 0.311 lr 2.49e-05 12.4 min, 0.55 s/step
+  epoch 1/2 step 1400/17873 loss 0.7185 ce 0.7931 reward -0.287 lr 2.49e-05 12.9 min, 0.55 s/step
+  epoch 1/2 step 1450/17873 loss 0.2758 ce 0.2111 reward 0.484 lr 2.49e-05 13.4 min, 0.55 s/step
+  epoch 1/2 step 1500/17873 loss 0.2328 ce 0.4573 reward 0.146 lr 2.49e-05 13.8 min, 0.55 s/step
+  epoch 1/2 step 1550/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.49e-05 14.4 min, 0.56 s/step
+  epoch 1/2 step 1600/17873 loss -0.0843 ce 0.0282 reward 0.718 lr 2.49e-05 14.8 min, 0.56 s/step
+  epoch 1/2 step 1650/17873 loss 0.6489 ce 0.8675 reward -0.407 lr 2.49e-05 15.4 min, 0.56 s/step
+  epoch 1/2 step 1700/17873 loss 0.5718 ce 0.4463 reward 0.172 lr 2.49e-05 15.8 min, 0.56 s/step
+  epoch 1/2 step 1750/17873 loss 0.2010 ce 0.8630 reward -0.231 lr 2.49e-05 16.4 min, 0.56 s/step
+  epoch 1/2 step 1800/17873 loss 2.7855 ce 2.7340 reward -1.425 lr 2.49e-05 16.8 min, 0.56 s/step
+  epoch 1/2 step 1850/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.48e-05 17.4 min, 0.56 s/step
+  epoch 1/2 step 1900/17873 loss 0.0283 ce 0.2159 reward 0.489 lr 2.48e-05 17.9 min, 0.56 s/step
+  epoch 1/2 step 1950/17873 loss 0.7072 ce 0.6752 reward -0.097 lr 2.48e-05 18.3 min, 0.56 s/step
+  epoch 1/2 step 2000/17873 loss 0.2731 ce 0.5895 reward 0.024 lr 2.48e-05 18.8 min, 0.56 s/step
+  epoch 1/2 step 2050/17873 loss 0.8741 ce 0.8836 reward -0.404 lr 2.48e-05 19.2 min, 0.56 s/step
+  epoch 1/2 step 2100/17873 loss 0.1991 ce 0.2305 reward 0.459 lr 2.48e-05 19.8 min, 0.57 s/step
+  epoch 1/2 step 2150/17873 loss 1.1337 ce 0.6116 reward 0.069 lr 2.48e-05 20.2 min, 0.56 s/step
+  epoch 1/2 step 2200/17873 loss 0.3424 ce 0.5240 reward 0.051 lr 2.48e-05 20.6 min, 0.56 s/step
+  epoch 1/2 step 2250/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.48e-05 21.1 min, 0.56 s/step
+  epoch 1/2 step 2300/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.48e-05 21.5 min, 0.56 s/step
+  epoch 1/2 step 2350/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.47e-05 21.9 min, 0.56 s/step
+  epoch 1/2 step 2400/17873 loss 0.2850 ce 0.4280 reward 0.160 lr 2.47e-05 22.5 min, 0.56 s/step
+  epoch 1/2 step 2450/17873 loss -0.8495 ce 0.0238 reward 0.706 lr 2.47e-05 23.0 min, 0.56 s/step
+  epoch 1/2 step 2500/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.47e-05 23.4 min, 0.56 s/step
+  epoch 1/2 step 2550/17873 loss 0.7769 ce 0.6490 reward -0.083 lr 2.47e-05 23.9 min, 0.56 s/step
+  epoch 1/2 step 2600/17873 loss 0.4705 ce 0.6591 reward -0.099 lr 2.47e-05 24.4 min, 0.56 s/step
+  epoch 1/2 step 2650/17873 loss 0.3809 ce 0.6892 reward -0.163 lr 2.47e-05 24.8 min, 0.56 s/step
+  epoch 1/2 step 2700/17873 loss 0.5205 ce 0.7916 reward -0.253 lr 2.47e-05 25.4 min, 0.56 s/step
+  epoch 1/2 step 2750/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.47e-05 25.8 min, 0.56 s/step
+  epoch 1/2 step 2800/17873 loss 1.0313 ce 0.8317 reward -0.214 lr 2.46e-05 26.3 min, 0.56 s/step
+  epoch 1/2 step 2850/17873 loss 0.4296 ce 0.4759 reward 0.139 lr 2.46e-05 26.8 min, 0.56 s/step
+  epoch 1/2 step 2900/17873 loss 0.0826 ce 0.1250 reward 0.599 lr 2.46e-05 27.2 min, 0.56 s/step
+  epoch 1/2 step 2950/17873 loss 0.7674 ce 0.6546 reward -0.136 lr 2.46e-05 27.7 min, 0.56 s/step
+  epoch 1/2 step 3000/17873 loss 0.1301 ce 0.3588 reward 0.271 lr 2.46e-05 28.2 min, 0.56 s/step
+  epoch 1/2 step 3050/17873 loss -0.0401 ce 0.3693 reward 0.298 lr 2.46e-05 28.7 min, 0.56 s/step
+  epoch 1/2 step 3100/17873 loss 0.0914 ce 0.3391 reward 0.281 lr 2.46e-05 29.1 min, 0.56 s/step
+  epoch 1/2 step 3150/17873 loss -0.0155 ce 0.0000 reward 0.750 lr 2.45e-05 29.5 min, 0.56 s/step
+  epoch 1/2 step 3200/17873 loss -0.0090 ce -0.0000 reward 0.750 lr 2.45e-05 30.0 min, 0.56 s/step
+  epoch 1/2 step 3250/17873 loss 0.0767 ce 0.1699 reward 0.487 lr 2.45e-05 30.5 min, 0.56 s/step
+  epoch 1/2 step 3300/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.45e-05 31.1 min, 0.56 s/step
+  epoch 1/2 step 3350/17873 loss 0.5474 ce 0.6351 reward -0.102 lr 2.45e-05 31.5 min, 0.56 s/step
+  epoch 1/2 step 3400/17873 loss 1.0565 ce 0.4152 reward 0.255 lr 2.45e-05 32.0 min, 0.57 s/step
+  epoch 1/2 step 3450/17873 loss 0.1393 ce 0.2622 reward 0.423 lr 2.45e-05 32.5 min, 0.56 s/step
+  epoch 1/2 step 3500/17873 loss 0.0302 ce 0.6142 reward -0.157 lr 2.44e-05 32.9 min, 0.56 s/step
+  epoch 1/2 step 3550/17873 loss 0.0739 ce 0.2577 reward 0.428 lr 2.44e-05 33.4 min, 0.56 s/step
+  epoch 1/2 step 3600/17873 loss 0.2908 ce 0.4756 reward 0.098 lr 2.44e-05 33.8 min, 0.56 s/step
+  epoch 1/2 step 3650/17873 loss 0.8330 ce 0.7952 reward -0.257 lr 2.44e-05 34.3 min, 0.56 s/step
+  epoch 1/2 step 3700/17873 loss 0.2533 ce 0.2794 reward 0.398 lr 2.44e-05 34.7 min, 0.56 s/step
+  epoch 1/2 step 3750/17873 loss 0.1887 ce 0.6305 reward -0.114 lr 2.44e-05 35.2 min, 0.56 s/step
+  epoch 1/2 step 3800/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.43e-05 35.7 min, 0.56 s/step
+  epoch 1/2 step 3850/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.43e-05 36.2 min, 0.56 s/step
+  epoch 1/2 step 3900/17873 loss 0.1612 ce 0.6069 reward -0.006 lr 2.43e-05 36.6 min, 0.56 s/step
+  epoch 1/2 step 3950/17873 loss 0.6044 ce 0.5722 reward -0.001 lr 2.43e-05 37.1 min, 0.56 s/step
+  epoch 1/2 step 4000/17873 loss -0.4868 ce 0.3451 reward 0.339 lr 2.43e-05 37.6 min, 0.56 s/step
+  epoch 1/2 step 4050/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.42e-05 38.0 min, 0.56 s/step
+  epoch 1/2 step 4100/17873 loss 0.4608 ce 0.5247 reward 0.035 lr 2.42e-05 38.5 min, 0.56 s/step
+  epoch 1/2 step 4150/17873 loss 0.2864 ce 0.6029 reward -0.026 lr 2.42e-05 39.0 min, 0.56 s/step
+  epoch 1/2 step 4200/17873 loss 0.0230 ce 0.6602 reward -0.062 lr 2.42e-05 39.4 min, 0.56 s/step
+  epoch 1/2 step 4250/17873 loss 0.8023 ce 0.4048 reward 0.226 lr 2.42e-05 39.8 min, 0.56 s/step
+  epoch 1/2 step 4300/17873 loss -0.0283 ce -0.0000 reward 0.750 lr 2.42e-05 40.4 min, 0.56 s/step
+  epoch 1/2 step 4350/17873 loss -0.0718 ce -0.0000 reward 0.750 lr 2.41e-05 40.9 min, 0.56 s/step
+  epoch 1/2 step 4400/17873 loss 0.4820 ce 0.6545 reward -0.088 lr 2.41e-05 41.4 min, 0.56 s/step
+  epoch 1/2 step 4450/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.41e-05 41.8 min, 0.56 s/step
+  epoch 1/2 step 4500/17873 loss 0.3537 ce 0.5117 reward 0.052 lr 2.41e-05 42.3 min, 0.56 s/step
+  epoch 1/2 step 4550/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.41e-05 42.8 min, 0.56 s/step
+  epoch 1/2 step 4600/17873 loss 0.2628 ce 0.4170 reward 0.192 lr 2.40e-05 43.2 min, 0.56 s/step
+  epoch 1/2 step 4650/17873 loss 0.3910 ce 0.4825 reward 0.121 lr 2.40e-05 43.6 min, 0.56 s/step
+  epoch 1/2 step 4700/17873 loss 0.3376 ce 0.5844 reward 0.011 lr 2.40e-05 44.1 min, 0.56 s/step
+  epoch 1/2 step 4750/17873 loss 0.1489 ce 0.4208 reward 0.202 lr 2.40e-05 44.5 min, 0.56 s/step
+  epoch 1/2 step 4800/17873 loss 0.3334 ce 0.4668 reward 0.173 lr 2.39e-05 45.0 min, 0.56 s/step
+  epoch 1/2 step 4850/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.39e-05 45.4 min, 0.56 s/step
+  epoch 1/2 step 4900/17873 loss -0.0000 ce -0.0000 reward 0.750 lr 2.39e-05 45.8 min, 0.56 s/step
