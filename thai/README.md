@@ -190,8 +190,11 @@ callers was 883 ms in this run). Student alone 0.719, teacher alone 0.814.
 
 ## Serving the cascade (`cascade_server.py`, port 8011)
 
-Deployed on the dev box next to the teacher (2026-09-23): `docker compose -f thai/docker-compose.cascade.yml up -d --build`
-builds `laya-cascade:run3` from the training image, mounts `thai/out/laya-th-run3` read-only, GPU 1 (~1.6 GB), `restart: unless-stopped`.
+Deployed on the dev box next to the teacher (2026-09-23 with run 3, **run 4 since 2026-09-24 18:40**): `docker compose -f thai/docker-compose.cascade.yml up -d --build`
+builds `laya-cascade:run4` from the training image, mounts `thai/out/laya-th-run4` read-only, GPU 1 (~1.6 GB), `restart: unless-stopped`.
+With run 4 the student keeps more decisions (it is more confident): the same ticket smoke test sends only `frustration` to the teacher,
+the 60-intent question stays with the student (p 1.00), and the nonsense input "อืม" now also stays with the student (p 0.73) where run 3
+sent it to the teacher and got abstain 0.98. Raise `CASCADE_THRESHOLD` if unanswerable inputs must reach the teacher's abstain.
 
 - `POST http://172.18.72.145:8011/v1/systemone`: the same request and response as the teacher at `:8010` (state, typed
   questions, `model`, `order_invariant` / `permutations` are passed through to the teacher for the questions it answers).

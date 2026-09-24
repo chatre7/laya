@@ -1,4 +1,4 @@
-"""Student -> teacher cascade server: laya-thai-distill-run3 answers first, OpenThai-SystemOne answers what it is unsure about.
+"""Student -> teacher cascade server: laya-thai-callcenter (run 4) answers first, OpenThai-SystemOne answers what it is unsure about.
 
 Same request/response contract as the OpenThai-SystemOne batching server (docker/server_batched.py in
 chatre7/system-one), so a client switches between :8010 (teacher only) and :8011 (cascade) by URL alone.
@@ -32,7 +32,7 @@ TEACHER_URL = os.environ.get("TEACHER_URL", "http://172.18.72.145:8010").rstrip(
 THRESHOLD = float(os.environ.get("CASCADE_THRESHOLD", "0.7"))
 MAX_OPTIONS = int(os.environ.get("CASCADE_MAX_OPTIONS", "0"))
 TEACHER_TIMEOUT = float(os.environ.get("TEACHER_TIMEOUT_S", "120"))
-MODEL_NAME = os.environ.get("CASCADE_MODEL_NAME", "laya-thai-distill-run3+openthai-systemone")
+MODEL_NAME = os.environ.get("CASCADE_MODEL_NAME", "laya-thai-callcenter+openthai-systemone")
 QTYPES = ("choice", "score", "noul")
 
 
@@ -126,7 +126,7 @@ app = FastAPI(
     title="laya -> OpenThai-SystemOne cascade",
     version="0.1.0",
     description=(
-        "โมเดลเล็ก (laya-thai-distill-run3, 322M encoder, ~39 ms) ตอบก่อนทุกข้อ ข้อที่มันไม่มั่นใจ "
+        "โมเดลเล็ก (laya-thai-callcenter run 4, 322M encoder, ~39 ms) ตอบก่อนทุกข้อ ข้อที่มันไม่มั่นใจ "
         f"(ความน่าจะเป็นสูงสุดต่ำกว่า {THRESHOLD:.2f}) ส่งต่อให้ OpenThai-SystemOne ที่ `{TEACHER_URL}` ตอบแทน "
         "request/response เหมือน `/v1/systemone` ของ teacher ทุกประการ เพิ่มเฉพาะ `usage.cascade` ที่บอกว่าข้อไหนถูกส่งต่อและเพราะอะไร "
         "วัดบน 2,455 decisions: แม่น 0.803 เทียบ teacher 0.816 โดยเรียก teacher 28% ของคำถาม"
