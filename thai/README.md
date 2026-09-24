@@ -18,6 +18,9 @@ package is untouched so far, so upstream can still be merged.
 | `run3.sh` | run 3 end to end (bigger distillation set, option budget 768, human labels mixed in, train, eval), unattended |
 | `cascade.py`, `cascade3.sh` | student -> teacher cascade sweep on the human-labelled decisions (accuracy vs teacher-call fraction per confidence threshold) |
 | `cascade_server.py`, `Dockerfile.cascade`, `docker-compose.cascade.yml`, `smoke_cascade.py` | **the cascade as a service**: same `/v1/systemone` contract as the teacher, student on GPU 1 at `:8011`, teacher at `:8010`; smoke test with a 60-option question and 8 concurrent callers |
+| `rewrite_colloquial.py`, `check_rewrites.py`, `run_rewrite.sh` | run 4 data: rewrite the Thai Bitext customer-support set into spoken/chat Thai with a local LLM (vLLM), then let the teacher check that each rewrite still carries its intent |
+| `label_cc.py`, `run4.sh` | run 4: the call-center question set labelled by two teacher instances, items, grouped eval split, train from run 3, eval |
+| `research-generalisation.md` | research note: why the held-out sets are flat and what could move them (ranked, with sources) |
 | `results/` | json summaries and the training log of every run |
 
 ```bash
@@ -201,6 +204,36 @@ builds `laya-cascade:run3` from the training image, mounts `thai/out/laya-th-run
   in 84 ms (max p 0.98); "อืม" sent to the teacher, which returns abstain 0.98. 32 ticket requests at 8 concurrent:
   mean 368 ms, p95 485 ms, 20.5 req/s (teacher-only under the same load: ~880 ms). The student runs one forward at a
   time behind a lock, so its share grows with concurrency; batching it is the next step if 8011 gets real traffic.
+
+## Run 4: call-center distillation (in progress, 2026-09-24)
+
+Runs 1-3 chase public benchmarks; run 4 targets the job the student is for: call-center triage (route, urgency,
+frustration, yes/no checks, intent). There is no downloadable Thai call-center corpus on Hugging Face (the AIxBlock and
+Nexdata listings are sales samples, non-commercial), so the data is built:
+
+1. **Source**: [`Porameht/customer-support-th-26.9k`](https://huggingface.co/datasets/Porameht/customer-support-th-26.9k)
+   (cc-by-sa-3.0), the Bitext customer-support set localised to Thai: 26,872 utterances, 27 intents, 11 categories. It is
+   written Thai ("ฉันต้องการยกเลิกคำสั่งซื้อ"), not what callers say.
+2. **Colloquial rewrite** (`rewrite_colloquial.py`): Qwen3-4B on vLLM (GPU 1, 32 concurrent, 3.2 rewrites/s) writes each
+   utterance 3 times in different registers (hurried chat, call transcript, angry, very polite, teen/social), with a fixed
+   speaker (ผม/ครับ, ฉัน/ค่ะ, หนู/ค่ะ) and placeholders filled. Typhoon 2.5 (4B) was tried on the same 300 and was worse
+   (76% vs 79% label agreement, degenerate outputs), Qwen3-4B kept. 80,616 -> 72,542 after the output filter (repeats,
+   non-Thai, prompt leaks), 7 h.
+3. **Teacher gate** (`check_rewrites.py`): OpenThai-SystemOne answers the 27-way intent question on every rewrite;
+   agreement with the source label 81.6%, the same as on the formal sources (83%), i.e. the rewrite costs almost nothing.
+   Kept p(label) >= 0.5: **57,635 utterances** (79%), every intent >= 1,300, mean 93 characters. The "angry" register
+   loses most (75%) because the LLM turns requests into complaints, which the teacher correctly relabels. 3 h 20 min.
+4. **Question set** (`label_cc.py`, the contract the student is trained for): `intent` (27), `category` (11),
+   `department` (billing / shipping / account / sales / support), `urgency` (0-2), `frustration` (0-2), `wants_refund`,
+   `wants_human`, `has_order_ref` (noul), `sentiment` (4). Human labels where they exist (intent, category; sentiment for
+   the 12,000 wisesight texts added as real Thai) are one-hot targets, the rest are the teacher's probabilities. Two teacher
+   instances (GPU 0 :8010, GPU 1 :8013) label 69.6k texts x 9 questions in one request each.
+5. **Train** (`run4.sh`): from the run 3 checkpoint, 2 items per text (the human-labelled question + one sampled) plus the
+   run 1 human items, 2 epochs. **Eval**: 5% of the texts held out by source sentence (no paraphrase of an eval sentence in
+   train), human labels for intent/category/sentiment plus student-vs-teacher agreement on the rest; run 3 is scored on the
+   same set as the baseline, and the old public eval set is re-run as a regression check.
+
+Results will be added here (`results/run4*.json`).
 
 ## Known limits of laya for our use
 
