@@ -71,6 +71,10 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--limit", type=int, default=0, help="smoke: only this many records per source")
     ap.add_argument("--from-records", action="store_true", help="skip the teacher: rebuild the split and items from cc.jsonl + cc_eval.jsonl already on disk")
+    ap.add_argument("--prefix", default="cc", help="output file prefix (inputs in --from-records mode are always cc.jsonl / cc_eval.jsonl)")
+    ap.add_argument("--smooth", type=float, default=0.0, help="label smoothing for human one-hot targets: (1-s)*onehot + s/k")
+    ap.add_argument("--intent-other", action="store_true",
+                    help="add an `other` option to the intent question; wisesight texts are labelled `other` (out-of-scope), cc rows get 0 on it")
     args = ap.parse_args()
     rng = random.Random(args.seed)
     data = Path(args.data)
@@ -97,10 +101,17 @@ def main():
     # ---- teacher (or reuse labelled records)
     t0 = time.perf_counter()
     done = [0]
+    if args.intent_other:
+        QUESTIONS["intent"]["criteria"]["other"] = "ไม่เข้าข่ายข้อใดข้างต้น หรือไม่ใช่เรื่องติดต่อฝ่ายบริการลูกค้า"
     if args.from_records:
         labelled = [json.loads(l) for f in ("cc.jsonl", "cc_eval.jsonl") for l in open(data / f, encoding="utf-8")]
         for r in labelled:
             r["questions"] = QUESTIONS
+            if args.intent_other:
+                if r["source"] == "wisesight":
+                    r["labels"]["intent"] = "other"
+                for qid, lab in r["labels"].items():  # re-derive one-hot with the new option count
+                    r["targets"][qid] = one_hot(QUESTIONS[qid], lab)
         print(f"reusing {len(labelled)} labelled records from disk", flush=True)
 
     def work(ir):
@@ -129,11 +140,12 @@ def main():
     ev = [r for r in labelled if r["group"] in eval_groups]
     tr = [r for r in labelled if r["group"] not in eval_groups]
     rng.shuffle(tr)
-    for name, rows in (("cc.jsonl", tr), ("cc_eval.jsonl", ev)):  # eval keeps `questions`: eval_thai.py --teacher reads it
+    px = args.prefix
+    for name, rows in ((f"{px}.jsonl", tr), (f"{px}_eval.jsonl", ev)):  # eval keeps `questions`: eval_thai.py --teacher reads it
         with open(data / name, "w", encoding="utf-8") as f:
             for r in rows:
-                f.write(json.dumps({k: v for k, v in r.items() if k != "questions" or name == "cc_eval.jsonl"}, ensure_ascii=False) + "\n")
-    with open(data / "cc_eval_human.jsonl", "w", encoding="utf-8") as f:  # eval_thai.py format
+                f.write(json.dumps({k: v for k, v in r.items() if k != "questions" or name.endswith("_eval.jsonl")}, ensure_ascii=False) + "\n")
+    with open(data / f"{px}_eval_human.jsonl", "w", encoding="utf-8") as f:  # eval_thai.py format
         for r in ev:
             f.write(json.dumps({"id": r["id"], "source": r["source"], "state": r["state"],
                                 "questions": {q: QUESTIONS[q] for q in r["labels"]}, "labels": r["labels"]}, ensure_ascii=False) + "\n")
@@ -155,17 +167,20 @@ def main():
                 dropped += 1
                 continue
             target = r["targets"][qid]
+            if args.smooth and qid in r["labels"]:  # soften human one-hot targets
+                target = [(1 - args.smooth) * t + args.smooth / len(target) for t in target]
             items.append({"ids": seq, "markers": markers, "qtype": QTYPES[q["type"]], "target": target,
                           "label": max(range(len(target)), key=target.__getitem__), "source": r["source"]})
             by_type[q["type"]] += 1
     rng.shuffle(items)
-    torch.save(items, data / "cc_items.pt")
+    torch.save(items, data / f"{px}_items.pt")
     summary = {"records": len(labelled), "train_records": len(tr), "eval_records": len(ev), "items": len(items), "dropped": dropped,
-               "by_type": dict(by_type), "questions_per_record": args.questions_per_record,
+               "by_type": dict(by_type), "questions_per_record": args.questions_per_record, "smooth": args.smooth,
+               "intent_other": args.intent_other, "prefix": px,
                "head_max_len": cfg["head_max_len"], "max_len": cfg["max_len"],
                "mean_len": sum(len(i["ids"]) for i in items) / max(1, len(items)), "teachers": teachers,
                "minutes": round((time.perf_counter() - t0) / 60, 1)}
-    (data / "cc_manifest.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False))
+    (data / f"{px}_manifest.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False))
     print(json.dumps(summary, indent=2, ensure_ascii=False))
 
 
