@@ -92,7 +92,7 @@ def main():
     args = ap.parse_args()
 
     device = torch.device("cuda")
-    model_dir = snapshot_download(args.model, allow_patterns=["rl_agent_config.json", "model.safetensors", "tokenizer/*", "encoder/*"])
+    model_dir = args.model if os.path.isdir(args.model) else snapshot_download(args.model, allow_patterns=["rl_agent_config.json", "model.safetensors", "tokenizer/*", "encoder/*"])  # local checkpoint or HF id
     _fix_tokenizer_config(model_dir)
     cfg = json.load(open(os.path.join(model_dir, "rl_agent_config.json")))
     if args.head_max_len:
