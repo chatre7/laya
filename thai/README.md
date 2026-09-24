@@ -19,7 +19,7 @@ package is untouched so far, so upstream can still be merged.
 | `cascade.py`, `cascade3.sh` | student -> teacher cascade sweep on the human-labelled decisions (accuracy vs teacher-call fraction per confidence threshold) |
 | `cascade_server.py`, `Dockerfile.cascade`, `docker-compose.cascade.yml`, `smoke_cascade.py` | **the cascade as a service**: same `/v1/systemone` contract as the teacher, student on GPU 1 at `:8011`, teacher at `:8010`; smoke test with a 60-option question and 8 concurrent callers |
 | `rewrite_colloquial.py`, `check_rewrites.py`, `run_rewrite.sh` | run 4 data: rewrite the Thai Bitext customer-support set into spoken/chat Thai with a local LLM (vLLM), then let the teacher check that each rewrite still carries its intent |
-| `label_cc.py`, `run4.sh` | run 4: the call-center question set labelled by two teacher instances, items, grouped eval split, train from run 3, eval |
+| `label_cc.py`, `run4.sh`, `cascade4.sh` | run 4: the call-center question set labelled by two teacher instances, items, grouped eval split, train from run 3, eval |
 | `research-generalisation.md` | research note: why the held-out sets are flat and what could move them (ranked, with sources) |
 | `results/` | json summaries and the training log of every run |
 
@@ -209,7 +209,7 @@ builds `laya-cascade:run3` from the training image, mounts `thai/out/laya-th-run
   mean 368 ms, p95 485 ms, 20.5 req/s (teacher-only under the same load: ~880 ms). The student runs one forward at a
   time behind a lock, so its share grows with concurrency; batching it is the next step if 8011 gets real traffic.
 
-## Run 4: call-center distillation (in progress, 2026-09-24)
+## Run 4: call-center distillation (2026-09-24)
 
 Runs 1-3 chase public benchmarks; run 4 targets the job the student is for: call-center triage (route, urgency,
 frustration, yes/no checks, intent). There is no downloadable Thai call-center corpus on Hugging Face (the AIxBlock and
@@ -237,7 +237,40 @@ Nexdata listings are sales samples, non-commercial), so the data is built:
    train), human labels for intent/category/sentiment plus student-vs-teacher agreement on the rest; run 3 is scored on the
    same set as the baseline, and the old public eval set is re-run as a regression check.
 
-Results will be added here (`results/run4*.json`).
+**Results** (2026-09-24; `results/run4_cc.json`, `run3_cc.json`, `run4.json`, `cascade4*.json`). Labelling 69,635 texts x 9
+questions took 2 h 32 min with two teachers (7.7 rec/s); training 132,304 cc items + 10,674 human items, 2 epochs, 4 h 38 min from
+the run 3 checkpoint, fitted temperatures 1.60 / 1.03 / 1.03 (choice over-confident after one-hot intent labels). A first attempt
+was stopped after 50 min because the item builder always picked `intent` as the labelled question, so `category` was never trained;
+fixed by picking the labelled question at random (`run4_attempt1.log`).
+
+Held-out call-center set: 3,483 texts (5% of source sentences, so no paraphrase of an eval sentence is in train), 6,375 human-labelled
+decisions (intent + category on the cc rows, sentiment on wisesight rows), teacher agreement on the other 6 questions.
+
+| | run 3 (before) | **run 4** | teacher (v0.3) |
+|---|---|---|---|
+| cc : intent + category (human labels, 5,784) | 0.762 | **0.998** | 0.898 (all 6,375) |
+| wisesight : sentiment (human labels, 591) | 0.519 | **0.734** | |
+| overall accuracy / Brier / ECE | 0.740 / 0.466 / 0.230 | **0.974 / 0.039 / 0.010** | |
+| agreement with the teacher: choice / noul / score | 0.713 / 0.929 / 0.492 | **0.905 / 0.987 / 0.840** | |
+| mean TV distance: choice / noul / score | 0.431 / 0.140 / 0.283 | 0.133 / 0.027 / 0.106 | |
+| 5 tickets: department / refund / frustration MAE | 4/5, 5/5, 0.25 | **5/5**, 5/5, 0.48 | 5/5, 5/5, 0.39 |
+| latency per record (A2, 9 questions) | 61 ms | 61 ms | ~1,280 ms at 8 concurrent |
+
+Read 0.998 with care: Bitext's utterances are template-heavy within an intent, so eval sentences still resemble train sentences.
+The agreement on the unlabelled questions (urgency, frustration, wants_refund, wants_human, has_order_ref) is the better signal: the
+student now reproduces the teacher's call-center judgements at 0.84-0.99 argmax agreement instead of 0.49-0.93. On the human-labelled
+questions the student beats the teacher (0.998 vs 0.898) because it saw labels the teacher never had.
+
+Public eval set (regression check, run 3 -> run 4): overall 0.772 -> **0.783**; wisesight 0.557 -> 0.720 (no longer held-out: its
+train split was in the mix), sib200 (still held-out) 0.701 -> 0.725, prachathai choice 0.865 -> 0.883, but massive_th 0.857 -> 0.820,
+xnli 0.743 / 0.830 -> 0.713 / 0.833, wongnai 0.623 -> 0.613, and calibration worse (ECE 0.045 -> 0.132). The login ticket is finally
+routed to `technical` (p 0.64); frustration on the tickets is worse than run 3.
+
+Cascade with the run 4 student (`cascade4.sh`, option gate off): on the call-center set the student alone (0.974) beats the teacher
+(0.898), so the gate should stay near 0 there (threshold 0.7 sends 2.5% and loses 0.4 points). On the public set threshold 0.7 gives
+0.794 with 16% teacher calls (run 3: 0.803 with 28%): the student is more confident and the teacher rescues less of what it sends
+(teacher accuracy on sent items 0.60). One threshold no longer fits both: per-question-set or per-source thresholds are the next step.
+
 
 ## Known limits of laya for our use
 
