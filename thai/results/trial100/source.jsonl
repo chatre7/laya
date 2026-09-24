@@ -1,0 +1,100 @@
+{"text": "ต้องการความช่วยเหลือเพื่อดูว่าฉันมีวิธีการจัดส่งอย่างไร", "intent": "delivery_options", "category": "DELIVERY", "style": "SOURCE (formal)"}
+{"text": "คุณช่วยฉันใช้โปรไฟล์ {{หมวดหมู่บัญชี}} ได้ไหม", "intent": "switch_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ฉันจะรับข้อมูลเกี่ยวกับระยะเวลาจัดส่งได้ที่ไหน?", "intent": "delivery_period", "category": "DELIVERY", "style": "SOURCE (formal)"}
+{"text": "จำเป็นต้องเปลี่ยนแปลงบางอย่างของคำสั่งซื้อ {{หมายเลขคำสั่งซื้อ}}", "intent": "change_order", "category": "ORDER", "style": "SOURCE (formal)"}
+{"text": "คุณมีอีเมลเพื่อติดต่อกับฝ่ายช่วยเหลือลูกค้าหรือไม่?", "intent": "contact_customer_service", "category": "CONTACT", "style": "SOURCE (formal)"}
+{"text": "ต้องการความช่วยเหลือเพื่อรับเงินคืนของฉัน", "intent": "get_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ต้องการความช่วยเหลือในการขอคืนเงินของฉัน", "intent": "get_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ฉันจะดูได้อย่างไรว่าต้องใช้เวลานานแค่ไหนกว่าสินค้าจะมาถึง", "intent": "delivery_period", "category": "DELIVERY", "style": "SOURCE (formal)"}
+{"text": "คุณช่วยฉันดูการทางพิเศษแห่งประเทศไทยของคำสั่งซื้อ {{หมายเลขคำสั่งซื้อ}} ได้ไหม", "intent": "track_order", "category": "ORDER", "style": "SOURCE (formal)"}
+{"text": "ฉันไม่รู้วิธีเปิดบัญชีฟรีเมียม", "intent": "create_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องไปรับใบเรียกเก็บเงินจาก {{ชื่อบุคคล}}", "intent": "get_invoice", "category": "INVOICE", "style": "SOURCE (formal)"}
+{"text": "โปรดช่วยฉันปิดบัญชี {{ประเภทบัญชี}}} บ้าๆ หน่อยได้ไหม", "intent": "delete_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ฉันอยากได้ไอเท็มบ้าๆ สักชิ้น ฉันต้องการความช่วยเหลือ", "intent": "place_order", "category": "ORDER", "style": "SOURCE (formal)"}
+{"text": "ประสบการณ์กับคุณไม่ดี ฉันพยายามยื่นคำร้อง", "intent": "complaint", "category": "FEEDBACK", "style": "SOURCE (formal)"}
+{"text": "ฉันไม่รู้ว่าต้องทำอย่างไรจึงจะได้เงินคืน", "intent": "get_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ฉันไม่ทราบวิธีค้นหาใบแจ้งหนี้ #85632", "intent": "check_invoice", "category": "INVOICE", "style": "SOURCE (formal)"}
+{"text": "ช่วยฉันพูดกับใครสักคนหน่อย", "intent": "contact_human_agent", "category": "CONTACT", "style": "SOURCE (formal)"}
+{"text": "วิธีดูบิล #37777", "intent": "check_invoice", "category": "INVOICE", "style": "SOURCE (formal)"}
+{"text": "ฉันไม่รู้ว่าจะเปลี่ยนเป็นบัญชีมาตรฐานได้อย่างไร", "intent": "switch_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องหักค่าธรรมเนียมการยกเลิก", "intent": "check_cancellation_fee", "category": "CANCEL", "style": "SOURCE (formal)"}
+{"text": "ฉันทำรหัสการเข้าถึงบัญชีหาย ฉันต้องการความช่วยเหลือในการรีเซ็ต", "intent": "recover_password", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ฉันไม่รู้วิธีติดตามการชดใช้ของฉัน", "intent": "track_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ช่วยฉันตรวจสอบเวลาที่ฉันสามารถติดต่อฝ่ายสนับสนุนลูกค้าได้", "intent": "contact_customer_service", "category": "CONTACT", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องการความช่วยเหลือในการรับจดหมายข่าวบริษัทของคุณ", "intent": "newsletter_subscription", "category": "SUBSCRIPTION", "style": "SOURCE (formal)"}
+{"text": "ที่อยู่จัดส่งไม่ถูกต้อง", "intent": "set_up_shipping_address", "category": "SHIPPING", "style": "SOURCE (formal)"}
+{"text": "คุณช่วยฉันตรวจสอบสถานะส่วนลดปัจจุบันได้ไหม", "intent": "track_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องการความช่วยเหลือในการรับไอเทม", "intent": "place_order", "category": "ORDER", "style": "SOURCE (formal)"}
+{"text": "เป็นไปได้ไหมที่จะดูใบแจ้งหนี้ #37777 ของฉันอย่างรวดเร็ว", "intent": "check_invoice", "category": "INVOICE", "style": "SOURCE (formal)"}
+{"text": "ต้องการสร้างบัญชี {{หมวดหมู่บัญชี}}", "intent": "create_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ต้องการความช่วยเหลือในการดูค่าธรรมเนียมการยกเลิก", "intent": "check_cancellation_fee", "category": "CANCEL", "style": "SOURCE (formal)"}
+{"text": "ฉันกำลังพยายามเปลี่ยนเป็นบัญชี {{หมวดหมู่บัญชี}}", "intent": "switch_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ช่วยฉันแก้ไขที่อยู่ของฉัน", "intent": "change_shipping_address", "category": "SHIPPING", "style": "SOURCE (formal)"}
+{"text": "คุณช่วยฉันแสดงความคิดเห็นเกี่ยวกับบริการของคุณได้ไหม", "intent": "review", "category": "FEEDBACK", "style": "SOURCE (formal)"}
+{"text": "สร้างบัญชี {{ประเภทบัญชี}} สำหรับภรรยา", "intent": "create_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "กำลังดาวน์โหลดใบเรียกเก็บเงินจาก {{ชื่อบุคคล}}", "intent": "get_invoice", "category": "INVOICE", "style": "SOURCE (formal)"}
+{"text": "ปัญหาเกี่ยวกับการชำระเงิน", "intent": "payment_issue", "category": "PAYMENT", "style": "SOURCE (formal)"}
+{"text": "ฉันจะตรวจสอบค่าธรรมเนียมการถอนได้ที่ไหน", "intent": "check_cancellation_fee", "category": "CANCEL", "style": "SOURCE (formal)"}
+{"text": "ฉันไม่รู้ว่าต้องทำอย่างไรเพื่อลบบัญชี {{หมวดหมู่บัญชี}} ของฉัน", "intent": "delete_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "แก้ไขบัญชีพรีเมี่ยม", "intent": "edit_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "เปิดบัญชีแพลทินัม", "intent": "create_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ต้องการความช่วยเหลือในการกู้คืนรหัสผ่านโปรไฟล์ผู้ใช้ของฉัน", "intent": "recover_password", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ต้องการความช่วยเหลือในการแจ้งปัญหาในการสมัคร", "intent": "registration_problems", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ช่วยฉันตรวจสอบนโยบายการคืนเงินของคุณ", "intent": "check_refund_policy", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "จะแจ้งปัญหาการชำระเงินได้อย่างไร?", "intent": "payment_issue", "category": "PAYMENT", "style": "SOURCE (formal)"}
+{"text": "ฉันไม่รู้ว่าต้องทำอย่างไรจึงจะได้รับใบแจ้งหนี้จาก {{ชื่อบุคคล}}", "intent": "get_invoice", "category": "INVOICE", "style": "SOURCE (formal)"}
+{"text": "เป็นไปได้ไหมที่จะแก้ไขข้อมูลในบัญชีของฉัน?", "intent": "edit_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "คุณช่วยฉันสมัครรับจดหมายข่าวได้ไหม?", "intent": "newsletter_subscription", "category": "SUBSCRIPTION", "style": "SOURCE (formal)"}
+{"text": "ฉันจะตรวจสอบได้ที่ไหนว่าฉันสามารถติดต่อฝ่ายช่วยเหลือลูกค้าได้ที่ไหน", "intent": "contact_customer_service", "category": "CONTACT", "style": "SOURCE (formal)"}
+{"text": "ช่วยเปลี่ยนที่อยู่ของฉัน", "intent": "change_shipping_address", "category": "SHIPPING", "style": "SOURCE (formal)"}
+{"text": "ฉันจะรู้ได้อย่างไรว่ามีการอัพเดตส่วนลดของฉันหรือไม่", "intent": "track_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องการความช่วยเหลือแจ้งปัญหาการชำระเงิน", "intent": "payment_issue", "category": "PAYMENT", "style": "SOURCE (formal)"}
+{"text": "ต้องการความช่วยเหลือในการยกเลิกการซื้อ {{หมายเลขคำสั่งซื้อ}}", "intent": "cancel_order", "category": "ORDER", "style": "SOURCE (formal)"}
+{"text": "ผมลองเข้าไปดูค่าธรรมเนียมการเลิกจ้างครับ", "intent": "check_cancellation_fee", "category": "CANCEL", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องการส่งที่อยู่จัดส่งสำรองของฉัน ช่วยฉันด้วย", "intent": "set_up_shipping_address", "category": "SHIPPING", "style": "SOURCE (formal)"}
+{"text": "ฉันกำลังมองหาระยะเวลาในการจัดส่ง ฉันต้องการความช่วยเหลือ", "intent": "delivery_period", "category": "DELIVERY", "style": "SOURCE (formal)"}
+{"text": "คุณช่วยฉันกำหนดที่อยู่สำหรับจัดส่งได้ไหม?", "intent": "set_up_shipping_address", "category": "SHIPPING", "style": "SOURCE (formal)"}
+{"text": "ฉันจะดูสถานะปัจจุบันของคำสั่งซื้อ {{หมายเลขคำสั่งซื้อ}} ได้อย่างไร", "intent": "track_order", "category": "ORDER", "style": "SOURCE (formal)"}
+{"text": "ฉันจะแสดงความคิดเห็นเกี่ยวกับบริการได้ที่ไหน", "intent": "review", "category": "FEEDBACK", "style": "SOURCE (formal)"}
+{"text": "ฉันจะดึงรหัสผ่านของโปรไฟล์ผู้ใช้ของฉันได้อย่างไร?", "intent": "recover_password", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องการความช่วยเหลือในการยกเลิกการซื้อ {{หมายเลขคำสั่งซื้อ}}", "intent": "cancel_order", "category": "ORDER", "style": "SOURCE (formal)"}
+{"text": "คุณช่วยฉันกู้คืนบัตรผ่านโปรไฟล์ของฉันได้ไหม?", "intent": "recover_password", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องขอเงินคืน", "intent": "get_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ฉันไม่รู้ว่าต้องทำอย่างไรเพื่อยกเลิกบัญชี {{หมวดหมู่บัญชี}}", "intent": "delete_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องคุยกับฝ่ายสนับสนุนลูกค้า คุณจะช่วยฉันไหม?", "intent": "contact_customer_service", "category": "CONTACT", "style": "SOURCE (formal)"}
+{"text": "ช่วยผมใช้โปรไฟล์ทองหน่อยนะครับ", "intent": "switch_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องสร้างบัญชี {{หมวดหมู่บัญชี}} ฉันต้องการความช่วยเหลือ", "intent": "create_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ฉันไม่สามารถระบุที่อยู่รองในการจัดส่งได้", "intent": "set_up_shipping_address", "category": "SHIPPING", "style": "SOURCE (formal)"}
+{"text": "ฉันมีปัญหาในการแก้ไขที่อยู่จัดส่งของฉัน", "intent": "change_shipping_address", "category": "SHIPPING", "style": "SOURCE (formal)"}
+{"text": "ต้องการความช่วยเหลือเพื่อดูว่าฉันสามารถขอเงินคืนได้ในกรณีใดบ้าง", "intent": "check_refund_policy", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "คุณช่วยฉันแก้ไขข้อผิดพลาดในการชำระเงินได้ไหม", "intent": "payment_issue", "category": "PAYMENT", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องการร้องเรียนลูกค้า", "intent": "complaint", "category": "FEEDBACK", "style": "SOURCE (formal)"}
+{"text": "ช่วยฉันยื่นเรื่องร้องเรียนจากลูกค้าเกี่ยวกับธุรกิจของคุณ", "intent": "complaint", "category": "FEEDBACK", "style": "SOURCE (formal)"}
+{"text": "ฉันคาดหวังการชดเชยเป็นจำนวน {{สัญลักษณ์สกุลเงิน}}{{จำนวนเงินคืน}}", "intent": "track_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ดูใบแจ้งหนี้จาก {{ชื่อบุคคล}}", "intent": "check_invoice", "category": "INVOICE", "style": "SOURCE (formal)"}
+{"text": "ฉันจะดูได้ที่ไหนว่ามีอะไรใหม่ในการคืนเงินของฉันหรือไม่?", "intent": "track_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ต้องการทราบเกี่ยวกับการสมัครรับจดหมายข่าวบริษัทของคุณ", "intent": "newsletter_subscription", "category": "SUBSCRIPTION", "style": "SOURCE (formal)"}
+{"text": "บัญชีแพลทินัม pudate", "intent": "edit_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ฉันกำลังพยายามดูค่าธรรมเนียมทางออกก่อนเวลา", "intent": "check_cancellation_fee", "category": "CANCEL", "style": "SOURCE (formal)"}
+{"text": "ฉันจะรับข้อมูลเกี่ยวกับการอัปเดตที่อยู่ของฉันได้ที่ไหน?", "intent": "change_shipping_address", "category": "SHIPPING", "style": "SOURCE (formal)"}
+{"text": "เปิดบัญชี {{หมวดหมู่บัญชี}}", "intent": "create_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "คุณช่วยฉันขอเงินคืนได้ไหม?", "intent": "get_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "จะขอเงินคืนได้ที่ไหน ?", "intent": "get_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องตรวจสอบค่าธรรมเนียมการเลิกจ้าง", "intent": "check_cancellation_fee", "category": "CANCEL", "style": "SOURCE (formal)"}
+{"text": "ฉันไม่รู้ว่าต้องทำอย่างไรเพื่อติดต่อตัวแทนสด", "intent": "contact_human_agent", "category": "CONTACT", "style": "SOURCE (formal)"}
+{"text": "ฉันได้รับความช่วยเหลือในการรายงานปัญหาเกี่ยวกับการชำระเงิน", "intent": "payment_issue", "category": "PAYMENT", "style": "SOURCE (formal)"}
+{"text": "ต้องการความช่วยเหลือในการแชทกับโอเปอเรเตอร์", "intent": "contact_human_agent", "category": "CONTACT", "style": "SOURCE (formal)"}
+{"text": "ฉันไม่รู้ว่าฉันสามารถป้อนที่อยู่สำหรับจัดส่งใหม่ได้อย่างไร", "intent": "set_up_shipping_address", "category": "SHIPPING", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องการค้นหาใบแจ้งหนี้จาก {{ชื่อบุคคล}} จะต้องทำอย่างไร?", "intent": "check_invoice", "category": "INVOICE", "style": "SOURCE (formal)"}
+{"text": "การชำระเงินล้มเหลว ฉันต้องการแจ้งปัญหา", "intent": "payment_issue", "category": "PAYMENT", "style": "SOURCE (formal)"}
+{"text": "ฉันกำลังพยายามเปิดบัญชีแพลทินัมให้คู่หมั้นของฉัน", "intent": "create_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องการดูสถานะส่วนลดปัจจุบันของฉัน คุณจะช่วยฉันไหม", "intent": "track_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ฉันไม่รู้ว่าต้องทำอย่างไรจึงจะสมัครรับจดหมายข่าวได้", "intent": "newsletter_subscription", "category": "SUBSCRIPTION", "style": "SOURCE (formal)"}
+{"text": "ตรวจสอบว่าในสถานการณ์ใดบ้างที่ฉันสามารถขอเงินคืนได้", "intent": "check_refund_policy", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องการความช่วยเหลือเพื่อดูสถานะปัจจุบันของค่าตอบแทน", "intent": "track_refund", "category": "REFUND", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องซื้อผลิตภัณฑ์เปื้อนเลือด", "intent": "place_order", "category": "ORDER", "style": "SOURCE (formal)"}
+{"text": "คุณช่วยฉันรายงานปัญหาเกี่ยวกับการชำระเงินได้ไหม", "intent": "payment_issue", "category": "PAYMENT", "style": "SOURCE (formal)"}
+{"text": "ช่วยฉันซื้อผลิตภัณฑ์บางอย่าง", "intent": "place_order", "category": "ORDER", "style": "SOURCE (formal)"}
+{"text": "ฉันต้องการความช่วยเหลือในการพูดคุยกับตัวแทนสด", "intent": "contact_human_agent", "category": "CONTACT", "style": "SOURCE (formal)"}
+{"text": "การเปลี่ยนแปลงข้อมูลในบัญชีทอง", "intent": "edit_account", "category": "ACCOUNT", "style": "SOURCE (formal)"}
+{"text": "ช่วยตรวจสอบค่าธรรมเนียมการเลิกจ้างก่อนกำหนด", "intent": "check_cancellation_fee", "category": "CANCEL", "style": "SOURCE (formal)"}
