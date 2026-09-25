@@ -26,6 +26,10 @@ Proposed replacement (edit freely; the descriptions are what the model reads, so
 | `complaint_service` | ร้องเรียนบริการ แชทตอบช้า พนักงานไม่สุภาพ คุณภาพต่ำกว่าโฆษณา | common |
 | `contact_human` | ขอคุยกับพนักงาน ขอเบอร์/ช่องทางติดต่อ | few |
 | `praise` | ชม ขอบคุณ | few |
+| `case_status` | ถามความคืบหน้าเคส/เรื่องที่แจ้งไว้ ขอเปิดเคสใหม่ ถามเลขเคส | common in `cs_case_complaint_messages.csv` |
+| `document_request` | ขอใบเสร็จ ใบกำกับภาษี เอกสารยืนยัน สลิป | some |
+| `callback_request` | ขอให้โทรกลับ ขอให้ติดต่อกลับ | some |
+| `wrong_delivery` | ส่งผิดที่อยู่ ส่งไปที่อยู่เก่า ของถูกตีกลับ ได้ของซ้ำ/เกิน | some |
 | `other` | ไม่เข้าข่ายข้อใดข้างต้น ไม่ใช่เรื่องบริการลูกค้า ล้อเล่น ไม่มีความหมาย | ~10% (ดาวอังคาร, พลังวิเศษ, แมว, พิซซ่า) |
 
 Keep `category` / `department` / `urgency` / `frustration` / `wants_refund` / `wants_human` / `has_order_ref` / `sentiment`
