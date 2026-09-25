@@ -19,7 +19,7 @@ package is untouched so far, so upstream can still be merged.
 | `cascade.py`, `cascade3.sh` | student -> teacher cascade sweep on the human-labelled decisions (accuracy vs teacher-call fraction per confidence threshold) |
 | `cascade_server.py`, `Dockerfile.cascade`, `docker-compose.cascade.yml`, `smoke_cascade.py`, `bench_cascade.py` | **the cascade as a service**: same `/v1/systemone` contract as the teacher, student on GPU 1 at `:8011`, teacher at `:8010`; smoke test with a 60-option question and 8 concurrent callers |
 | `rewrite_colloquial.py`, `check_rewrites.py`, `run_rewrite.sh` | run 4 data: rewrite the Thai Bitext customer-support set into spoken/chat Thai with a local LLM (vLLM), then let the teacher check that each rewrite still carries its intent |
-| `label_cc.py`, `run4.sh`, `cascade4.sh` | run 4: the call-center question set labelled by two teacher instances, items, grouped eval split, train from run 3, eval |
+| `label_cc.py`, `run4.sh`, `cascade4.sh`, `run5.sh` | runs 4-5: the call-center question set labelled by two teacher instances, items, grouped eval split, train from run 3, eval |
 | `research-generalisation.md` | research note: why the held-out sets are flat and what could move them (ranked, with sources) |
 | `results/` | json summaries and the training log of every run |
 
