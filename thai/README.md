@@ -350,6 +350,27 @@ are exactly what a reviewer should decide: "วันนี้อากาศด
 `get_refund`. The question set is in `cc_questions.py` (shared with `label_cc.py`); extend it there when the call center's real
 intents differ from Bitext's 27, then re-run `label_cc.py` and train.
 
+## First real data, and the customer-service domain (telecom / banking / insurance) (2026-09-25)
+
+Three real-style files arrived (`System One/data/`): 200 e-commerce support messages, 154 refund messages, 180 debt-collection
+replies. Drafted with `real_eval/draft_labels.py` (sheets in the same folder, awaiting review). What they showed:
+
+- The shared questions transfer: department 0.88, frustration 0.92-0.96, sentiment 0.84-0.95, wants_refund / has_order_ref 0.95-1.00
+  teacher-student agreement on texts neither model was trained on.
+- **Intent does not**: the Bitext 27 cover about half of real e-commerce messages (student `other` 104/200, teacher `complaint`
+  61/200, agreement 0.39), and on debt collection (a different domain, its own question set `cc_questions.DEBT_QUESTIONS`) the
+  student says `other` 116/180 because its `other` means "not customer support". Intent lists must be per domain, and the
+  student must see each domain in training. `real_eval/intents_proposal.md` has an e-commerce list drafted from the messages.
+- The call center is actually **telecom, banking and insurance** (debt collection kept as a separate domain for later), so the
+  customer-service question set is being rebuilt around those: `cs/cs_questions.py` = a `business` question (telecom / banking /
+  insurance / other) + one intent list per business from the Bitext telco (26), retail-banking (26) and insurance (39) sets with
+  Thai descriptions, + the shared questions (department now has `technical` and `claims`, `has_reference` covers account / policy /
+  claim numbers). `cs/prep_cs_data.sh` builds the training text the same way as run 4: 300 English utterances per intent (27,300),
+  Qwen3-4B writes each as a Thai customer message in 2 registers with a fixed speaker (`translate_colloquial.py`), the teacher
+  keeps the ones whose intent it still recognises (`check_cs_rewrites.py`). Launched 2026-09-25 11:30, ~7 h. Next: label the
+  kept texts with the full set (human intent + business one-hot, teacher for the rest), train run 6 from run 3, score on the
+  reviewed real sheets.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
