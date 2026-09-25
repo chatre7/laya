@@ -23,9 +23,9 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-from cc_questions import ORDER, with_other  # noqa: E402  (the 9-question call-center set, intent with `other`)
+from cc_questions import QUESTION_SETS, get_questions  # noqa: E402  ("ecom": the 9-question call-center set with `other`; "debt": debt collection)
 
-QUESTIONS = with_other()
+QUESTIONS, ORDER = get_questions("ecom")
 
 
 def read_texts(path):
@@ -85,7 +85,10 @@ def main():
     ap.add_argument("--teacher", default="http://172.18.72.145:8010")
     ap.add_argument("--student", default="http://172.18.72.145:8011")
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--questions", default="ecom", choices=sorted(QUESTION_SETS), help="question set: ecom (call-center, default) or debt (debt collection)")
     args = ap.parse_args()
+    global QUESTIONS, ORDER
+    QUESTIONS, ORDER = get_questions(args.questions)
     texts = read_texts(args.inp)
     print(f"{len(texts)} texts", flush=True)
     with ThreadPoolExecutor(args.workers) as ex:

@@ -17,9 +17,9 @@ from concurrent.futures import ThreadPoolExecutor
 from openpyxl import load_workbook
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-from cc_questions import ORDER, with_other  # noqa: E402
+from cc_questions import QUESTION_SETS, get_questions  # noqa: E402
 
-QUESTIONS = with_other()
+QUESTIONS, ORDER = get_questions("ecom")
 
 
 def ask(url, text, qs):
@@ -51,7 +51,10 @@ def main():
     ap.add_argument("--out", help="write the labelled records here (eval_thai.py format)")
     ap.add_argument("--model", action="append", default=[], help="name=url, repeatable")
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--questions", default="ecom", choices=sorted(QUESTION_SETS), help="question set the sheet was drafted with")
     args = ap.parse_args()
+    global QUESTIONS, ORDER
+    QUESTIONS, ORDER = get_questions(args.questions)
 
     ws = load_workbook(args.sheet, read_only=True)["review"]
     rows = list(ws.iter_rows(values_only=True))
