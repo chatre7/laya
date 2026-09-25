@@ -9,9 +9,11 @@ with the student's answer and both confidences so disagreements can be reviewed 
 """
 import argparse
 import csv
+import io
 import json
 import os
 import sys
+import time
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 
@@ -28,20 +30,33 @@ QUESTIONS = with_other()
 
 def read_texts(path):
     if path.endswith(".jsonl"):
-        return [json.loads(l)["text"] for l in open(path, encoding="utf-8") if l.strip()]
-    if path.endswith(".csv"):
-        return [r["text"] for r in csv.DictReader(open(path, encoding="utf-8-sig"))]
-    return [l.strip() for l in open(path, encoding="utf-8") if l.strip()]
+        texts = [json.loads(l)["text"] for l in open(path, encoding="utf-8") if l.strip()]
+    else:
+        raw = open(path, encoding="utf-8-sig").read()
+        first = raw.splitlines()[0].strip().lower() if raw.strip() else ""
+        if path.endswith(".csv") or first == "text" or first.startswith("text,"):  # a CSV with a `text` column, whatever the extension
+            texts = [r["text"] for r in csv.DictReader(io.StringIO(raw)) if r.get("text")]
+        else:
+            texts = [l.strip() for l in raw.splitlines() if l.strip()]
+    seen, out = set(), []
+    for t in texts:  # drop exact duplicates, keep order
+        t = t.strip()
+        if t and t not in seen:
+            seen.add(t)
+            out.append(t)
+    return out
 
 
-def ask(url, text):
-    body = json.dumps({"state": text, "questions": QUESTIONS}, ensure_ascii=False).encode()
+def ask(url, text, tries=5):
+    # single option order (order_invariant off): the teacher would otherwise average 28 permutations for the intent question
+    # (~2x slower, timeouts under load), and the student's labels were produced in single order too
+    body = json.dumps({"state": text, "questions": QUESTIONS, "order_invariant": False}, ensure_ascii=False).encode()
     req = urllib.request.Request(url + "/v1/systemone", body, {"content-type": "application/json"})
-    for _ in range(3):
+    for attempt in range(tries):
         try:
-            return json.load(urllib.request.urlopen(req, timeout=120))["answers"]
+            return json.load(urllib.request.urlopen(req, timeout=180))["answers"]
         except Exception:  # noqa: BLE001
-            pass
+            time.sleep(2 * (attempt + 1))
     return None
 
 
