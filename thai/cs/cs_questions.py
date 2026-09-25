@@ -104,10 +104,43 @@ INTENTS = {
         "information_travel_insurance": "ถามข้อมูลประกันเดินทาง",
     },
 }
+INTENTS["ecommerce"] = {  # drafted from the real messages (real_eval/intents_proposal.md); Bitext's 27 map onto it (BITEXT_TO_ECOM)
+    "track_order": "ของยังไม่ถึง ถามสถานะพัสดุ tracking ผิดปกติ ส่งช้า",
+    "cancel_order": "ขอยกเลิกออเดอร์ สั่งผิด เปลี่ยนใจ ระบบไม่ให้ยกเลิก ถามค่าธรรมเนียมยกเลิก",
+    "change_order": "แก้จำนวน เปลี่ยนรุ่น/สี/ไซส์ ก่อนส่ง",
+    "change_shipping": "เปลี่ยนที่อยู่จัดส่ง เลื่อนวันส่ง ขอส่งด่วน ถามตัวเลือก/ระยะเวลาจัดส่ง",
+    "return_item": "ขอคืนสินค้า ถามเงื่อนไขการคืน ไซส์ไม่พอดี ไม่ถูกใจ",
+    "damaged_or_wrong_item": "ของชำรุด กล่องบุบ ของหมดอายุ ได้ของไม่ตรง ได้ไม่ครบ",
+    "wrong_delivery": "ส่งผิดที่อยู่ ส่งไปที่อยู่เก่า ของถูกตีกลับ ได้ของซ้ำ/เกิน",
+    "refund_status": "ถามว่าเงินคืนถึงไหน คืนช้า คืนผิดบัญชี ถามนโยบายคืนเงิน",
+    "refund_request": "ขอเงินคืน ขอส่วนต่าง ยกเลิกแล้วยังโดนหัก",
+    "payment_issue": "จ่ายไม่ผ่าน ตัดเงินแต่ไม่มีออเดอร์ ผ่อนชำระ ถามวิธีชำระเงิน",
+    "invoice_or_document": "ขอใบเสร็จ ใบกำกับภาษี ใบแจ้งหนี้ เอกสารยืนยัน สลิป",
+    "promotion_or_price": "ถามโปรโมชั่น โค้ดส่วนลด ราคาลดหลังสั่ง ของแถมไม่มา จดหมายข่าว",
+    "product_question": "ถามสต็อก สี ไซส์ วิธีใช้ สเปก ประกัน ศูนย์ซ่อม",
+    "place_order": "ต้องการสั่งซื้อ ช่วยสั่งให้",
+    "account_issue": "ล็อกอินไม่ได้ ลืมรหัส บัญชีถูกระงับ สมัคร/ลบ/แก้ไขบัญชี เปลี่ยนประเภทบัญชี",
+    "loyalty_points": "คะแนนสะสม แลกของไม่ได้ คูปอง",
+    "app_or_website_bug": "แอป/เว็บล่ม กดไม่ได้ หน้าค้าง",
+    "case_status": "ถามความคืบหน้าเคส/เรื่องที่แจ้งไว้ ขอเปิดเคส ถามเลขเคส",
+    "complaint_service": "ร้องเรียนบริการ แชทตอบช้า พนักงานไม่สุภาพ คุณภาพต่ำกว่าโฆษณา รีวิว",
+    "contact_or_callback": "ขอคุยกับพนักงาน ขอเบอร์/ช่องทางติดต่อ ขอให้โทรกลับ",
+    "praise": "ชม ขอบคุณ",
+}
+BITEXT_TO_ECOM = {  # the 27 Bitext customer-support intents (runs 4-5 training labels) -> the e-commerce list above
+    "track_order": "track_order", "cancel_order": "cancel_order", "check_cancellation_fee": "cancel_order", "change_order": "change_order",
+    "change_shipping_address": "change_shipping", "set_up_shipping_address": "change_shipping", "delivery_options": "change_shipping",
+    "delivery_period": "change_shipping", "get_refund": "refund_request", "track_refund": "refund_status", "check_refund_policy": "refund_status",
+    "payment_issue": "payment_issue", "check_payment_methods": "payment_issue", "get_invoice": "invoice_or_document", "check_invoice": "invoice_or_document",
+    "newsletter_subscription": "promotion_or_price", "place_order": "place_order", "create_account": "account_issue", "delete_account": "account_issue",
+    "edit_account": "account_issue", "switch_account": "account_issue", "recover_password": "account_issue", "registration_problems": "account_issue",
+    "complaint": "complaint_service", "review": "complaint_service", "contact_customer_service": "contact_or_callback", "contact_human_agent": "contact_or_callback",
+}
 OTHER = "ไม่เข้าข่ายข้อใดข้างต้น หรือไม่ใช่เรื่องติดต่อฝ่ายบริการลูกค้า"
 BUSINESS_Q = {"type": "choice", "instructions": "ข้อความนี้เกี่ยวกับบริการของธุรกิจใด",
               "criteria": {"telecom": "ค่ายมือถือ อินเทอร์เน็ต แพ็กเกจ ซิม สัญญาณ", "banking": "ธนาคาร บัตร บัญชี โอนเงิน สินเชื่อ ATM",
-                           "insurance": "ประกัน กรมธรรม์ เคลม ความคุ้มครอง เบี้ย", "other": "ไม่ใช่ทั้งสามอย่าง หรือไม่ใช่เรื่องบริการลูกค้า"}}
+                           "insurance": "ประกัน กรมธรรม์ เคลม ความคุ้มครอง เบี้ย", "ecommerce": "ร้านค้าออนไลน์ ออเดอร์ สินค้า จัดส่ง คืนของ",
+                           "other": "ไม่ใช่ทั้งสี่อย่าง หรือไม่ใช่เรื่องบริการลูกค้า"}}
 SHARED = {
     "department": {"type": "choice", "instructions": "ควรส่งเรื่องนี้ให้ทีมใดรับผิดชอบ",
                    "criteria": {"billing": "ค่าบริการ ใบแจ้งหนี้ การชำระเงิน เบี้ย ค่าธรรมเนียม", "technical": "ใช้งานไม่ได้ สัญญาณ แอป ระบบขัดข้อง ติดตั้ง",
