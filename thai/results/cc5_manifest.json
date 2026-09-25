@@ -1,0 +1,23 @@
+{
+  "records": 69635,
+  "train_records": 66152,
+  "eval_records": 3483,
+  "items": 198456,
+  "dropped": 0,
+  "by_type": {
+    "choice": 115632,
+    "noul": 49849,
+    "score": 32975
+  },
+  "questions_per_record": 3,
+  "smooth": 0.1,
+  "intent_other": true,
+  "prefix": "cc5",
+  "head_max_len": 768,
+  "max_len": 1024,
+  "mean_len": 203.12338251300037,
+  "teachers": [
+    "http://localhost:8010"
+  ],
+  "minutes": 1.7
+}

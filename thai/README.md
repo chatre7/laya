@@ -295,6 +295,37 @@ Cascade with the run 4 student (`cascade4.sh`, option gate off): on the call-cen
 0.794 with 16% teacher calls (run 3: 0.803 with 28%): the student is more confident and the teacher rescues less of what it sends
 (teacher accuracy on sent items 0.60). One threshold no longer fits both: per-question-set or per-source thresholds are the next step.
 
+## Run 5: calibration, more score items, an `other` intent (2026-09-25)
+
+Same labelled records as run 4, no new teacher labelling (`run5.sh`, `label_cc.py --from-records --prefix cc5`), three changes aimed
+at run 4's weak spots: **3 items per text** instead of 2 (score items 16.6k -> 33k, noul 25k -> 50k; 198,456 items), **label
+smoothing 0.1** on the human one-hot targets, and an **`other` option on the intent question** with the 12,000 wisesight texts
+labelled `other` (out-of-scope examples: laya has no abstain, so the student learns "none of these" as an option). Trained from
+the run 3 checkpoint, 2 epochs, 6 h 25 min; fitted temperatures 1.05 / 0.98 / 1.01 (run 4: 1.60 / 1.03 / 1.03).
+
+Held-out set re-cut with the new intent question (`cc5_eval_human.jsonl`: 3,483 texts; the wisesight rows now carry two human labels,
+sentiment and intent = `other`), all three checkpoints scored on it:
+
+| | run 3 | run 4 | **run 5** |
+|---|---|---|---|
+| cc : intent + category (human labels, 5,784) | 0.745 | 0.998 | **0.998** |
+| wisesight : sentiment + intent=`other` (human labels, 1,182) | 0.285 | 0.525 | **0.873** |
+| overall accuracy / Brier / ECE (6,966) | 0.667 / 0.523 / 0.198 | 0.917 / 0.121 / 0.043 | **0.977 / 0.045** / 0.092 |
+| agreement with the teacher: choice / noul / score | 0.698 / 0.929 / 0.492 | 0.897 / 0.987 / 0.840 | **0.933 / 0.989 / 0.861** |
+| 5 tickets: department / refund / frustration MAE | 4/5, 5/5, 0.25 | 5/5, 5/5, 0.48 | 5/5, 5/5, **0.40** |
+
+Run 4's 0.525 on the wisesight rows is mostly the `other` question it never saw (its sentiment alone was 0.734). Run 5 answers `other`
+on 87% of out-of-scope texts, and the teacher (which has abstain instead of an `other` option) scores 0.822 on this set, so the
+student alone is the better call-center router (`cascade5_cc.json`: threshold 0.7 sends 1.4% and gains nothing).
+
+Public set (`run5.json`): overall 0.782 (run 4 0.783, run 3 0.771); massive_th 0.827, xnli 0.733 / 0.833 recover a little from run 4,
+wongnai 0.590 slips, sib200 0.711, wisesight 0.723. Calibration on the public set is not better (ECE 0.151 vs run 4 0.132): the
+smoothing applied to the call-center targets, while the public questions come from the unsmoothed run 1 human items. The public-set
+cascade no longer helps (threshold 0.7: 0.777 with 11% teacher calls vs student alone 0.782), i.e. for questions outside the
+call-center set send to the teacher by question type, not by the student's confidence.
+
+Reading: run 5 is the checkpoint to serve for call-center triage (same in-domain accuracy as run 4, out-of-scope detection, better
+score agreement, temperatures near 1) and equal to run 4 elsewhere. Still unmeasured on real tickets.
 
 ## Known limits of laya for our use
 
