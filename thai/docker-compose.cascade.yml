@@ -1,4 +1,4 @@
-# Student -> teacher cascade on the dev GPU box: laya run 4 (call-center) on GPU 1 at :8011, teacher = the existing
+# Student -> teacher cascade on the dev GPU box: laya run 5 (call-center, intent has an `other` option) on GPU 1 at :8011, teacher = the existing
 # openthai-systemone container at :8010 (GPU 0). Run from the fork root:
 #   docker compose -f thai/docker-compose.cascade.yml up -d --build
 services:
@@ -6,7 +6,7 @@ services:
     build:
       context: ..
       dockerfile: thai/Dockerfile.cascade
-    image: laya-cascade:run4
+    image: laya-cascade:run5
     container_name: laya-cascade
     restart: unless-stopped
     ports:
@@ -18,7 +18,7 @@ services:
       CASCADE_MAX_OPTIONS: "0"     # 0 = no option-count gate (run 3 has the 768-token option budget)
       STUDENT_COMPILE: "1"         # torch.compile the student (dynamic shapes); set 0 to disable
     volumes:
-      - ./out/laya-th-run4:/model:ro
+      - ./out/laya-th-run5:/model:ro
       - docker_hf-cache:/hf
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8011/healthz', timeout=5).status == 200 else 1)"]

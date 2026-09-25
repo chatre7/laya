@@ -17,7 +17,7 @@ package is untouched so far, so upstream can still be merged.
 | `eval_ots.py` | the same metrics for the OpenThai server, so both models are scored on identical records |
 | `run3.sh` | run 3 end to end (bigger distillation set, option budget 768, human labels mixed in, train, eval), unattended |
 | `cascade.py`, `cascade3.sh` | student -> teacher cascade sweep on the human-labelled decisions (accuracy vs teacher-call fraction per confidence threshold) |
-| `cascade_server.py`, `Dockerfile.cascade`, `docker-compose.cascade.yml`, `smoke_cascade.py`, `bench_cascade.py` | **the cascade as a service**: same `/v1/systemone` contract as the teacher, student on GPU 1 at `:8011`, teacher at `:8010`; smoke test with a 60-option question and 8 concurrent callers |
+| `cascade_server.py`, `Dockerfile.cascade`, `docker-compose.cascade.yml`, `smoke_cascade.py`, `bench_cascade.py`, `probe_other.py` | **the cascade as a service**: same `/v1/systemone` contract as the teacher, student on GPU 1 at `:8011`, teacher at `:8010`; smoke test with a 60-option question and 8 concurrent callers |
 | `rewrite_colloquial.py`, `check_rewrites.py`, `run_rewrite.sh` | run 4 data: rewrite the Thai Bitext customer-support set into spoken/chat Thai with a local LLM (vLLM), then let the teacher check that each rewrite still carries its intent |
 | `label_cc.py`, `run4.sh`, `cascade4.sh`, `run5.sh` | runs 4-5: the call-center question set labelled by two teacher instances, items, grouped eval split, train from run 3, eval |
 | `research-generalisation.md` | research note: why the held-out sets are flat and what could move them (ranked, with sources) |
@@ -190,7 +190,7 @@ callers was 883 ms in this run). Student alone 0.719, teacher alone 0.814.
 
 ## Serving the cascade (`cascade_server.py`, port 8011)
 
-Deployed on the dev box next to the teacher (2026-09-23 with run 3, **run 4 since 2026-09-24 18:40**): `docker compose -f thai/docker-compose.cascade.yml up -d --build`
+Deployed on the dev box next to the teacher (2026-09-23 with run 3, run 4 from 2026-09-24 18:40, **run 5 since 2026-09-25 09:50**): `docker compose -f thai/docker-compose.cascade.yml up -d --build`
 builds `laya-cascade:run4` from the training image, mounts `thai/out/laya-th-run4` read-only, GPU 1 (~1.6 GB), `restart: unless-stopped`.
 With run 4 the student keeps more decisions (it is more confident): the same ticket smoke test sends only `frustration` to the teacher,
 the 60-intent question stays with the student (p 1.00), and the nonsense input "อืม" now also stays with the student (p 0.73) where run 3
@@ -323,6 +323,9 @@ wongnai 0.590 slips, sib200 0.711, wisesight 0.723. Calibration on the public se
 smoothing applied to the call-center targets, while the public questions come from the unsmoothed run 1 human items. The public-set
 cascade no longer helps (threshold 0.7: 0.777 with 11% teacher calls vs student alone 0.782), i.e. for questions outside the
 call-center set send to the teacher by question type, not by the student's confidence.
+
+Published as [Chatre7/laya-thai-callcenter](https://huggingface.co/Chatre7/laya-thai-callcenter) revision `9864d7fd` (run 4 is the
+previous commit `2a036745` of the same repo). Serving at `:8011` since 2026-09-25 09:50; `probe_other.py` checks the `other` option on the endpoint.
 
 Reading: run 5 is the checkpoint to serve for call-center triage (same in-domain accuracy as run 4, out-of-scope detection, better
 score agreement, temperatures near 1) and equal to run 4 elsewhere. Still unmeasured on real tickets.
