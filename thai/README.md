@@ -330,6 +330,26 @@ previous commit `2a036745` of the same repo). Serving at `:8011` since 2026-09-2
 Reading: run 5 is the checkpoint to serve for call-center triage (same in-domain accuracy as run 4, out-of-scope detection, better
 score agreement, temperatures near 1) and equal to run 4 elsewhere. Still unmeasured on real tickets.
 
+## Real-ticket eval set: the review workflow (`real_eval/`)
+
+Every number above comes from synthetic text. The tools to replace it with real tickets (run from any machine on the LAN, no GPU):
+
+1. `python thai/real_eval/draft_labels.py --inp tickets.txt --out tickets_review.xlsx`: one text per line (or a .csv with a `text`
+   column / .jsonl with `text`). The teacher (`:8010`) drafts all 9 answers, the student (`:8011`) answers alongside; the sheet
+   has a dropdown per question, prefilled with the teacher's draft, cells where teacher and student disagree highlighted and those
+   rows sorted first, a `questions` tab with the option descriptions, and hidden helper columns (student answer, both confidences).
+   A reviewer corrects the drafts in Excel; empty cells are treated as "not labelled".
+2. `python thai/real_eval/score_real.py --sheet tickets_review.xlsx --out thai/real_eval/tickets_eval.jsonl --model student=http://172.18.72.145:8011 --model teacher=http://172.18.72.145:8010`:
+   per-question accuracy (exact level + MAE for scores) for each endpoint against the reviewed labels, and the eval set in
+   `eval_thai.py` format so future checkpoints can be scored offline on the GPU box.
+
+`demo_texts.txt` (20 made-up tickets) -> `demo_review.xlsx` -> `demo_eval.jsonl` show the round trip; scored against the
+teacher's own unreviewed drafts the student agrees on 84% (intent 58%, department 89%, noul 95-100%), and the disagreements
+are exactly what a reviewer should decide: "วันนี้อากาศดีจัง" teacher says `newsletter_subscription`, student says `other`;
+"แอปล็อกอินไม่ได้" teacher `recover_password`, student `other`; "โกรธมาก โทรสามรอบไม่มีใครรับ" teacher `complaint`, student
+`get_refund`. The question set is in `cc_questions.py` (shared with `label_cc.py`); extend it there when the call center's real
+intents differ from Bitext's 27, then re-run `label_cc.py` and train.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).

@@ -23,33 +23,10 @@ from pathlib import Path
 import torch
 from transformers import AutoTokenizer
 
-from check_rewrites import INTENTS
+from cc_questions import OTHER_INTENT, QUESTIONS, WISESIGHT  # the question set lives in a light module shared with real_eval/
 from distill_from_ots import ask_teacher, targets_from
 from laya.agent import _fix_tokenizer_config
 from laya.common import QTYPES, build_sequence, render_options
-
-CATEGORIES = {
-    "ORDER": "สั่งซื้อ/แก้ไขคำสั่งซื้อ", "SHIPPING": "ที่อยู่จัดส่ง", "CANCEL": "ยกเลิก ค่าธรรมเนียมยกเลิก", "INVOICE": "ใบแจ้งหนี้",
-    "PAYMENT": "การชำระเงิน", "REFUND": "การคืนเงิน", "FEEDBACK": "ร้องเรียน รีวิว", "CONTACT": "ช่องทางติดต่อ ขอคุยกับคน",
-    "ACCOUNT": "บัญชีผู้ใช้ รหัสผ่าน สมัครสมาชิก", "DELIVERY": "ตัวเลือกและระยะเวลาการจัดส่ง", "SUBSCRIPTION": "จดหมายข่าว การสมัครรับข้อมูล",
-}
-QUESTIONS = {
-    "intent": {"type": "choice", "instructions": "ลูกค้าต้องการอะไร", "criteria": INTENTS},
-    "category": {"type": "choice", "instructions": "เรื่องที่ลูกค้าติดต่ออยู่ในหมวดใด", "criteria": CATEGORIES},
-    "department": {"type": "choice", "instructions": "ควรส่งเรื่องนี้ให้ทีมใดรับผิดชอบ",
-                   "criteria": {"billing": "ค่าบริการ ใบแจ้งหนี้ การชำระเงิน การคืนเงิน", "shipping": "การจัดส่ง ที่อยู่ ติดตามพัสดุ",
-                                "account": "บัญชีผู้ใช้ รหัสผ่าน สมัคร/ลบบัญชี", "sales": "สั่งซื้อ เปลี่ยนแพ็กเกจ สมัครบริการ",
-                                "support": "ปัญหาการใช้งาน ร้องเรียน ขอคุยกับพนักงาน เรื่องทั่วไป"}},
-    "urgency": {"type": "score", "instructions": "เรื่องนี้เร่งด่วนแค่ไหน",
-                "criteria": ["ไม่รีบ ถามข้อมูลทั่วไป", "ควรตอบภายในวันนี้", "ด่วน ลูกค้าเสียหายหรือใช้งานไม่ได้อยู่"]},
-    "frustration": {"type": "score", "instructions": "ลูกค้าไม่พอใจแค่ไหน", "criteria": ["ใจเย็น", "หงุดหงิดแต่สุภาพ", "โกรธมาก"]},
-    "wants_refund": {"type": "noul", "instructions": "ลูกค้าขอเงินคืนหรือถามเรื่องการคืนเงินหรือไม่"},
-    "wants_human": {"type": "noul", "instructions": "ลูกค้าต้องการคุยกับพนักงานที่เป็นคนจริงหรือไม่"},
-    "has_order_ref": {"type": "noul", "instructions": "ข้อความระบุหมายเลขคำสั่งซื้อ ใบแจ้งหนี้ หรือเลขอ้างอิงหรือไม่"},
-    "sentiment": {"type": "choice", "instructions": "อารมณ์โดยรวมของข้อความ",
-                  "criteria": {"positive": "ชม พอใจ ดีใจ", "neutral": "เล่าเฉย ๆ ให้ข้อมูล", "negative": "บ่น ไม่พอใจ โกรธ", "question": "ถามคำถาม ขอข้อมูล"}},
-}
-WISESIGHT = {0: "positive", 1: "neutral", 2: "negative", 3: "question"}
 
 
 def one_hot(q, label):
@@ -102,7 +79,7 @@ def main():
     t0 = time.perf_counter()
     done = [0]
     if args.intent_other:
-        QUESTIONS["intent"]["criteria"]["other"] = "ไม่เข้าข่ายข้อใดข้างต้น หรือไม่ใช่เรื่องติดต่อฝ่ายบริการลูกค้า"
+        QUESTIONS["intent"]["criteria"]["other"] = OTHER_INTENT
     if args.from_records:
         labelled = [json.loads(l) for f in ("cc.jsonl", "cc_eval.jsonl") for l in open(data / f, encoding="utf-8")]
         for r in labelled:
