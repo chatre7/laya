@@ -53,6 +53,7 @@ def main():
     ap.add_argument("--workers", type=int, default=16)
     ap.add_argument("--min-p", type=float, default=0.5, help="keep cs rewrites whose teacher p(source intent) >= this")
     ap.add_argument("--wisesight", type=int, default=12000)
+    ap.add_argument("--other-file", default="", help="in-register out-of-scope texts (gen_other.sh output): business=other, intent=other")
     ap.add_argument("--ecom-cap", type=int, default=0, help="cap e-commerce rows (0 = all)")
     ap.add_argument("--eval-frac", type=float, default=0.05)
     ap.add_argument("--questions-per-record", type=int, default=3)
@@ -90,6 +91,11 @@ def main():
     for i, r in enumerate(ws[: args.wisesight]):
         recs.append({"id": f"other-{i}", "source": "wisesight", "group": f"ws-{i}", "state": r["text"].strip(), "style": "",
                      "labels": {"business": "other", "intent": "other", "sentiment": WISESIGHT_SENT[int(r["label"])]}})
+    if args.other_file:
+        for i, line in enumerate(open(args.other_file, encoding="utf-8")):
+            r = json.loads(line)
+            recs.append({"id": f"other-gen-{i}", "source": "other_gen", "group": f"og-{i}", "state": r["text"].strip(), "style": r.get("style", ""),
+                         "labels": {"business": "other", "intent": "other"}})
     if args.limit:
         by = Counter()
         keep = []
