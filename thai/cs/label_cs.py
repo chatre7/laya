@@ -61,6 +61,7 @@ def main():
     ap.add_argument("--student", default="/work/thai/out/laya-th-run3")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--limit", type=int, default=0, help="smoke: records per source")
+    ap.add_argument("--from-records", default="", help="reuse the labelled records of an earlier prefix (e.g. cs6): only --other-file rows go to the teacher")
     args = ap.parse_args()
     rng = random.Random(args.seed)
     out = Path(args.out)
@@ -104,10 +105,21 @@ def main():
                 keep.append(r)
                 by[r["source"]] += 1
         recs = keep
+    prior = []
+    if args.from_records:  # reuse earlier labelled records (targets included); only the new out-of-scope rows go to the teacher
+        recs = [r for r in recs if r["source"] == "other_gen"]
+        by_len = {len(INTENTS[b]) + 1: b for b in INTENTS}  # intent target length -> business (telecom/banking both 27: either list is valid)
+        for name in (f"{args.from_records}.jsonl", f"{args.from_records}_eval.jsonl"):
+            for line in open(out / name, encoding="utf-8"):
+                r = json.loads(line)
+                biz = r["labels"]["business"]
+                r["questions"] = question_set(biz if biz in INTENTS else by_len.get(len(r["targets"]["intent"]), rng.choice(sorted(INTENTS))))
+                prior.append(r)
+        print(f"reusing {len(prior)} labelled records from {args.from_records}", flush=True)
     for r in recs:
         biz = r["labels"]["business"]
         r["questions"] = question_set(biz if biz in INTENTS else rng.choice(sorted(INTENTS)))  # out-of-scope texts get a random business's intent list
-    print(f"{len(recs)} records: cs kept {n_cs}, by source {dict(Counter(r['source'] for r in recs))}", flush=True)
+    print(f"{len(recs)} records to label: cs kept {n_cs}, by source {dict(Counter(r['source'] for r in recs))}", flush=True)
 
     # ---- teacher for the shared questions
     t0 = time.perf_counter()
@@ -130,6 +142,7 @@ def main():
     with ThreadPoolExecutor(args.workers) as ex:
         labelled = [x for x in ex.map(work, enumerate(recs)) if x]
     print(f"teacher labelled {len(labelled)}/{len(recs)} in {(time.perf_counter() - t0) / 60:.1f} min", flush=True)
+    labelled = prior + labelled
 
     # ---- split by source sentence
     groups = sorted({r["group"] for r in labelled})
