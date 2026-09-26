@@ -1,0 +1,19 @@
+{
+  "per_intent": 300,
+  "total": 27300,
+  "telecom": {
+    "rows": 26000,
+    "intents": 26,
+    "sampled": 7800
+  },
+  "banking": {
+    "rows": 25545,
+    "intents": 26,
+    "sampled": 7800
+  },
+  "insurance": {
+    "rows": 39000,
+    "intents": 39,
+    "sampled": 11700
+  }
+}

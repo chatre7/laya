@@ -1,0 +1,30 @@
+{
+  "records": 110243,
+  "train_records": 104711,
+  "eval_records": 5532,
+  "items": 314133,
+  "dropped": 0,
+  "by_source": {
+    "banking": 12425,
+    "telecom": 11814,
+    "insurance": 16369,
+    "ecommerce": 57635,
+    "wisesight": 12000
+  },
+  "by_type": {
+    "choice": 183410,
+    "noul": 78452,
+    "score": 52271
+  },
+  "questions_per_record": 3,
+  "smooth": 0.1,
+  "min_p": 0.5,
+  "head_max_len": 768,
+  "max_len": 1024,
+  "mean_len": 219.08007118004159,
+  "teachers": [
+    "http://172.18.72.145:8010",
+    "http://172.18.72.145:8013"
+  ],
+  "minutes": 266.4
+}

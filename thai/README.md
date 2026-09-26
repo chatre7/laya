@@ -19,6 +19,7 @@ package is untouched so far, so upstream can still be merged.
 | `cascade.py`, `cascade3.sh` | student -> teacher cascade sweep on the human-labelled decisions (accuracy vs teacher-call fraction per confidence threshold) |
 | `cascade_server.py`, `Dockerfile.cascade`, `docker-compose.cascade.yml`, `smoke_cascade.py`, `bench_cascade.py`, `probe_other.py` | **the cascade as a service**: same `/v1/systemone` contract as the teacher, student on GPU 1 at `:8011`, teacher at `:8010`; smoke test with a 60-option question and 8 concurrent callers |
 | `rewrite_colloquial.py`, `check_rewrites.py`, `run_rewrite.sh` | run 4 data: rewrite the Thai Bitext customer-support set into spoken/chat Thai with a local LLM (vLLM), then let the teacher check that each rewrite still carries its intent |
+| `cs/` | run 6: `cs_questions.py` (business + per-business intent lists for telecom / banking / insurance / e-commerce, shared questions), `fetch_bitext_cs.py`, `translate_colloquial.py` (EN -> Thai customer message), `check_cs_rewrites.py` (teacher gate), `prep_cs_data.sh`, `label_cs.py`, `run6.sh`, `probe_cs.py` |
 | `label_cc.py`, `run4.sh`, `cascade4.sh`, `run5.sh` | runs 4-5: the call-center question set labelled by two teacher instances, items, grouped eval split, train from run 3, eval |
 | `research-generalisation.md` | research note: why the held-out sets are flat and what could move them (ranked, with sources) |
 | `results/` | json summaries and the training log of every run |
@@ -370,6 +371,42 @@ replies. Drafted with `real_eval/draft_labels.py` (sheets in the same folder, aw
   keeps the ones whose intent it still recognises (`check_cs_rewrites.py`). Launched 2026-09-25 11:30, ~7 h. Next: label the
   kept texts with the full set (human intent + business one-hot, teacher for the rest), train run 6 from run 3, score on the
   reviewed real sheets.
+
+## Run 6: telecom / banking / insurance / e-commerce (2026-09-26)
+
+Data (`cs/prep_cs_data.sh`, 2026-09-25 11:30-20:59): 27,300 English utterances (300 per intent from the Bitext telco, retail-banking
+and insurance sets) -> 54,586 Thai customer messages by Qwen3-4B in 2 registers -> teacher gate kept **40,608** (74%; intent agreement
+telecom 0.78, banking / insurance similar; the "angry" register loses most again). Plus the 57,635 e-commerce rewrites of run 4 with
+Bitext's 27 intents mapped onto the 21-intent e-commerce list (`cs_questions.BITEXT_TO_ECOM`) and 12,000 wisesight posts as
+out-of-scope. `cs/label_cs.py`: 110,243 texts, business + intent one-hot (smoothing 0.1), teacher for the shared questions, two
+teachers, 4 h 24 min; 3 items per text = **314,133 items** + the run 1 human items. Train from run 3, 2 epochs, 20,300 updates,
+**10 h 25 min**; temperatures 1.04 / 1.09 / 1.02. Chained automatically after the data prep (`cs/run6.sh`).
+
+Held-out set (5% by source sentence, 5,532 texts, 11,665 human-labelled decisions), all three checkpoints on it:
+
+| | run 3 | run 5 | **run 6** |
+|---|---|---|---|
+| banking intent (1,230) | 0.706 | 0.815 | **0.981** |
+| insurance intent (1,714) | 0.623 | 0.738 | **0.962** |
+| telecom intent (1,188) | 0.588 | 0.760 | **0.944** |
+| e-commerce intent, 21-intent list (5,730) | 0.258 | 0.533 | **0.996** |
+| out-of-scope: sentiment + intent=`other` (1,803) | 0.437 | 0.916 | 0.895 |
+| overall accuracy / Brier / ECE | 0.420 / 0.769 / 0.104 | 0.675 / 0.543 / 0.182 | **0.969 / 0.055 / 0.082** |
+| agreement with the teacher: choice / noul / score | 0.515 / 0.883 / 0.449 | 0.721 / 0.961 / 0.800 | **0.928 / 0.992 / 0.873** |
+| 5 tickets: department / refund / frustration MAE | 4/5, 5/5, 0.25 | 5/5, 5/5, 0.40 | 5/5, 5/5, 0.49 |
+
+Public set: 0.785 (run 5 0.782): prachathai 0.902 / 0.895 and xnli 0.737 / 0.843 up, wisesight 0.673 (from 0.723) and sib200 0.691
+(from 0.711) down, ECE 0.153. `results/run6*.json`, `run*_cs6.json`, `cs6_manifest.json`, `cs_prep.log`.
+
+**Hand-written probe** (`cs/probe_cs.py`, 13 natural Thai messages outside the templates): intent right on 8, including
+cancel_transfer, apply_for_mortgage, downgrade_coverage, damaged_or_wrong_item, track_order, block_card; `other` on the two nonsense
+inputs; misses on roaming, file_claim, track_claim (-> `other`). But **`business` answered `other` on 6 clearly in-domain messages**:
+its `other` examples are real posts (wisesight) while every in-domain example is LLM-written, so it partly learned register, not
+business. Do not ask `business` in production; the caller knows the line of business, ask `intent` with that list. Fix for run 7:
+in-domain `other` texts of the same register (e.g. LLM-written off-topic chatter) and the reviewed real sheets as human items.
+
+Served at `:8011` since 2026-09-26 15:15 (batching + compile, 58.7 req/s on the ticket smoke test). Published as
+[Chatre7/laya-thai-callcenter](https://huggingface.co/Chatre7/laya-thai-callcenter) revision `6a4dc84a` (run 5 = `9864d7fd`, run 4 = `2a036745`).
 
 ## Known limits of laya for our use
 

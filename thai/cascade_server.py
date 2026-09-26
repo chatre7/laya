@@ -1,4 +1,4 @@
-"""Student -> teacher cascade server: laya-thai-callcenter (run 5) answers first, OpenThai-SystemOne answers what it is unsure about.
+"""Student -> teacher cascade server: laya-thai-callcenter (run 6) answers first, OpenThai-SystemOne answers what it is unsure about.
 
 Same request/response contract as the OpenThai-SystemOne batching server (docker/server_batched.py in
 chatre7/system-one), so a client switches between :8010 (teacher only) and :8011 (cascade) by URL alone.
@@ -262,7 +262,7 @@ app = FastAPI(
     title="laya -> OpenThai-SystemOne cascade",
     version="0.1.0",
     description=(
-        "โมเดลเล็ก (laya-thai-callcenter run 5, 322M encoder, ~39 ms) ตอบก่อนทุกข้อ ข้อที่มันไม่มั่นใจ "
+        "โมเดลเล็ก (laya-thai-callcenter run 6, 322M encoder, ~39 ms) ตอบก่อนทุกข้อ ข้อที่มันไม่มั่นใจ "
         f"(ความน่าจะเป็นสูงสุดต่ำกว่า {THRESHOLD:.2f}) ส่งต่อให้ OpenThai-SystemOne ที่ `{TEACHER_URL}` ตอบแทน "
         "request/response เหมือน `/v1/systemone` ของ teacher ทุกประการ เพิ่มเฉพาะ `usage.cascade` ที่บอกว่าข้อไหนถูกส่งต่อและเพราะอะไร "
         "วัดบน 2,455 decisions: แม่น 0.803 เทียบ teacher 0.816 โดยเรียก teacher 28% ของคำถาม"
