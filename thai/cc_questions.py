@@ -70,7 +70,19 @@ DEBT_QUESTIONS = {
                   "criteria": {"positive": "ให้ความร่วมมือ สุภาพ", "neutral": "เล่าเฉย ๆ ให้ข้อมูล", "negative": "บ่น ไม่พอใจ โกรธ", "question": "ถามคำถาม ขอข้อมูล"}},
 }
 DEBT_ORDER = list(DEBT_QUESTIONS)
-QUESTION_SETS = {"ecom": lambda: (with_other(), ORDER), "debt": lambda: (DEBT_QUESTIONS, DEBT_ORDER)}
+def _cs(business):
+    """The run 6/7 customer-service set for one business (telecom / banking / insurance / ecommerce): thai/cs/cs_questions.py."""
+    import os
+    import sys
+
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "cs"))
+    import cs_questions as cs
+
+    return lambda: (cs.question_set(business), cs.ORDER)
+
+
+QUESTION_SETS = {"ecom": lambda: (with_other(), ORDER), "debt": lambda: (DEBT_QUESTIONS, DEBT_ORDER),
+                 "cs_telecom": _cs("telecom"), "cs_banking": _cs("banking"), "cs_insurance": _cs("insurance"), "cs_ecommerce": _cs("ecommerce")}
 
 
 def get_questions(name="ecom"):
