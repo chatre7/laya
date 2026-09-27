@@ -6,7 +6,7 @@ services:
     build:
       context: ..
       dockerfile: thai/Dockerfile.cascade
-    image: laya-cascade:run6
+    image: laya-cascade:run7
     container_name: laya-cascade
     restart: unless-stopped
     ports:
@@ -18,7 +18,7 @@ services:
       CASCADE_MAX_OPTIONS: "0"     # 0 = no option-count gate (run 3 has the 768-token option budget)
       STUDENT_COMPILE: "1"         # torch.compile the student (dynamic shapes); set 0 to disable
     volumes:
-      - ./out/laya-th-run6:/model:ro
+      - ./out/laya-th-run7:/model:ro
       - docker_hf-cache:/hf
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8011/healthz', timeout=5).status == 200 else 1)"]
