@@ -408,6 +408,63 @@ in-domain `other` texts of the same register (e.g. LLM-written off-topic chatter
 Served at `:8011` since 2026-09-26 15:15 (batching + compile, 58.7 req/s on the ticket smoke test). Published as
 [Chatre7/laya-thai-callcenter](https://huggingface.co/Chatre7/laya-thai-callcenter) revision `6a4dc84a` (run 5 = `9864d7fd`, run 4 = `2a036745`).
 
+## Run 7: in-register out-of-scope texts (2026-09-27)
+
+`cs/gen_other.sh`: Qwen3-4B writes 5,020 off-topic messages in the same customer registers (small talk, other businesses, nonsense,
+9 kinds), labelled `business=other, intent=other`, added to the run 6 records (`label_cs.py --from-records cs6`, only the new texts
+go to the teacher, 27 min). 328,200 items, trained from run 3 like run 6, finished 07:52. Held-out (re-cut, 5,863 texts):
+
+| | run 5 | run 6 | **run 7** |
+|---|---|---|---|
+| in-register out-of-scope (530) | 0.800 | 0.619 | **0.983** |
+| banking / insurance / telecom intent | 0.82 / 0.74 / 0.80 | 0.99 / 0.97 / 0.95 | 0.98 / 0.95 / 0.96 |
+| e-commerce intent (5,970) | 0.572 | 0.998 | 0.996 |
+| overall accuracy / Brier / ECE | 0.702 / 0.504 / 0.152 | 0.961 / 0.071 / 0.075 | **0.970 / 0.053 / 0.085** |
+| public set | 0.782 | 0.785 | 0.782 |
+
+So the register confound is fixed on synthetic text. Served at `:8011` since 2026-09-27 (`laya-cascade:run7`). `results/run7*.json`,
+`run*_cs7.json`, `cs7_manifest.json`, `gen_other.log`.
+
+## The real-text check: Pantip (2026-09-26/27)
+
+Real Thai in-domain text with trustworthy labels did not exist, so I built some: `cs/filter_pantip.py` keeps Pantip topics about
+mobile / internet providers (2,889), banks (1,681) and insurers (365) from the public `pantip` dump; 120 per business were labelled by
+hand (intent with that business's list + `other`, department, urgency; `data_domain/labels_<biz>.json`) and turned into
+`data_domain/real_cs_eval.jsonl` (360 records, `cs/build_real_eval.py`). Every checkpoint and the teacher on it:
+
+| | teacher | run 3 | run 5 | run 6 | run 7 |
+|---|---|---|---|---|---|
+| intent (per-business list) | 0.29 | 0.26 | 0.37 | 0.41 | **0.44** |
+| department | 0.48 | - | - | 0.48 | 0.48 |
+| urgency (exact) | ~0.2 | - | - | 0.22 | 0.22 |
+| says `other` on in-scope messages | 0% | - | - | 70-85% | 70-85% |
+
+Reading: **the 0.97 held-out numbers are for LLM-written text; on real posts the student is at 0.44 and the teacher at 0.29**
+(it never says `other`, and its urgency reads "answer today" almost always). Runs 6/7 answer `other` for most genuine messages,
+because their only real-text examples were out-of-scope posts. Synthetic data cannot fix this; real in-domain text with real
+labels can, and the teacher's labels on real text are not usable for intent.
+
+## Run 8: real Thai in-domain text (2026-09-27, in progress)
+
+Three additions (`cs/label_cs8.py`, `cs/run8.sh`, launched 09:54):
+
+1. **932 more Pantip questions labelled by hand** (telecom 400, banking 400, insurance 132; `data_domain/labels_<biz>_extra.json`,
+   `pantip_<biz>_extra.jsonl`), used as training items with intent / department / urgency one-hot and the labelled questions repeated 6x.
+   The first 360 stay as the eval set.
+2. **Intent lists extended with what real users ask** (`cs_questions.py`): telecom +5 (top_up_problem, device_or_equipment,
+   change_account_details, value_added_service, complaint), banking +19 (the banking77 groups: card_delivery, card_not_working,
+   transfer_problem, unrecognised_or_wrong_charge, refund_or_reversal, top_up_or_deposit_problem, identity_verification_kyc,
+   account_suspended_or_fraud, app_or_login_problem, statement_or_document, loan_or_debt_restructuring, ...), insurance +1
+   (policy_document_not_received). The 360 eval rows that were `other` only for lack of an option were re-labelled
+   (`cs/fix_labels_run8.py`: banking `other` 61 -> 26 of 120).
+3. **Real English question sets, rewritten in Thai** by Qwen3-4B (`cs/fetch_real_en.py`, `prep_cs2.sh`): banking77 (9,993 real
+   banking questions, 77 labels -> `BANKING77_TO_CS`, 19,975 Thai rows) and insurance-qa (8,758 rows, topic -> `information_*`),
+   kept when the teacher puts p >= 0.3 on the mapped intent or ranks it top-3.
+
+Plus the run 7 records with intent targets rebuilt over the new lists (e-commerce capped at 30,000 texts). Train from run 3, 2 epochs;
+evals: cs8 held-out (run 7 / run 8), the real Pantip set with the new lists (run 3 / run 7 / run 8, `results/run*_realcs8.json`),
+public set. Expected ~13-15 h. Deploy to `:8011` only if the real-set intent accuracy beats run 7's.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
