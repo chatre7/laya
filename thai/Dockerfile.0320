@@ -1,9 +1,12 @@
-# Training/eval image for the laya Thai fine-tune experiment on laya 0.3.20: the run-time extras the upstream
-# added since 0.3.5 (TileLang fast path, ONNX runtime) plus pytest for the upstream suite. The fork root is mounted at /work.
+# Training/eval image for the laya Thai fine-tune experiment on laya 0.3.20: the run-time extras the upstream added since 0.3.5
+# (TileLang fast path, ONNX runtime) plus pytest for the upstream suite. The fork root is mounted at /work.
+# TileLang JIT-compiles CUDA kernels, so it needs nvcc (the cu13 pip wheel) and a host C++ compiler (g++); the base image has neither.
 #   docker build -t laya-train-0320 -f thai/Dockerfile.0320 .
 FROM openthai-systemone:0.1.0-batched
-RUN pip install --no-cache-dir "datasets>=3.0" pytest "tilelang>=0.1.14" onnx onnxruntime-gpu && rm -rf /root/.cache/pip
+RUN apt-get update && apt-get install -y --no-install-recommends g++ && rm -rf /var/lib/apt/lists/* \
+ && pip install --no-cache-dir "datasets>=3.0" pytest "tilelang>=0.1.14" onnx onnxruntime-gpu nvidia-cuda-nvcc && rm -rf /root/.cache/pip \
+ && CU=$(python -c "import site; print(site.getsitepackages()[0])")/nvidia/cu13 && mkdir -p $CU/lib64 && ln -sf $CU/lib/* $CU/lib64/ && ln -sfn $CU /usr/local/cuda
 WORKDIR /work
-ENV HF_HOME=/hf PYTHONPATH=/work:/work/thai/ots PYTHONUNBUFFERED=1
+ENV HF_HOME=/hf PYTHONPATH=/work:/work/thai/ots PYTHONUNBUFFERED=1 CUDA_HOME=/usr/local/cuda PATH=/usr/local/cuda/bin:$PATH
 ENTRYPOINT []
 CMD ["bash"]
