@@ -61,7 +61,7 @@ def main():
         agent.accelerate(strict=True)
         out["accelerate_s"] = round(time.perf_counter() - t, 1)
     except Exception as e:  # noqa: BLE001
-        out["fast_error"] = f"{type(e).__name__}: {str(e)[:300]}"
+        out["fast_error"] = f"{type(e).__name__}: ...{str(e)[-1200:]}"
         print("fast path unavailable:", out["fast_error"], flush=True)
         json.dump(out, open(args.out, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
         return
