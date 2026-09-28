@@ -4,7 +4,7 @@
 #   nohup bash ~/laya-0320/thai/cs/bench_0320.sh > ~/laya/thai/out/bench_0320.log 2>&1 &
 set -euo pipefail
 cd ~/laya-0320
-git fetch -q && git checkout -q thai && git pull -q && git log --oneline -1
+git fetch -q && git switch -q thai && git pull -q && git log --oneline -1
 DATA=~/laya/thai/data
 OUT=~/laya/thai/out
 echo "== [$(date +%H:%M)] build laya-train-0320"
