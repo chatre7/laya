@@ -1,0 +1,107 @@
+{
+  "laya": "0.3.20",
+  "n": 120,
+  "batch": 16,
+  "gpu": "NVIDIA A2",
+  "stock": {
+    "single": {
+      "p50_ms": 126.4,
+      "mean_ms": 130.3,
+      "p95_ms": 141.6
+    },
+    "batch16": {
+      "p50_ms": 2131.9,
+      "mean_ms": 2061.7,
+      "p95_ms": 2159.5
+    }
+  },
+  "accelerate_s": 60.9,
+  "fast": {
+    "single": {
+      "p50_ms": 101.9,
+      "mean_ms": 105.8,
+      "p95_ms": 117.8
+    },
+    "batch16": {
+      "p50_ms": 1848.9,
+      "mean_ms": 2816.7,
+      "p95_ms": 10381.5
+    },
+    "warmup_s": 60.9,
+    "argmax_agreement": 0.9667,
+    "disagreements": [
+      [
+        "telecom-0",
+        "urgency",
+        0.84,
+        0.86
+      ],
+      [
+        "telecom-19",
+        "urgency",
+        0.4,
+        0.38
+      ],
+      [
+        "telecom-22",
+        "urgency",
+        0.69,
+        0.7
+      ],
+      [
+        "telecom-27",
+        "urgency",
+        0.76,
+        0.75
+      ],
+      [
+        "telecom-29",
+        "urgency",
+        0.95,
+        0.98
+      ],
+      [
+        "telecom-33",
+        "urgency",
+        1.38,
+        1.34
+      ],
+      [
+        "telecom-38",
+        "urgency",
+        1.64,
+        1.67
+      ],
+      [
+        "telecom-39",
+        "urgency",
+        0.88,
+        0.87
+      ],
+      [
+        "telecom-66",
+        "urgency",
+        0.22,
+        0.23
+      ],
+      [
+        "telecom-72",
+        "intent",
+        "invoices",
+        "value_added_service"
+      ],
+      [
+        "telecom-74",
+        "urgency",
+        0.97,
+        0.99
+      ],
+      [
+        "telecom-97",
+        "urgency",
+        0.13,
+        0.12
+      ]
+    ]
+  }
+}

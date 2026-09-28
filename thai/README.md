@@ -518,16 +518,23 @@ conflicted in `.gitignore`. Checked on the box in a separate clone (`cs/check_03
 `pytest`, which the training image lacks, and most of its files are scripts that call `sys.exit` at import, so pytest cannot
 collect them; not pursued.
 
-**TileLang fast path: not usable on our image yet.** `bench_fast.py` (run 8, 120 real Pantip states, intent + department +
-urgency) on the stock 0.3.20 forward, A2, bf16: one record 127 ms p50 (3 sequences), `predict_batch` of 16 records 2.1 s; the
-`:8011` server with its own batching + `torch.compile` answers the same call in ~50 ms, so the library path alone is not an
-upgrade. `agent.accelerate()` JIT-compiles CUDA kernels and needs a CUDA *toolkit*, which the OpenThai base image (runtime
-libraries only) does not have. `Dockerfile.0320` adds g++ and the pip `nvidia-cuda-nvcc` / `nvidia-cuda-cccl` wheels; that got
-through "no nvcc", "no host compiler", "nv/target missing" and "compiler and headers incompatible", and then stops at
-`ptxas: Unsupported .version 9.4; current version is 9.0`: the pip compiler and assembler do not match the CUDA 13.0 runtime torch
-ships with. The clean route is an image built from `nvidia/cuda:13.0-devel` with torch installed on top, i.e. a different base
-than the teacher's; deferred until there is a reason to chase the last 2x (the A2 serves 41-54 req/s today and the accuracy work
-is the bottleneck). ONNX (`ONNXAgent`) targets CPU deployment and was not measured.
+**TileLang fast path: works, +20% on the A2, not deployed.** `agent.accelerate()` JIT-compiles CUDA kernels, so it needs a CUDA
+*toolkit*; the OpenThai base image has runtime libraries only. `Dockerfile.0320` adds g++ and the pip wheels `nvidia-cuda-nvcc`,
+`nvidia-cuda-cccl`, `nvidia-nvvm`, `nvidia-nvjitlink`, all pinned to 13.0 to match the CUDA 13.0 runtime torch ships with (every
+unpinned piece resolved to 13.4 and broke a different stage: no nvcc, no host compiler, `nv/target` missing, "compiler and headers
+incompatible", `ptxas: Unsupported .version 9.4`). `bench_fast.py` (run 8, 120 real Pantip states, intent + department + urgency,
+A2, bf16, `results/bench_fast8.json`):
+
+| | stock 0.3.20 | fast path |
+|---|---|---|
+| one record, 3 questions, p50 / p95 | 126 / 142 ms | **102 / 118 ms** |
+| `predict_batch`, 16 records, p50 / p95 | 2.13 / 2.16 s | 1.85 / 10.4 s (graph capture per new shape) |
+| first-use compile | - | 61 s |
+| argmax agreement with the stock path | - | 359 / 360 choices, scores within 0.04 |
+
+20% at batch 1 and unstable at batch 16 on this GPU: the fused kernels save launch overhead, and the A2 is compute-bound on our
+~800-token intent sequences. The `:8011` server (own batching + `torch.compile`, ~50 ms per call) stays as it is; the fast path
+is a documented option for a bigger GPU. ONNX (`ONNXAgent`) targets CPU deployment and was not measured.
 
 ## Known limits of laya for our use
 
