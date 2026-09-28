@@ -495,10 +495,28 @@ Served at `:8011` since 2026-09-28 08:30 (`laya-cascade:run8`; cascade with the 
 department 0.66 / urgency 0.73 on the real set). Published as
 [Chatre7/laya-thai-callcenter](https://huggingface.co/Chatre7/laya-thai-callcenter) revision `e85ec494` (run 6 `6a4dc84a`).
 
+**Cascade on real text** (`cascade.py --max-options 0` on the real set, `results/cascade8_real.json`, curves per question from
+`results/cascade_curve.py`): student alone 0.656, teacher alone 0.328; at threshold 0.7 the cascade is 0.647 with 12% of the
+questions sent to the teacher, which is wrong on 65-80% of what it receives (intent 0.20, urgency 0.32). On call-center
+questions the teacher is not a useful fallback any more; a low-confidence answer should go to a person, not to OpenThai.
+`:8011` keeps threshold 0.7 for the general questions (where the teacher still leads, public set 0.81 vs 0.78); for call-center
+traffic set `CASCADE_THRESHOLD=0` or read `usage.cascade.reasons` and escalate those to a human.
+
 **Next**: more hand-labelled real text is the only lever that moved the real-set number (932 rows: +0.3). Candidates: the rest of
 the Pantip pools (2,192 telecom, 1,137 banking after sampling), the reviewed sheets in `System One/data/` once reviewed, and any
-real ticket export from the call center. Then merge laya 0.3.20 (predict_long, calibrated confidence, TileLang / ONNX) and
-re-measure speed.
+real ticket export from the call center.
+
+## laya 0.3.20 (2026-09-28)
+
+Upstream moved 0.3.5 -> 0.3.20 in four days (350 commits, mostly outside PRs): `predict_long` (states past the context window),
+calibrated confidence next to the raw one, batching by encoded length, the TileLang fast path (`agent.accelerate()`), an ONNX
+agent, `laya serve`, `decide()` with pydantic schemas, MCP / LangChain, revision pinning, fixes for a tokenizer race across threads
+and for the decision-head init. Our fork had touched nothing under `laya/`, so the merge (branch `thai`, commit `412ef72`) only
+conflicted in `.gitignore`. Checked on the box in a separate clone (`cs/check_0320.sh`, `~/laya-0320`, the old code keeps serving
+`:8011`): run 8 evaluated with 0.3.20 reproduces every number of `run8.sh` to four decimals on both the real Pantip set (0.6565 /
+0.5590 / 0.1902) and the public set (0.7796 / 0.3802 / 0.1534) (`results/compare_0320.py`). The upstream test suite needs
+`pytest`, which the training image lacks; `Dockerfile.0320` adds it with `tilelang` and `onnxruntime-gpu`, and `bench_fast.py`
+measures the fast path on run 8 with real Pantip states (`cs/bench_0320.sh`; results below when done).
 
 ## Known limits of laya for our use
 
