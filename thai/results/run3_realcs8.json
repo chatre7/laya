@@ -1,0 +1,91 @@
+{
+ "model": "/work/thai/out/laya-th-run3",
+ "mean_ms": 142.8689000584806,
+ "tickets": {
+  "department": 4,
+  "refund": 5,
+  "frustration_mae": 0.24590000000000004,
+  "rows": [
+   {
+    "state": "โดนหักเงินซ้ำสองครั้งเมื่อวานน",
+    "dept": "billing",
+    "p": 0.9398,
+    "frustration": 1.81,
+    "refund": 0.699
+   },
+   {
+    "state": "เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่",
+    "dept": "technical",
+    "p": 0.9805,
+    "frustration": 1.45,
+    "refund": 0.0154
+   },
+   {
+    "state": "สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ",
+    "dept": "sales",
+    "p": 0.9215,
+    "frustration": 0.1,
+    "refund": 0.0221
+   },
+   {
+    "state": "ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ ",
+    "dept": "billing",
+    "p": 0.9834,
+    "frustration": 0.27,
+    "refund": 0.0339
+   },
+   {
+    "state": "แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ",
+    "dept": "billing",
+    "p": 0.6984,
+    "frustration": 1.78,
+    "refund": 0.1071
+   }
+  ]
+ },
+ "teacher": null,
+ "sources": {
+  "banking:choice": {
+   "n": 240,
+   "acc": 0.2417,
+   "brier": 0.8545,
+   "mae": null
+  },
+  "banking:score": {
+   "n": 120,
+   "acc": 0.1417,
+   "brier": 0.7628,
+   "mae": 0.887
+  },
+  "insurance:choice": {
+   "n": 240,
+   "acc": 0.175,
+   "brier": 0.9186,
+   "mae": null
+  },
+  "insurance:score": {
+   "n": 120,
+   "acc": 0.1917,
+   "brier": 0.8189,
+   "mae": 0.8742
+  },
+  "telecom:choice": {
+   "n": 240,
+   "acc": 0.35,
+   "brier": 0.7914,
+   "mae": null
+  },
+  "telecom:score": {
+   "n": 120,
+   "acc": 0.2583,
+   "brier": 0.7949,
+   "mae": 0.7537
+  }
+ },
+ "overall": {
+  "decisions": 1080,
+  "accuracy": 0.2583,
+  "brier": 0.834,
+  "ece": 0.1402
+ }
+}

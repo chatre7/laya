@@ -1,0 +1,155 @@
+{
+ "model": "/work/thai/out/laya-th-run8",
+ "mean_ms": 89.36049994406238,
+ "tickets": {
+  "department": 4,
+  "refund": 5,
+  "frustration_mae": 0.50042,
+  "rows": [
+   {
+    "state": "โดนหักเงินซ้ำสองครั้งเมื่อวานน",
+    "dept": "billing",
+    "p": 0.9702,
+    "frustration": 1.87,
+    "refund": 0.9725
+   },
+   {
+    "state": "เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่",
+    "dept": "technical",
+    "p": 0.9785,
+    "frustration": 1.57,
+    "refund": 0.0695
+   },
+   {
+    "state": "สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ",
+    "dept": "sales",
+    "p": 0.9646,
+    "frustration": 0.45,
+    "refund": 0.0453
+   },
+   {
+    "state": "ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ ",
+    "dept": "billing",
+    "p": 0.9915,
+    "frustration": 1.26,
+    "refund": 0.09
+   },
+   {
+    "state": "แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ",
+    "dept": "billing",
+    "p": 0.4817,
+    "frustration": 1.91,
+    "refund": 0.222
+   }
+  ]
+ },
+ "teacher": {
+  "choice": {
+   "n": 21780,
+   "argmax_agreement": 0.9153,
+   "mean_tv": 0.0865
+  },
+  "score": {
+   "n": 10890,
+   "argmax_agreement": 0.8648,
+   "mean_tv": 0.0998
+  },
+  "noul": {
+   "n": 16335,
+   "argmax_agreement": 0.9916,
+   "mean_tv": 0.0221
+  }
+ },
+ "sources": {
+  "b77:choice": {
+   "n": 1314,
+   "acc": 0.9589,
+   "brier": 0.0801,
+   "mae": null
+  },
+  "banking:choice": {
+   "n": 1260,
+   "acc": 0.9706,
+   "brier": 0.052,
+   "mae": null
+  },
+  "ecommerce:choice": {
+   "n": 3210,
+   "acc": 0.9879,
+   "brier": 0.0316,
+   "mae": null
+  },
+  "insurance:choice": {
+   "n": 1618,
+   "acc": 0.9716,
+   "brier": 0.0564,
+   "mae": null
+  },
+  "iqa:choice": {
+   "n": 582,
+   "acc": 0.9863,
+   "brier": 0.0333,
+   "mae": null
+  },
+  "other_gen:choice": {
+   "n": 522,
+   "acc": 0.9943,
+   "brier": 0.02,
+   "mae": null
+  },
+  "pantip_banking:choice": {
+   "n": 63,
+   "acc": 0.6667,
+   "brier": 0.575,
+   "mae": null
+  },
+  "pantip_banking:score": {
+   "n": 22,
+   "acc": 0.8182,
+   "brier": 0.2658,
+   "mae": 0.2831
+  },
+  "pantip_insurance:choice": {
+   "n": 20,
+   "acc": 0.75,
+   "brier": 0.4098,
+   "mae": null
+  },
+  "pantip_insurance:score": {
+   "n": 8,
+   "acc": 0.875,
+   "brier": 0.2461,
+   "mae": 0.1978
+  },
+  "pantip_telecom:choice": {
+   "n": 57,
+   "acc": 0.7719,
+   "brier": 0.4095,
+   "mae": null
+  },
+  "pantip_telecom:score": {
+   "n": 20,
+   "acc": 0.9,
+   "brier": 0.2065,
+   "mae": 0.2074
+  },
+  "telecom:choice": {
+   "n": 1066,
+   "acc": 0.9512,
+   "brier": 0.0839,
+   "mae": null
+  },
+  "wisesight:choice": {
+   "n": 1827,
+   "acc": 0.8922,
+   "brier": 0.1715,
+   "mae": null
+  }
+ },
+ "overall": {
+  "decisions": 11589,
+  "accuracy": 0.9584,
+  "brier": 0.0756,
+  "ece": 0.0885
+ }
+}

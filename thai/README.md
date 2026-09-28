@@ -444,9 +444,9 @@ Reading: **the 0.97 held-out numbers are for LLM-written text; on real posts the
 because their only real-text examples were out-of-scope posts. Synthetic data cannot fix this; real in-domain text with real
 labels can, and the teacher's labels on real text are not usable for intent.
 
-## Run 8: real Thai in-domain text (2026-09-27, in progress)
+## Run 8: real Thai in-domain text (2026-09-27/28)
 
-Three additions (`cs/label_cs8.py`, `cs/run8.sh`, launched 09:54):
+Three additions (`cs/label_cs8.py`, `cs/run8.sh`, 09:54 -> 02:37):
 
 1. **932 more Pantip questions labelled by hand** (telecom 400, banking 400, insurance 132; `data_domain/labels_<biz>_extra.json`,
    `pantip_<biz>_extra.jsonl`), used as training items with intent / department / urgency one-hot and the labelled questions repeated 6x.
@@ -461,9 +461,44 @@ Three additions (`cs/label_cs8.py`, `cs/run8.sh`, launched 09:54):
    banking questions, 77 labels -> `BANKING77_TO_CS`, 19,975 Thai rows) and insurance-qa (8,758 rows, topic -> `information_*`),
    kept when the teacher puts p >= 0.3 on the mapped intent or ranks it top-3.
 
-Plus the run 7 records with intent targets rebuilt over the new lists (e-commerce capped at 30,000 texts). Train from run 3, 2 epochs;
-evals: cs8 held-out (run 7 / run 8), the real Pantip set with the new lists (run 3 / run 7 / run 8, `results/run*_realcs8.json`),
-public set. Expected ~13-15 h. Deploy to `:8011` only if the real-set intent accuracy beats run 7's.
+Plus the run 7 records with intent targets rebuilt over the new lists (e-commerce capped at 30,000 texts). Labelling 3 h 20 min
+(teacher gate kept banking77 13,390 / 19,975 and insurance-qa 5,858 / 8,758); 329,156 items (Pantip 24,713 = 7.5%, banking77 +
+insurance-qa 54,900); train from run 3, 2 epochs, 21,238 updates, 11 h 49 min; temperatures 1.07 / 1.15 / 1.04.
+
+**Real Pantip set, 360 hand-labelled questions the model never saw** (extended intent lists, `results/run*_realcs8.json`,
+per-question split from `cs/build_real_eval.py` against `:8011` / `:8010`):
+
+| | teacher | run 3 | run 7 | **run 8** |
+|---|---|---|---|---|
+| intent, telecom / banking / insurance | 0.45 / 0.30 / 0.16 | - | - | **0.58 / 0.56 / 0.52** |
+| intent + department pooled, per business | - | 0.24-0.35 | 0.37-0.45 | **0.61-0.62** |
+| department | 0.47 | - | - | **0.66** |
+| urgency exact / MAE | 0.21 / 0.89 | 0.14-0.26 | 0.18-0.28 | **0.73 / 0.38** |
+| overall (offline, pure student) | - | 0.258 | 0.332 | **0.656** |
+| says `other` on in-scope messages | 0% | - | 70-85% | **7% / 13% / 30%** |
+| ECE | - | 0.140 | 0.381 | 0.190 |
+
+(Run 7's 0.44 intent in the previous section was on the old, shorter lists; on the same file as run 8 it is 0.33 pooled.)
+The `other` reflex is gone, urgency now matches the hand labels (the teacher's does not), and intent doubled. Still 0.55, not
+0.97: the remaining errors are real ambiguity (change_plan vs change_provider vs sign_up_for_plan on "ขอโปรถูก ๆ", apply_for_loan vs
+loan_or_debt_restructuring) and the long tail of 45 banking intents with a handful of real examples each.
+
+Held-out cs8 (5,445 texts): overall 0.958 (run 7 on the same file 0.895, because the b77 / insurance-qa rows are new to it:
+0.573 / 0.637 -> 0.959 / 0.986); the synthetic sources stay at 0.95-0.99, wisesight 0.892 (-2.4), e-commerce 0.988 (-0.8). Public
+set 0.780 (run 7 0.782): prachathai 0.896, sib200 0.672 (+4.0), wisesight 0.717 (+1.7), xnli 0.717 (-3.0). ECE 0.153.
+
+**krathu-500** (`cs/build_krathu_eval.py`: 1,163 Pantip comments, POS / NEG / NEU balanced, no licence so eval only): teacher
+0.660, run 3 0.650, run 5 0.674, run 6 0.638, run 7 0.619, run 8 0.623. Sentiment on real comments slid 5 points over the
+call-center runs and the teacher itself is at 0.66 (its main error: "neutral" read as "negative", 144 / 382). Not a priority.
+
+Served at `:8011` since 2026-09-28 08:30 (`laya-cascade:run8`; cascade with the teacher at threshold 0.7 gives intent 0.55 /
+department 0.66 / urgency 0.73 on the real set). Published as
+[Chatre7/laya-thai-callcenter](https://huggingface.co/Chatre7/laya-thai-callcenter) (run 8 = latest; run 6 `6a4dc84a`).
+
+**Next**: more hand-labelled real text is the only lever that moved the real-set number (932 rows: +0.3). Candidates: the rest of
+the Pantip pools (2,192 telecom, 1,137 banking after sampling), the reviewed sheets in `System One/data/` once reviewed, and any
+real ticket export from the call center. Then merge laya 0.3.20 (predict_long, calibrated confidence, TileLang / ONNX) and
+re-measure speed.
 
 ## Known limits of laya for our use
 

@@ -1,0 +1,58 @@
+== [11:09] waiting for run8.sh
+== [02:33] run 8 done; krathu-500 sentiment eval
+
+/work/thai/out/laya-th-run3: 1163 eval records, 21 ms/record
+overall: 1163 decisions, accuracy 0.650, Brier 0.507, ECE 0.158
+source:type                      n    acc  brier    mae
+krathu500:choice              1163  0.650  0.507 
+tickets: department 4/5  refund 5/5  frustration MAE 0.25
+   โดนหักเงินซ้ำสองครั้งเมื่อวานน billing   p=0.94 frustration=1.81 refund=0.70
+   เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่ technical p=0.98 frustration=1.45 refund=0.02
+   สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ sales     p=0.92 frustration=0.10 refund=0.02
+   ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ  billing   p=0.98 frustration=0.27 refund=0.03
+   แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ billing   p=0.70 frustration=1.78 refund=0.11
+
+/work/thai/out/laya-th-run5: 1163 eval records, 20 ms/record
+overall: 1163 decisions, accuracy 0.674, Brier 0.484, ECE 0.151
+source:type                      n    acc  brier    mae
+krathu500:choice              1163  0.674  0.484 
+tickets: department 5/5  refund 5/5  frustration MAE 0.40
+   โดนหักเงินซ้ำสองครั้งเมื่อวานน billing   p=0.98 frustration=1.90 refund=0.98
+   เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่ technical p=0.98 frustration=1.69 refund=0.03
+   สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ sales     p=0.97 frustration=0.20 refund=0.02
+   ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ  billing   p=0.99 frustration=0.94 refund=0.04
+   แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ technical p=0.54 frustration=1.93 refund=0.12
+
+/work/thai/out/laya-th-run6: 1163 eval records, 19 ms/record
+overall: 1163 decisions, accuracy 0.638, Brier 0.535, ECE 0.179
+source:type                      n    acc  brier    mae
+krathu500:choice              1163  0.638  0.536 
+tickets: department 5/5  refund 5/5  frustration MAE 0.49
+   โดนหักเงินซ้ำสองครั้งเมื่อวานน billing   p=0.95 frustration=1.83 refund=0.95
+   เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่ technical p=0.98 frustration=1.61 refund=0.06
+   สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ sales     p=0.98 frustration=0.39 refund=0.06
+   ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ  billing   p=0.99 frustration=1.17 refund=0.23
+   แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ technical p=0.63 frustration=1.89 refund=0.23
+
+/work/thai/out/laya-th-run7: 1163 eval records, 20 ms/record
+overall: 1163 decisions, accuracy 0.619, Brier 0.575, ECE 0.198
+source:type                      n    acc  brier    mae
+krathu500:choice              1163  0.619  0.575 
+tickets: department 4/5  refund 5/5  frustration MAE 0.47
+   โดนหักเงินซ้ำสองครั้งเมื่อวานน billing   p=0.94 frustration=1.86 refund=0.94
+   เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่ technical p=0.99 frustration=1.67 refund=0.14
+   สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ sales     p=0.97 frustration=0.34 refund=0.07
+   ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ  billing   p=1.00 frustration=1.10 refund=0.24
+   แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ billing   p=0.53 frustration=1.91 refund=0.29
+
+/work/thai/out/laya-th-run8: 1163 eval records, 20 ms/record
+overall: 1163 decisions, accuracy 0.623, Brier 0.558, ECE 0.197
+source:type                      n    acc  brier    mae
+krathu500:choice              1163  0.623  0.558 
+tickets: department 4/5  refund 5/5  frustration MAE 0.50
+   โดนหักเงินซ้ำสองครั้งเมื่อวานน billing   p=0.97 frustration=1.87 refund=0.97
+   เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่ technical p=0.98 frustration=1.57 refund=0.07
+   สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ sales     p=0.96 frustration=0.45 refund=0.05
+   ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ  billing   p=0.99 frustration=1.26 refund=0.09
+   แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ billing   p=0.48 frustration=1.91 refund=0.22
+== [02:37] done
