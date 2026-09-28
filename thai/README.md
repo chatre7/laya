@@ -506,6 +506,13 @@ traffic set `CASCADE_THRESHOLD=0` or read `usage.cascade.reasons` and escalate t
 the Pantip pools (2,192 telecom, 1,137 banking after sampling), the reviewed sheets in `System One/data/` once reviewed, and any
 real ticket export from the call center.
 
+## Run 9: 1,000 more hand-labelled Pantip rows (2026-09-28, in progress)
+
+Second labelling batch (`cs/sample_pantip_extra2.py`, `data_domain/labels_{telecom,banking}_extra2.json`): telecom 500, banking 500,
+sampled from the remaining pools (the insurance pool is exhausted); 1,932 real rows in total. Same recipe and data as run 8
+otherwise (`label_cs8.py --pantip-sets extra,extra2`, `cs/run9.sh`, trained from run 3), so the difference measures what another
+1,000 real rows buy on the 360-row real set. Launched 11:22; evals on cs9 held-out, the real set, the public set and krathu-500.
+
 ## laya 0.3.20 (2026-09-28)
 
 Upstream moved 0.3.5 -> 0.3.20 in four days (350 commits, mostly outside PRs): `predict_long` (states past the context window),
