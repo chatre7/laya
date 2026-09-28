@@ -493,7 +493,7 @@ call-center runs and the teacher itself is at 0.66 (its main error: "neutral" re
 
 Served at `:8011` since 2026-09-28 08:30 (`laya-cascade:run8`; cascade with the teacher at threshold 0.7 gives intent 0.55 /
 department 0.66 / urgency 0.73 on the real set). Published as
-[Chatre7/laya-thai-callcenter](https://huggingface.co/Chatre7/laya-thai-callcenter) (run 8 = latest; run 6 `6a4dc84a`).
+[Chatre7/laya-thai-callcenter](https://huggingface.co/Chatre7/laya-thai-callcenter) revision `e85ec494` (run 6 `6a4dc84a`).
 
 **Next**: more hand-labelled real text is the only lever that moved the real-set number (932 rows: +0.3). Candidates: the rest of
 the Pantip pools (2,192 telecom, 1,137 banking after sampling), the reviewed sheets in `System One/data/` once reviewed, and any
