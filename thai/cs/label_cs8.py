@@ -57,6 +57,7 @@ def main():
     ap.add_argument("--min-p", type=float, default=0.3, help="keep banking77/insurance-qa rows whose teacher p(mapped intent) >= this or top-3")
     ap.add_argument("--ecom-cap", type=int, default=30000)
     ap.add_argument("--pantip-repeat", type=int, default=6, help="repeat each hand-labelled Pantip question this many times in the items")
+    ap.add_argument("--pantip-sets", default="extra", help="comma-separated suffixes of the hand-labelled Pantip batches (labels_<biz>_<suffix>.json)")
     ap.add_argument("--questions-per-record", type=int, default=3)
     ap.add_argument("--smooth", type=float, default=0.1)
     ap.add_argument("--eval-frac", type=float, default=0.05)
@@ -91,18 +92,22 @@ def main():
 
     # ---- new records
     recs = []
-    for biz in ("telecom", "banking", "insurance"):
-        lab = json.load(open(domain / f"labels_{biz}_extra.json", encoding="utf-8"))["labels"]
-        rows = [json.loads(l) for l in open(domain / f"pantip_{biz}_extra.jsonl", encoding="utf-8")]
-        for i, row in enumerate(rows):
-            if str(i) not in lab:
+    for suffix in args.pantip_sets.split(","):
+        for biz in ("telecom", "banking", "insurance"):
+            lab_path = domain / f"labels_{biz}_{suffix}.json"
+            if not lab_path.exists():
                 continue
-            intent, dept, urg = lab[str(i)]
-            labels = {"intent": intent, "department": dept, "urgency": int(urg)}
-            if intent != "other":
-                labels["business"] = biz
-            recs.append({"id": f"pantip-{biz}-{i}", "source": f"pantip_{biz}", "group": f"pantip-{biz}-{i}", "state": row["text"].strip(),
-                         "style": "pantip", "labels": labels, "questions": question_set(biz), "human": True})
+            lab = json.load(open(lab_path, encoding="utf-8"))["labels"]
+            rows = [json.loads(l) for l in open(domain / f"pantip_{biz}_{suffix}.jsonl", encoding="utf-8")]
+            for i, row in enumerate(rows):
+                if str(i) not in lab:
+                    continue
+                intent, dept, urg = lab[str(i)]
+                labels = {"intent": intent, "department": dept, "urgency": int(urg)}
+                if intent != "other":
+                    labels["business"] = biz
+                recs.append({"id": f"pantip-{biz}-{suffix}-{i}", "source": f"pantip_{biz}", "group": f"pantip-{biz}-{suffix}-{i}", "state": row["text"].strip(),
+                             "style": "pantip", "labels": labels, "questions": question_set(biz), "human": True})
     for path, key in ((args.b77, "b77"), (args.iqa, "iqa")):
         for i, line in enumerate(open(path, encoding="utf-8")):
             r = json.loads(line)
