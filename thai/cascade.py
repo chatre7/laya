@@ -92,7 +92,7 @@ def main():
     mean_t = sum(v for v in t_lat.values() if v) / max(1, sum(1 for v in t_lat.values() if v))
     curve = []
     for thr in [0.0, 0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95, 0.98, 1.01]:
-        to_teacher = [x for x in usable if x["s_ok"] is None or x["s_conf"] < thr or x["k"] > args.max_options]
+        to_teacher = [x for x in usable if x["s_ok"] is None or x["s_conf"] < thr or (args.max_options and x["k"] > args.max_options)]
         keep = [x for x in usable if x not in to_teacher]
         acc = (sum(x["s_ok"] for x in keep) + sum(x["t_ok"] for x in to_teacher)) / n
         frac = len(to_teacher) / n
