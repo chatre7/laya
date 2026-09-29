@@ -1,0 +1,159 @@
+
+######## decider http://172.18.72.145:8014
+
+  [FAIL] เปิดเคสใหม่ให้ลูกค้าเบอร์ 0812345678 เรื่องเน็ตบ้านช้ามาก หมวดปัญหาทางเทคนิค ความด่วนสูง
+      plan: {"open": "เปิดเคสใหม่", "fields": [{"field": "ค้นหาลูกค้า", "value": "0812345678"}, {"field": "เรื่อง", "value": "เน็ตบ้านช้ามาก"}, {"field": "หมวด", "value": "ปัญหาทางเทคนิค"}, {"field": "ความด่วน", "value": "ความด่วนสูง"}], "submit": "ค้นหา", "target": "เคสของฉัน", "done": "เคสใหม่ได้รับการสร้าง"}
+      ควรคลิกอะไรเพื่อไปที่ "เปิดเคสใหม่" -> [1] ลิงก์ (link) "เปิดเคสใหม่"
+      re-plan: {"open": null, "fields": [{"field": "เบอร์โทรลูกค้า", "value": "0812345678"}, {"field": "หมวดเรื่อง", "value": "ปัญหาทางเทคนิค"}, {"field": "ช่องทางที่ลูกค้าติดต่อ", "value": "โทรศัพท์"}, {"field": "ความด่วน", "value": "สูง"}], "submit": "บันทึกเคส", "target": null, "done": "เคสใหม่ได้รับการบันทึก"}
+      เบอร์โทรลูกค้า=0812345678 -> [1] ช่องกรอกข้อความ (textbox) "เบอร์โทรลูกค้า" value=""
+      หมวดเรื่อง=ปัญหาทางเทคนิค -> [1] เมนูเลือก (combobox) "หมวดเรื่อง" options="-- เลือกหมวด -- | บิล /
+         option -> ร้องเรียน
+      ช่องทางที่ลูกค้าติดต่อ=โทรศัพท์ -> [0] ช่องกรอกข้อความ (textbox) "ค้นหาลูกค้า ชื่อหรือเบอร์โทร" value=""
+      ความด่วน=สูง -> [1] ปุ่มเลือก (radio) "ความด่วน" options="ต่ำ | ปานกลาง | สูง" value="
+         option -> ต่ำ
+      ควรกดปุ่มไหนเพื่อ "บันทึกเคส" -> [1] ปุ่ม (button) "บันทึกเคส"
+      model says done p=0.33; 9 decisions, 1137 ms deciding, 13.3 s total
+
+  [FAIL] เปิดเคสร้องเรียนให้ลูกค้าเบอร์ 0861112222 ติดต่อมาทางแชท ความด่วนปานกลาง และแจ้งลูกค้าทาง SMS ด้วย
+      plan: {"open": "เปิดเคสใหม่", "fields": [{"field": "ค้นหาลูกค้า", "value": "0861112222"}], "submit": "ค้นหา", "target": "เคสของฉัน", "done": "เคสได้รับการเปิด"}
+      ควรคลิกอะไรเพื่อไปที่ "เปิดเคสใหม่" -> [3] ลิงก์ (link) "เคสของฉัน"
+      re-plan: {"open": null, "fields": [{"field": "ค้นหาลูกค้า", "value": "0861112222"}], "submit": "ค้นหา", "target": "เคสของฉัน", "done": "เคสได้รับการสร้างแล้ว"}
+      ค้นหาลูกค้า=0861112222 -> [0] ช่องกรอกข้อความ (textbox) "ค้นหาลูกค้า ชื่อหรือเบอร์โทร" value=""
+         suggestion -> [0] ตัวเลือก (option) "วิภา ศรีสุข · 0861112222"
+      ควรคลิกลิงก์ไหนเพื่อเปิด "เคสของฉัน" (ถ้าเปิดอยู่แล้วตอบไม่มี) -> [1] ลิงก์ (link) "เปิดเคสใหม่"
+      model says done p=0.21; 5 decisions, 677 ms deciding, 8.8 s total
+
+  [FAIL] ลูกค้าเบอร์ 0898765432 ขอเปลี่ยนที่อยู่จัดส่งใบแจ้งหนี้เป็น 99/1 ถนนสุขุมวิท กรุงเทพฯ 10110
+      plan: {"open": "แก้ไขข้อมูลลูกค้า", "fields": [{"field": "เบอร์โทร", "value": "0898765432"}, {"field": "ที่อยู่จัดส่งใบแจ้งหนี้", "value": "99/1 ถนนสุขุมวิท กรุงเทพฯ 10110"}], "submit": "บันทึก", "target": null, "done": "ข้อมูลลูกค้าได้ถูกอัปเดตแล้ว"}
+      ควรคลิกอะไรเพื่อไปที่ "แก้ไขข้อมูลลูกค้า" -> [0] ลิงก์ (link) "หน้าหลัก"
+      re-plan: {"open": null, "fields": [{"field": "เบอร์โทร", "value": "0898765432"}, {"field": "ที่อยู่จัดส่งใบแจ้งหนี้", "value": "99/1 ถนนสุขุมวิท กรุงเทพฯ 10110"}], "submit": "บันทึก", "target": null, "done": "ข้อมูลลูกค้าได้ถูกอัปเดตแล้ว"}
+      เบอร์โทร=0898765432 -> [0] ช่องกรอกข้อความ (textbox) "ค้นหาลูกค้า ชื่อหรือเบอร์โทร" value=""
+         suggestion -> [0] ตัวเลือก (option) "วิชัย รักไทย · 0898765432"
+      no input left for ที่อยู่จัดส่งใบแจ้งหนี้=99/1 ถนนสุขุมวิท กรุงเทพฯ 10110
+      ควรกดปุ่มไหนเพื่อ "บันทึก" -> [0] ปุ่ม (button) "ค้นหา"
+      model says done p=0.36; 5 decisions, 436 ms deciding, 11.3 s total
+
+  [FAIL] ค้นหาลูกค้าชื่อ วิภา แล้วเปิดดูข้อมูลลูกค้า
+      plan: {"open": "ค้นหาลูกค้า ชื่อหรือเบอร์โทร", "fields": [{"field": "ค้นหาลูกค้า ชื่อหรือเบอร์โทร", "value": "วิภา"}], "submit": "ค้นหา", "target": "ข้อมูลลูกค้า", "done": "พบข้อมูลลูกค้า"}
+      ควรคลิกอะไรเพื่อไปที่ "ค้นหาลูกค้า ชื่อหรือเบอร์โทร" -> [1] ลิงก์ (link) "เปิดเคสใหม่"
+      re-plan: {"open": null, "fields": [{"field": "ค้นหาลูกค้า", "value": "วิภา"}], "submit": "ค้นหา", "target": "เบอร์โทรลูกค้า", "done": "พบลูกค้า"}
+      ค้นหาลูกค้า=วิภา -> [1] ช่องกรอกข้อความ (textbox) "เบอร์โทรลูกค้า" value=""
+      ควรกดปุ่มไหนเพื่อ "ค้นหา" -> [0] ปุ่ม (button) "ค้นหา"
+      ควรคลิกลิงก์ไหนเพื่อเปิด "เบอร์โทรลูกค้า" (ถ้าเปิดอยู่แล้วตอบไม่มี) -> [1] ลิงก์ (link) "เปิดเคสใหม่"
+      model says done p=0.62; 5 decisions, 782 ms deciding, 8.9 s total
+
+  [FAIL] เปิดบทความวิกิพีเดียเรื่อง วัดพระแก้ว
+      plan: {"open": "checkbox: เมนูหลัก", "fields": [{"field": "textbox: ค้นหาใน วิกิพีเดีย", "value": "วัดพระแก้ว"}], "submit": "button: ค้นหา", "target": "link: วัดพระแก้ว", "done": "ข้อความสั้น ๆ ที่ควรเห็นบนหน้าเว็บเมื่องานสำเร็จ"}
+      ควรคลิกอะไรเพื่อไปที่ "checkbox: เมนูหลัก" -> [1] ปุ่ม (button) "ค้นหา"
+      re-plan: {"open": null, "fields": [{"field": "ค้นหาใน วิกิพีเดีย", "value": "วัดพระแก้ว"}], "submit": "ค้นหา", "target": "วัดพระแก้ว", "done": "บทความวิกิพีเดียเรื่อง วัดพระแก้ว ถูกเปิด"}
+      ค้นหาใน วิกิพีเดีย=วัดพระแก้ว -> [1] ช่องกรอกข้อความ (textbox) "ค้นหาใน วิกิพีเดีย" value=""
+         suggestion -> [0] ตัวเลือก (option) "วัดพระแก้ว หน้าแก้ความกำกวมวิกิมีเดีย"
+      ควรคลิกลิงก์ไหนเพื่อเปิด "วัดพระแก้ว" (ถ้าเปิดอยู่แล้วตอบไม่มี) -> [1] ลิงก์ (link) "บริจาคให้วิกิพีเดีย"
+      model says done p=1.00; 5 decisions, 830 ms deciding, 14.4 s total
+
+  [FAIL] เปิดบทความวิกิพีเดียภาษาอังกฤษเรื่อง Chiang Mai
+      plan: {"open": "Main Page", "fields": [{"field": "Search Wikipedia", "value": "Chiang Mai"}], "submit": "Search", "target": "Chiang Mai", "done": "Chiang Mai"}
+      ควรคลิกอะไรเพื่อไปที่ "Main Page" -> [1] ปุ่ม (button) "Search"
+      re-plan: {"open": null, "fields": [{"field": "Search Wikipedia", "value": "Chiang Mai"}], "submit": "Search", "target": "Chiang Mai", "done": "บทความ Chiang Mai ได้รับการเปิด"}
+      Search Wikipedia=Chiang Mai -> [2] กล่องติ๊ก (checkbox) "Tools" checked=false
+      ควรกดปุ่มไหนเพื่อ "Search" -> [0] ปุ่ม (button) "Search"
+      ควรคลิกลิงก์ไหนเพื่อเปิด "Chiang Mai" (ถ้าเปิดอยู่แล้วตอบไม่มี) -> [0] ลิงก์ (link) "" href="/wiki/Main_Page"
+      model says done p=0.99; 5 decisions, 942 ms deciding, 8.9 s total
+
+  [FAIL] เข้าสู่ระบบด้วยชื่อผู้ใช้ tomsmith รหัสผ่าน SuperSecretPassword!
+      plan: {"open": null, "fields": [{"field": "Username", "value": "tomsmith"}, {"field": "Password", "value": "SuperSecretPassword!"}], "submit": "Login", "target": null, "done": "เข้าสู่ระบบสำเร็จ"}
+      Username=tomsmith -> [1] ช่องกรอกข้อความ (textbox) "Password" value=""
+      Password=SuperSecretPassword! -> [0] ช่องกรอกข้อความ (textbox) "Username" value=""
+      ควรกดปุ่มไหนเพื่อ "Login" -> [0] ปุ่ม (button) "Login"
+      model says done p=0.84; 4 decisions, 371 ms deciding, 11.4 s total
+
+  [FAIL] เลือก Option 2 ในเมนู dropdown
+      plan: {"open": null, "fields": [{"field": "dropdown", "value": "Option 2"}], "submit": null, "target": null, "done": "Option 2 ถูกเลือกแล้ว"}
+      dropdown=Option 2 -> [0] เมนูเลือก (combobox) "dropdown" options="Please select an option |
+         option -> Option 1
+      model says done p=0.34; 3 decisions, 238 ms deciding, 7.8 s total
+
+######## decider http://172.18.72.145:8010
+
+  [PASS] เปิดเคสใหม่ให้ลูกค้าเบอร์ 0812345678 เรื่องเน็ตบ้านช้ามาก หมวดปัญหาทางเทคนิค ความด่วนสูง
+      plan: {"open": "เปิดเคสใหม่", "fields": [{"field": "ค้นหาลูกค้า", "value": "0812345678"}, {"field": "เรื่อง", "value": "เน็ตบ้านช้ามาก"}, {"field": "หมวด", "value": "ปัญหาทางเทคนิค"}, {"field": "ความด่วน", "value": "ความด่วนสูง"}], "submit": "ค้นหา", "target": "เคสของฉัน", "done": "เคสใหม่ได้รับการสร้าง"}
+      ควรคลิกอะไรเพื่อไปที่ "เปิดเคสใหม่" -> [1] ลิงก์ (link) "เปิดเคสใหม่"
+      re-plan: {"open": null, "fields": [{"field": "เบอร์โทรลูกค้า", "value": "0812345678"}, {"field": "หมวดเรื่อง", "value": "ปัญหาทางเทคนิค"}, {"field": "ช่องทางที่ลูกค้าติดต่อ", "value": "โทรศัพท์"}, {"field": "ความด่วน", "value": "สูง"}], "submit": "บันทึกเคส", "target": null, "done": "เคสใหม่ได้รับการบันทึก"}
+      เบอร์โทรลูกค้า=0812345678 -> [1] ช่องกรอกข้อความ (textbox) "เบอร์โทรลูกค้า" value=""
+      หมวดเรื่อง=ปัญหาทางเทคนิค -> [1] เมนูเลือก (combobox) "หมวดเรื่อง" options="-- เลือกหมวด -- | บิล /
+         option -> ปัญหาทางเทคนิค / สัญญาณ
+      ช่องทางที่ลูกค้าติดต่อ=โทรศัพท์ -> [1] เมนูเลือก (combobox) "ช่องทางที่ลูกค้าติดต่อ" options="โทรศัพท์ | 
+         option -> โทรศัพท์
+      ความด่วน=สูง -> [1] ปุ่มเลือก (radio) "ความด่วน" options="ต่ำ | ปานกลาง | สูง" value="
+         option -> สูง
+      ควรกดปุ่มไหนเพื่อ "บันทึกเคส" -> [1] ปุ่ม (button) "บันทึกเคส"
+      model says done p=0.37; 10 decisions, 1606 ms deciding, 12.6 s total
+
+  [PASS] เปิดเคสร้องเรียนให้ลูกค้าเบอร์ 0861112222 ติดต่อมาทางแชท ความด่วนปานกลาง และแจ้งลูกค้าทาง SMS ด้วย
+      plan: {"open": "เปิดเคสใหม่", "fields": [{"field": "ค้นหาลูกค้า", "value": "0861112222"}], "submit": "ค้นหา", "target": "เคสของฉัน", "done": "เคสได้รับการเปิด"}
+      ควรคลิกอะไรเพื่อไปที่ "เปิดเคสใหม่" -> [1] ลิงก์ (link) "เปิดเคสใหม่"
+      re-plan: {"open": null, "fields": [{"field": "เบอร์โทรลูกค้า", "value": "0861112222"}, {"field": "หมวดเรื่อง", "value": "ร้องเรียน"}, {"field": "ช่องทางที่ลูกค้าติดต่อ", "value": "แชท"}, {"field": "ความด่วน", "value": "ปานกลาง"}, {"field": "แจ้งลูกค้าทาง SMS", "value": "ใช่"}], "submit": "บันทึกเคส", "target": null, "done": "เคสได้รับการบันทึกแล้ว"}
+      เบอร์โทรลูกค้า=0861112222 -> [1] ช่องกรอกข้อความ (textbox) "เบอร์โทรลูกค้า" value=""
+      หมวดเรื่อง=ร้องเรียน -> [1] เมนูเลือก (combobox) "หมวดเรื่อง" options="-- เลือกหมวด -- | บิล /
+         option -> ร้องเรียน
+      ช่องทางที่ลูกค้าติดต่อ=แชท -> [1] เมนูเลือก (combobox) "ช่องทางที่ลูกค้าติดต่อ" options="โทรศัพท์ | 
+         option -> แชท
+      ความด่วน=ปานกลาง -> [1] ปุ่มเลือก (radio) "ความด่วน" options="ต่ำ | ปานกลาง | สูง" value="
+         option -> ปานกลาง
+      แจ้งลูกค้าทาง SMS=ใช่ -> [2] กล่องติ๊ก (checkbox) "แจ้งลูกค้าทาง SMS" checked=false
+      ควรกดปุ่มไหนเพื่อ "บันทึกเคส" -> [1] ปุ่ม (button) "บันทึกเคส"
+      model says done p=0.30; 11 decisions, 1666 ms deciding, 11.3 s total
+
+  [PASS] ลูกค้าเบอร์ 0898765432 ขอเปลี่ยนที่อยู่จัดส่งใบแจ้งหนี้เป็น 99/1 ถนนสุขุมวิท กรุงเทพฯ 10110
+      plan: {"open": "แก้ไขข้อมูลลูกค้า", "fields": [{"field": "เบอร์โทร", "value": "0898765432"}, {"field": "ที่อยู่จัดส่งใบแจ้งหนี้", "value": "99/1 ถนนสุขุมวิท กรุงเทพฯ 10110"}], "submit": "บันทึก", "target": null, "done": "ข้อมูลลูกค้าได้ถูกอัปเดตแล้ว"}
+      ควรคลิกอะไรเพื่อไปที่ "แก้ไขข้อมูลลูกค้า" -> [2] ลิงก์ (link) "แก้ไขข้อมูลลูกค้า"
+      re-plan: {"open": null, "fields": [{"field": "เบอร์โทรลูกค้า", "value": "0898765432"}, {"field": "ที่อยู่จัดส่งใบแจ้งหนี้", "value": "99/1 ถนนสุขุมวิท กรุงเทพฯ 10110"}], "submit": "บันทึกการเปลี่ยนแปลง", "target": null, "done": "ที่อยู่จัดส่งใบแจ้งหนี้ได้ถูกอัปเดตแล้ว"}
+      เบอร์โทรลูกค้า=0898765432 -> [1] ช่องกรอกข้อความ (textbox) "เบอร์โทรลูกค้า" value=""
+      ที่อยู่จัดส่งใบแจ้งหนี้=99/1 ถนนสุขุมวิท กรุงเทพฯ 10110 -> [2] ช่องกรอกข้อความ (textbox) "ที่อยู่จัดส่งใบแจ้งหนี้" value=""
+      ควรกดปุ่มไหนเพื่อ "บันทึกการเปลี่ยนแปลง" -> [1] ปุ่ม (button) "บันทึกการเปลี่ยนแปลง"
+      model says done p=0.10; 5 decisions, 709 ms deciding, 12.4 s total
+
+  [PASS] ค้นหาลูกค้าชื่อ วิภา แล้วเปิดดูข้อมูลลูกค้า
+      plan: {"open": "ค้นหาลูกค้า ชื่อหรือเบอร์โทร", "fields": [{"field": "ค้นหาลูกค้า ชื่อหรือเบอร์โทร", "value": "วิภา"}], "submit": "ค้นหา", "target": "ข้อมูลลูกค้า", "done": "พบข้อมูลลูกค้า"}
+      ควรคลิกอะไรเพื่อไปที่ "ค้นหาลูกค้า ชื่อหรือเบอร์โทร" -> [5] ปุ่ม (button) "ค้นหา"
+      re-plan: {"open": null, "fields": [{"field": "ค้นหาลูกค้า", "value": "วิภา"}], "submit": "ค้นหา", "target": "ข้อมูลลูกค้า", "done": "พบข้อมูลลูกค้า"}
+      ค้นหาลูกค้า=วิภา -> [0] ช่องกรอกข้อความ (textbox) "ค้นหาลูกค้า ชื่อหรือเบอร์โทร" value=""
+         suggestion -> [0] ตัวเลือก (option) "วิภา ศรีสุข · 0861112222"
+      ควรคลิกลิงก์ไหนเพื่อเปิด "ข้อมูลลูกค้า" (ถ้าเปิดอยู่แล้วตอบไม่มี) -> ไม่มี (none) "ไม่มีรายการที่ตรง / อยู่ที่หน้านั้นแล้ว"
+      model says done p=0.83; 5 decisions, 769 ms deciding, 8.3 s total
+
+  [PASS] เปิดบทความวิกิพีเดียเรื่อง วัดพระแก้ว
+      plan: {"open": "checkbox: เมนูหลัก", "fields": [{"field": "textbox: ค้นหาใน วิกิพีเดีย", "value": "วัดพระแก้ว"}], "submit": "button: ค้นหา", "target": "link: วัดพระแก้ว", "done": "ข้อความสั้น ๆ ที่ควรเห็นบนหน้าเว็บเมื่องานสำเร็จ"}
+      ควรคลิกอะไรเพื่อไปที่ "checkbox: เมนูหลัก" -> [11] ลิงก์ (link) "วิกิพีเดีย" href="https://th.wikipedia.org/wiki/วิก
+      re-plan: {"open": null, "fields": [{"field": "ค้นหาใน วิกิพีเดีย", "value": "วัดพระแก้ว"}], "submit": "ค้นหา", "target": "วัดพระแก้ว", "done": "พบบทความวัดพระแก้ว"}
+      ค้นหาใน วิกิพีเดีย=วัดพระแก้ว -> [1] ช่องกรอกข้อความ (textbox) "ค้นหาใน วิกิพีเดีย" value=""
+         suggestion -> [1] ลิงก์ (link) "วัดพระแก้ว หน้าแก้ความกำกวมวิกิมีเดีย"
+      ควรคลิกลิงก์ไหนเพื่อเปิด "วัดพระแก้ว" (ถ้าเปิดอยู่แล้วตอบไม่มี) -> [19] ลิงก์ (link) "วัดพระแก้ว" href="https://th.wikipedia.org/wiki/วัด
+      model says done p=0.04; 5 decisions, 24222 ms deciding, 38.2 s total
+
+  [PASS] เปิดบทความวิกิพีเดียภาษาอังกฤษเรื่อง Chiang Mai
+      plan: {"open": "Main Page", "fields": [{"field": "Search Wikipedia", "value": "Chiang Mai"}], "submit": "Search", "target": "Chiang Mai", "done": "Chiang Mai"}
+      ควรคลิกอะไรเพื่อไปที่ "Main Page" -> [0] ลิงก์ (link) "" href="/wiki/Main_Page"
+      re-plan: {"open": null, "fields": [{"field": "Search Wikipedia", "value": "Chiang Mai"}], "submit": "Search", "target": "Chiang Mai", "done": "Chiang Mai"}
+      Search Wikipedia=Chiang Mai -> [1] ช่องกรอกข้อความ (textbox) "Search Wikipedia" value=""
+         suggestion -> [1] ลิงก์ (link) "Chiang Mai City in Thailand"
+      ควรคลิกลิงก์ไหนเพื่อเปิด "Chiang Mai" (ถ้าเปิดอยู่แล้วตอบไม่มี) -> [25] ลิงก์ (link) "Read" href="/wiki/Chiang_Mai"
+      model says done p=0.03; 5 decisions, 20529 ms deciding, 30.2 s total
+
+  [PASS] เข้าสู่ระบบด้วยชื่อผู้ใช้ tomsmith รหัสผ่าน SuperSecretPassword!
+      plan: {"open": null, "fields": [{"field": "Username", "value": "tomsmith"}, {"field": "Password", "value": "SuperSecretPassword!"}], "submit": "Login", "target": null, "done": "เข้าสู่ระบบสำเร็จ"}
+      Username=tomsmith -> [0] ช่องกรอกข้อความ (textbox) "Username" value=""
+      Password=SuperSecretPassword! -> [0] ช่องกรอกข้อความ (textbox) "Password" value=""
+      ควรกดปุ่มไหนเพื่อ "Login" -> [0] ปุ่ม (button) "Login"
+      model says done p=0.11; 4 decisions, 756 ms deciding, 10.7 s total
+
+  [PASS] เลือก Option 2 ในเมนู dropdown
+      plan: {"open": null, "fields": [{"field": "dropdown", "value": "Option 2"}], "submit": null, "target": null, "done": "Option 2 ถูกเลือกแล้ว"}
+      dropdown=Option 2 -> [0] เมนูเลือก (combobox) "dropdown" options="Please select an option |
+         option -> Option 2
+      model says done p=0.03; 3 decisions, 461 ms deciding, 6.6 s total
+
+=== summary (LLM plans once per task, again after opening a menu)
+28 planner calls, mean 2753 ms
+http://172.18.72.145:8014: 0/8 tasks passed, model claimed done on 4, 132 ms per decision, 10.6 s per task
+http://172.18.72.145:8010: 8/8 tasks passed, model claimed done on 1, 1057 ms per decision, 16.3 s per task

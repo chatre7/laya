@@ -628,6 +628,37 @@ teacher stays 8/9.
 
 Not served; `:8011` stays call-center run 8.
 
+### Plan once, decide narrow: the Laya Ultrafast split (2026-09-29)
+
+[Laya Ultrafast](https://github.com/ipenywis/laya-ultrafast) (madewithlaya.com) makes one LLM call per task (goal -> field
+values, submit, target, finish condition) and asks laya only narrow questions per step. `System One/demo/form_agent.py` does the
+same with Qwen3-4B-FP8 on vLLM as planner (plans again after opening a menu, since the form appears only then), any
+`/v1/systemone` endpoint as decider, Playwright acting, and success checked on the page, not by the model. Eight Thai tasks: four on
+a mock Thai CS portal (`demo/sites/crm.html`: open a case with phone / category / channel / urgency / SMS, change a billing
+address, find a customer through the autocomplete), Thai and English Wikipedia articles, the-internet login and dropdown.
+
+| decider | tasks passed | ms per decision |
+|---|---|---|
+| OpenThai-SystemOne (`:8010`) | **8/8** | ~1,060 (Wikipedia pages: 100+ elements) |
+| laya run 8, student only | 0/8 | ~130 |
+
+The split works: with the teacher deciding, every task passes, including all four call-center forms. laya does not. Replaying
+the teacher's 31 narrow decisions (`web/probe_form.py`, the teacher is right on all of them by construction) against every
+checkpoint:
+
+| | field for a value | option matching a value | submit button | suggestion | total |
+|---|---|---|---|---|---|
+| laya-multilingual (upstream base) | 8/17 | 1/7 | 1/4 | 1/3 | 11/31 |
+| run 3 | 11/17 | 3/7 | 1/4 | 1/3 | 16/31 |
+| run 8 | 9/17 | 2/7 | 4/4 | 1/3 | 16/31 |
+| run 10 | 12/17 | 3/7 | 4/4 | 1/3 | 20/31 |
+| web1 | 8/17 | 4/7 | 4/4 | 1/3 | 17/31 |
+
+"Which option matches "สูง"" -> ต่ำ; "matches "Option 2"" -> Option 1; "which box takes "tomsmith" (Username)" -> Password. Copying
+a string from the question to the matching option is what our checkpoints and the upstream base cannot do in Thai, and it is the
+whole job in this split. Two fixes, not yet done: match strings in code first and ask laya only when several options fit, and
+train on synthetic matching questions (gold by construction, any number, Thai and English).
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
