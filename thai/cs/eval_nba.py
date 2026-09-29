@@ -1,4 +1,4 @@
-"""Next-best-action eval on the 120 real banking rows x 4 contexts (label_nba.py -> nba_eval_banking.jsonl).
+"""Next-best-action eval on the 120 real rows of one business x 4 contexts (label_nba.py -> nba_eval_<business>.jsonl).
 
 Systems: laya checkpoints asked NBA_Q directly; the teacher asked NBA_Q directly; and the rule baseline = a laya intent
 answer (cs_questions intent question) -> nba_actions.INTENT_DEFAULT -> apply_context, i.e. what a call center gets from
@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 import laya  # noqa: E402
 from cs_questions import intent_question  # noqa: E402
 from distill_from_ots import ask_teacher  # noqa: E402
-from nba_actions import INTENT_DEFAULT, NBA_BASE_Q, apply_context  # noqa: E402
+from nba_actions import PLAYBOOKS, apply_context, nba_base_question  # noqa: E402
 
 
 def ranked(probs):
@@ -34,13 +34,16 @@ def context_of(r):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--eval", default="/work/thai/data/nba/nba_eval_banking.jsonl")
-    ap.add_argument("--models", default="/work/thai/out/laya-th-nba1,/work/thai/out/laya-th-run8")
+    ap.add_argument("--business", default="banking", choices=sorted(PLAYBOOKS))
+    ap.add_argument("--eval", default="", help="default /work/thai/data/nba/nba_eval_<business>.jsonl")
+    ap.add_argument("--models", default="/work/thai/out/laya-th-run8")
     ap.add_argument("--rule-model", default="/work/thai/out/laya-th-run8")
     ap.add_argument("--teacher", default="http://172.18.72.145:8010")
-    ap.add_argument("--out", default="/work/thai/out/nba1_eval.json")
+    ap.add_argument("--out", default="", help="default /work/thai/out/nba_<business>_eval.json")
     args = ap.parse_args()
-    rows = [json.loads(l) for l in open(args.eval, encoding="utf-8")]
+    biz = args.business
+    rows = [json.loads(l) for l in open(args.eval or f"/work/thai/data/nba/nba_eval_{biz}.jsonl", encoding="utf-8")]
+    args.out = args.out or f"/work/thai/out/nba_{biz}_eval.json"
     preds = {}  # system -> list of ranked action lists
 
     for m in [x for x in args.models.split(",") if x]:
@@ -54,30 +57,29 @@ def main():
             preds["teacher (asked with context)"].append(ranked(res["answers"]["next_action"]["probabilities"]) if res else [])
             msg = r["state"]["ข้อความลูกค้า"]
             if msg not in base:  # the labelling setup: message only, base context, then the playbook rule
-                res = ask_teacher(args.teacher, msg, {"next_action": NBA_BASE_Q})
+                res = ask_teacher(args.teacher, msg, {"next_action": nba_base_question(biz)})
                 base[msg] = ranked(res["answers"]["next_action"]["probabilities"]) if res else []
             v, h = context_of(r)
             acts = []
             for a in base[msg]:
-                a = apply_context(a, v, h)
+                a = apply_context(biz, a, v, h)
                 if a not in acts:
                     acts.append(a)
             preds["teacher (message) + playbook"].append(acts)
-    if args.rule_model:
+    if args.rule_model:  # as nba_demo.py: p(action) = sum of p(intent) over intents whose table action (after the rule) is it
         agent = laya.Agent(args.rule_model, device="cuda")
-        iq = {"intent": intent_question("banking")}
+        iq = {"intent": intent_question(biz)}
+        table = PLAYBOOKS[biz]["intent_default"]
         cache, out = {}, []
         for r in rows:
             msg = r["state"]["ข้อความลูกค้า"]
             if msg not in cache:
-                cache[msg] = ranked(agent.predict(msg, iq)["answers"]["intent"]["probabilities"])
+                cache[msg] = agent.predict(msg, iq)["answers"]["intent"]["probabilities"]
             v, h = context_of(r)
-            acts = []
-            for intent in cache[msg]:
-                a = apply_context(INTENT_DEFAULT.get(intent, "out_of_scope"), v, h)
-                if a not in acts:
-                    acts.append(a)
-            out.append(acts)
+            score = defaultdict(float)
+            for intent, p in cache[msg].items():
+                score[apply_context(biz, table.get(intent, "out_of_scope"), v, h)] += p
+            out.append(ranked(score))
         preds["rule(" + os.path.basename(args.rule_model) + " intent -> table)"] = out
         del agent
 

@@ -1,0 +1,174 @@
+{
+ "laya-th-run8": {
+  "top1": 0.2812,
+  "top3": 0.6021,
+  "by_context": {
+   "base": 0.3333,
+   "repeat": 0.2583,
+   "unverified": 0.275
+  },
+  "common_errors_base": [
+   [
+    "out_of_scope -> ask_clarification",
+    22
+   ],
+   [
+    "sales_quote -> ask_clarification",
+    7
+   ],
+   [
+    "coverage_check -> ask_clarification",
+    5
+   ],
+   [
+    "give_information -> ask_clarification",
+    4
+   ],
+   [
+    "claim_status -> ask_clarification",
+    3
+   ],
+   [
+    "out_of_scope -> sales_quote",
+    3
+   ],
+   [
+    "give_information -> sales_quote",
+    2
+   ],
+   [
+    "claim_status -> settlement",
+    2
+   ]
+  ]
+ },
+ "teacher (asked with context)": {
+  "top1": 0.2375,
+  "top3": 0.3646,
+  "by_context": {
+   "base": 0.175,
+   "repeat": 0.2417,
+   "unverified": 0.2917
+  },
+  "common_errors_base": [
+   [
+    "out_of_scope -> claim_intake",
+    20
+   ],
+   [
+    "out_of_scope -> verify_identity",
+    20
+   ],
+   [
+    "sales_quote -> verify_identity",
+    9
+   ],
+   [
+    "out_of_scope -> sales_quote",
+    7
+   ],
+   [
+    "give_information -> verify_identity",
+    6
+   ],
+   [
+    "give_information -> claim_intake",
+    5
+   ],
+   [
+    "coverage_check -> verify_identity",
+    4
+   ],
+   [
+    "claim_status -> claim_intake",
+    3
+   ]
+  ]
+ },
+ "teacher (message) + playbook": {
+  "top1": 0.1375,
+  "top3": 0.325,
+  "by_context": {
+   "base": 0.1333,
+   "repeat": 0.1417,
+   "unverified": 0.1333
+  },
+  "common_errors_base": [
+   [
+    "out_of_scope -> claim_intake",
+    48
+   ],
+   [
+    "sales_quote -> claim_intake",
+    13
+   ],
+   [
+    "give_information -> claim_intake",
+    11
+   ],
+   [
+    "claim_status -> claim_intake",
+    5
+   ],
+   [
+    "retention_offer -> claim_intake",
+    5
+   ],
+   [
+    "coverage_check -> claim_intake",
+    5
+   ],
+   [
+    "send_policy_document -> claim_intake",
+    3
+   ],
+   [
+    "renewal -> claim_intake",
+    2
+   ]
+  ]
+ },
+ "rule(laya-th-run8 intent -> table)": {
+  "top1": 0.6562,
+  "top3": 0.7542,
+  "by_context": {
+   "base": 0.65,
+   "repeat": 0.6583,
+   "unverified": 0.6583
+  },
+  "common_errors_base": [
+   [
+    "give_information -> out_of_scope",
+    7
+   ],
+   [
+    "coverage_check -> sales_quote",
+    5
+   ],
+   [
+    "claim_status -> out_of_scope",
+    4
+   ],
+   [
+    "sales_quote -> out_of_scope",
+    3
+   ],
+   [
+    "out_of_scope -> sales_quote",
+    3
+   ],
+   [
+    "claim_intake -> sales_quote",
+    3
+   ],
+   [
+    "claim_intake -> out_of_scope",
+    2
+   ],
+   [
+    "give_information -> sales_quote",
+    2
+   ]
+  ]
+ }
+}

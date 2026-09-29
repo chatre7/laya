@@ -1,28 +1,28 @@
 {
  "laya-th-run8": {
-  "top1": 0.2583,
-  "top3": 0.5417,
+  "top1": 0.2708,
+  "top3": 0.5479,
   "by_context": {
-   "base": 0.3583,
-   "repeat": 0.2333,
-   "unverified": 0.2083
+   "base": 0.3917,
+   "repeat": 0.225,
+   "unverified": 0.2417
   },
   "common_errors_base": [
    [
     "give_information -> ask_clarification",
-    9
-   ],
-   [
-    "out_of_scope -> escalate_supervisor",
-    6
+    8
    ],
    [
     "out_of_scope -> ask_clarification",
     5
    ],
    [
-    "password_or_app_help -> ask_clarification",
+    "out_of_scope -> escalate_supervisor",
     5
+   ],
+   [
+    "password_or_app_help -> ask_clarification",
+    4
    ],
    [
     "application_status -> ask_clarification",
@@ -37,17 +37,17 @@
     3
    ],
    [
-    "sales_referral -> debt_relief",
-    3
+    "give_information -> update_details",
+    2
    ]
   ]
  },
  "teacher (asked with context)": {
-  "top1": 0.1875,
-  "top3": 0.3333,
+  "top1": 0.1917,
+  "top3": 0.3354,
   "by_context": {
-   "base": 0.325,
-   "repeat": 0.0792,
+   "base": 0.3333,
+   "repeat": 0.0833,
    "unverified": 0.2667
   },
   "common_errors_base": [
@@ -86,12 +86,12 @@
   ]
  },
  "teacher (message) + playbook": {
-  "top1": 0.4583,
-  "top3": 0.5292,
+  "top1": 0.4417,
+  "top3": 0.5229,
   "by_context": {
-   "base": 0.3583,
-   "repeat": 0.4833,
-   "unverified": 0.5083
+   "base": 0.3417,
+   "repeat": 0.4667,
+   "unverified": 0.4917
   },
   "common_errors_base": [
    [
@@ -129,12 +129,12 @@
   ]
  },
  "rule(laya-th-run8 intent -> table)": {
-  "top1": 0.6958,
-  "top3": 0.7562,
+  "top1": 0.6896,
+  "top3": 0.8083,
   "by_context": {
    "base": 0.6583,
-   "repeat": 0.7125,
-   "unverified": 0.7
+   "repeat": 0.7042,
+   "unverified": 0.6917
   },
   "common_errors_base": [
    [

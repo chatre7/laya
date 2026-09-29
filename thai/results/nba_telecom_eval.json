@@ -1,0 +1,174 @@
+{
+ "laya-th-run8": {
+  "top1": 0.3917,
+  "top3": 0.5062,
+  "by_context": {
+   "base": 0.55,
+   "repeat": 0.3458,
+   "unverified": 0.325
+  },
+  "common_errors_base": [
+   [
+    "give_information -> ask_clarification",
+    4
+   ],
+   [
+    "out_of_scope -> ask_clarification",
+    3
+   ],
+   [
+    "feature_service -> ask_clarification",
+    3
+   ],
+   [
+    "account_info -> ask_clarification",
+    3
+   ],
+   [
+    "give_information -> retention_offer",
+    3
+   ],
+   [
+    "network_ticket -> account_info",
+    2
+   ],
+   [
+    "give_information -> sim_service",
+    2
+   ],
+   [
+    "account_info -> plan_sales",
+    2
+   ]
+  ]
+ },
+ "teacher (asked with context)": {
+  "top1": 0.5083,
+  "top3": 0.6104,
+  "by_context": {
+   "base": 0.475,
+   "repeat": 0.45,
+   "unverified": 0.6583
+  },
+  "common_errors_base": [
+   [
+    "plan_sales -> verify_identity",
+    8
+   ],
+   [
+    "give_information -> verify_identity",
+    6
+   ],
+   [
+    "out_of_scope -> verify_identity",
+    5
+   ],
+   [
+    "retention_offer -> verify_identity",
+    4
+   ],
+   [
+    "feature_service -> verify_identity",
+    3
+   ],
+   [
+    "plan_sales -> troubleshoot_service",
+    3
+   ],
+   [
+    "sim_service -> verify_identity",
+    2
+   ],
+   [
+    "network_ticket -> troubleshoot_service",
+    2
+   ]
+  ]
+ },
+ "teacher (message) + playbook": {
+  "top1": 0.5729,
+  "top3": 0.6375,
+  "by_context": {
+   "base": 0.45,
+   "repeat": 0.6167,
+   "unverified": 0.6083
+  },
+  "common_errors_base": [
+   [
+    "plan_sales -> account_info",
+    14
+   ],
+   [
+    "retention_offer -> account_info",
+    5
+   ],
+   [
+    "retention_offer -> give_information",
+    3
+   ],
+   [
+    "plan_sales -> troubleshoot_service",
+    3
+   ],
+   [
+    "payment_help -> account_info",
+    2
+   ],
+   [
+    "out_of_scope -> suspend_sim",
+    2
+   ],
+   [
+    "sim_service -> suspend_sim",
+    2
+   ],
+   [
+    "give_information -> account_info",
+    2
+   ]
+  ]
+ },
+ "rule(laya-th-run8 intent -> table)": {
+  "top1": 0.6667,
+  "top3": 0.7333,
+  "by_context": {
+   "base": 0.625,
+   "repeat": 0.675,
+   "unverified": 0.6917
+  },
+  "common_errors_base": [
+   [
+    "plan_sales -> retention_offer",
+    8
+   ],
+   [
+    "give_information -> retention_offer",
+    4
+   ],
+   [
+    "give_information -> out_of_scope",
+    3
+   ],
+   [
+    "feature_service -> retention_offer",
+    3
+   ],
+   [
+    "feature_service -> out_of_scope",
+    2
+   ],
+   [
+    "device_service -> out_of_scope",
+    2
+   ],
+   [
+    "give_information -> feature_service",
+    2
+   ],
+   [
+    "billing_review -> out_of_scope",
+    1
+   ]
+  ]
+ }
+}

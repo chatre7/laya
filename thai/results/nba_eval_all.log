@@ -1,0 +1,49 @@
+== [21:05] banking
+eval: 120 rows x 4 contexts; gold actions {'branch_or_atm_location': 5, 'trace_transaction': 7, 'debt_relief': 5, 'give_information': 29, 'out_of_scope': 19, 'update_details': 3, 'sales_referral': 22, 'application_status': 5, 'password_or_app_help': 7, 'block_card': 1, 'process_refund': 2, 'fraud_freeze': 6, 'open_dispute': 2, 'ask_clarification': 2, 'send_document': 2, 'kyc_help': 2, 'atm_case': 1}
+480 decisions (120 real messages x 4 contexts)
+system                                        top-1  top-3   top-1 by context (verified&first / unverified / 3rd contact)
+laya-th-run8                                  0.271  0.548   0.392 / 0.242 / 0.225
+teacher (asked with context)                  0.192  0.335   0.333 / 0.267 / 0.083
+teacher (message) + playbook                  0.442  0.523   0.342 / 0.492 / 0.467
+rule(laya-th-run8 intent -> table)            0.690  0.808   0.658 / 0.692 / 0.704
+
+laya-th-run8 common errors (base context, gold -> answer): [('give_information -> ask_clarification', 8), ('out_of_scope -> ask_clarification', 5), ('out_of_scope -> escalate_supervisor', 5), ('password_or_app_help -> ask_clarification', 4), ('application_status -> ask_clarification', 3), ('branch_or_atm_location -> ask_clarification', 3), ('give_information -> card_service', 3), ('give_information -> update_details', 2)]
+
+teacher (asked with context) common errors (base context, gold -> answer): [('give_information -> verify_identity', 14), ('sales_referral -> verify_identity', 12), ('out_of_scope -> verify_identity', 7), ('give_information -> trace_transaction', 6), ('out_of_scope -> fraud_freeze', 4), ('update_details -> verify_identity', 3), ('application_status -> verify_identity', 3), ('out_of_scope -> give_information', 3)]
+
+teacher (message) + playbook common errors (base context, gold -> answer): [('give_information -> trace_transaction', 8), ('sales_referral -> application_status', 7), ('out_of_scope -> trace_transaction', 6), ('out_of_scope -> fraud_freeze', 5), ('give_information -> kyc_help', 3), ('application_status -> trace_transaction', 3), ('sales_referral -> trace_transaction', 3), ('give_information -> card_service', 3)]
+
+rule(laya-th-run8 intent -> table) common errors (base context, gold -> answer): [('give_information -> out_of_scope', 5), ('application_status -> sales_referral', 3), ('sales_referral -> out_of_scope', 3), ('give_information -> sales_referral', 3), ('out_of_scope -> fraud_freeze', 3), ('debt_relief -> out_of_scope', 2), ('branch_or_atm_location -> send_document', 1), ('debt_relief -> trace_transaction', 1)]
+== [21:09] telecom
+eval: 120 rows x 4 contexts; gold actions {'payment_help': 3, 'plan_sales': 29, 'network_ticket': 6, 'out_of_scope': 6, 'feature_service': 9, 'compensation': 1, 'billing_review': 6, 'sim_service': 6, 'retention_offer': 12, 'device_service': 3, 'topup_case': 6, 'update_details': 1, 'give_information': 15, 'troubleshoot_service': 7, 'account_info': 9, 'ask_clarification': 1}
+480 decisions (120 real messages x 4 contexts)
+system                                        top-1  top-3   top-1 by context (verified&first / unverified / 3rd contact)
+laya-th-run8                                  0.392  0.506   0.550 / 0.325 / 0.346
+teacher (asked with context)                  0.508  0.610   0.475 / 0.658 / 0.450
+teacher (message) + playbook                  0.573  0.637   0.450 / 0.608 / 0.617
+rule(laya-th-run8 intent -> table)            0.667  0.733   0.625 / 0.692 / 0.675
+
+laya-th-run8 common errors (base context, gold -> answer): [('give_information -> ask_clarification', 4), ('out_of_scope -> ask_clarification', 3), ('feature_service -> ask_clarification', 3), ('account_info -> ask_clarification', 3), ('give_information -> retention_offer', 3), ('network_ticket -> account_info', 2), ('give_information -> sim_service', 2), ('account_info -> plan_sales', 2)]
+
+teacher (asked with context) common errors (base context, gold -> answer): [('plan_sales -> verify_identity', 8), ('give_information -> verify_identity', 6), ('out_of_scope -> verify_identity', 5), ('retention_offer -> verify_identity', 4), ('feature_service -> verify_identity', 3), ('plan_sales -> troubleshoot_service', 3), ('sim_service -> verify_identity', 2), ('network_ticket -> troubleshoot_service', 2)]
+
+teacher (message) + playbook common errors (base context, gold -> answer): [('plan_sales -> account_info', 14), ('retention_offer -> account_info', 5), ('retention_offer -> give_information', 3), ('plan_sales -> troubleshoot_service', 3), ('payment_help -> account_info', 2), ('out_of_scope -> suspend_sim', 2), ('sim_service -> suspend_sim', 2), ('give_information -> account_info', 2)]
+
+rule(laya-th-run8 intent -> table) common errors (base context, gold -> answer): [('plan_sales -> retention_offer', 8), ('give_information -> retention_offer', 4), ('give_information -> out_of_scope', 3), ('feature_service -> retention_offer', 3), ('feature_service -> out_of_scope', 2), ('device_service -> out_of_scope', 2), ('give_information -> feature_service', 2), ('billing_review -> out_of_scope', 1)]
+== [21:12] insurance
+eval: 120 rows x 4 contexts; gold actions {'give_information': 12, 'out_of_scope': 52, 'sales_quote': 20, 'renewal': 2, 'claim_intake': 7, 'claim_status': 7, 'retention_offer': 5, 'coverage_check': 7, 'send_policy_document': 3, 'escalate_supervisor': 1, 'ask_clarification': 1, 'payment_issue': 2, 'settlement': 1}
+480 decisions (120 real messages x 4 contexts)
+system                                        top-1  top-3   top-1 by context (verified&first / unverified / 3rd contact)
+laya-th-run8                                  0.281  0.602   0.333 / 0.275 / 0.258
+teacher (asked with context)                  0.237  0.365   0.175 / 0.292 / 0.242
+teacher (message) + playbook                  0.138  0.325   0.133 / 0.133 / 0.142
+rule(laya-th-run8 intent -> table)            0.656  0.754   0.650 / 0.658 / 0.658
+
+laya-th-run8 common errors (base context, gold -> answer): [('out_of_scope -> ask_clarification', 22), ('sales_quote -> ask_clarification', 7), ('coverage_check -> ask_clarification', 5), ('give_information -> ask_clarification', 4), ('claim_status -> ask_clarification', 3), ('out_of_scope -> sales_quote', 3), ('give_information -> sales_quote', 2), ('claim_status -> settlement', 2)]
+
+teacher (asked with context) common errors (base context, gold -> answer): [('out_of_scope -> claim_intake', 20), ('out_of_scope -> verify_identity', 20), ('sales_quote -> verify_identity', 9), ('out_of_scope -> sales_quote', 7), ('give_information -> verify_identity', 6), ('give_information -> claim_intake', 5), ('coverage_check -> verify_identity', 4), ('claim_status -> claim_intake', 3)]
+
+teacher (message) + playbook common errors (base context, gold -> answer): [('out_of_scope -> claim_intake', 48), ('sales_quote -> claim_intake', 13), ('give_information -> claim_intake', 11), ('claim_status -> claim_intake', 5), ('retention_offer -> claim_intake', 5), ('coverage_check -> claim_intake', 5), ('send_policy_document -> claim_intake', 3), ('renewal -> claim_intake', 2)]
+
+rule(laya-th-run8 intent -> table) common errors (base context, gold -> answer): [('give_information -> out_of_scope', 7), ('coverage_check -> sales_quote', 5), ('claim_status -> out_of_scope', 4), ('sales_quote -> out_of_scope', 3), ('out_of_scope -> sales_quote', 3), ('claim_intake -> sales_quote', 3), ('claim_intake -> out_of_scope', 2), ('give_information -> sales_quote', 2)]
+== [21:16] done
