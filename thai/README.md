@@ -525,6 +525,24 @@ make_transfer / transfer_problem, check_fees / check_card_annual_fee) and the la
 are still 14% of the items, diluted by 300k synthetic ones. The next experiments are cheap: (1) a short second pass from run 8 on the
 1,932 real rows only, (2) merge the near-synonym intents with the call center's list, (3) real tickets instead of forum posts.
 
+## Run 10: a short second pass on the real rows only (2026-09-29)
+
+`cs/run10.sh`: from run 8, only the 51,710 Pantip items of cs9 (`cs/filter_items.py`: the 1,932 hand-labelled rows, labelled
+questions x6 + the teacher's shared questions), LR 1e-5 / 4e-5, 2 epochs, 2 h 6 min (vs 12 h for a full run).
+
+| | run 8 | run 9 | **run 10** |
+|---|---|---|---|
+| real Pantip set, overall | 0.656 | 0.650 | **0.673** |
+| intent + department: telecom / banking / insurance | 0.617 / **0.608** / **0.613** | 0.654 / 0.562 / 0.542 | 0.650 / 0.583 / 0.604 |
+| urgency exact: telecom / banking / insurance | 0.725 / 0.783 / 0.725 | 0.800 / 0.792 / 0.742 | 0.783 / **0.808** / **0.800** |
+| public set | **0.780** | 0.776 | 0.773 |
+| synthetic held-out (cs9) | 0.968 | 0.954 | 0.963 |
+
+The real rows were partly drowned: a cheap pass on them alone gains 1.7 points, almost all in urgency, while intent/department
+stay within noise and the public set loses 0.7. Not deployed (`:8011` stays on run 8) pending the choice between better urgency
+and banking/insurance routing. The recipe itself is the useful result: new real data can be added to the served model in two hours.
+`results/run10*.json`, `compare_run10.py`.
+
 ## laya 0.3.20 (2026-09-28)
 
 Upstream moved 0.3.5 -> 0.3.20 in four days (350 commits, mostly outside PRs): `predict_long` (states past the context window),
