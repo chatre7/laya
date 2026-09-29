@@ -29,7 +29,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 from distill_from_ots import ask_teacher, targets_from  # noqa: E402
 from laya.agent import _fix_tokenizer_config  # noqa: E402
 from laya.common import QTYPES, build_sequence, render_options  # noqa: E402
-from nba_actions import ACTIONS, CONTEXTS, NBA_Q, apply_context, state_of  # noqa: E402
+from nba_actions import ACTIONS, CONTEXTS, NBA_BASE_Q, NBA_Q, apply_context, state_of  # noqa: E402
 
 KEYS = list(ACTIONS)
 
@@ -103,14 +103,15 @@ def main():
 
     def work(st):
         src, text = st
-        res = ask_teacher(args.teacher, state_of(text, True, 1), {"next_action": NBA_Q})
+        res = ask_teacher(args.teacher, text, {"next_action": NBA_BASE_Q})
         done[0] += 1
         if done[0] % 1000 == 0:
             el = time.perf_counter() - t0
             print(f"  {done[0]}/{len(texts)} labelled, {el / 60:.1f} min", flush=True)
         if res is None:
             return None
-        return {"source": src, "text": text, "probs": targets_from(res["answers"], {"next_action": NBA_Q})["next_action"]}
+        base = dict(zip(NBA_BASE_Q["criteria"], targets_from(res["answers"], {"next_action": NBA_BASE_Q})["next_action"]))
+        return {"source": src, "text": text, "probs": [base.get(k, 0.0) for k in KEYS]}  # verify_identity: 0 in the base context
 
     with ThreadPoolExecutor(args.workers) as ex:
         labelled = [x for x in ex.map(work, texts) if x]

@@ -677,6 +677,32 @@ containing ..." instead of the article) but the next step recovers. The models' 
 on 5 of 8 passed tasks, the teacher on 1. Caveats: eight tasks, and the portal is ours, its labels read by the planner.
 `results/form_agent_match.txt`, `results/form_agent_nomatch.txt`.
 
+## Next best action, banking (2026-09-29)
+
+What should the agent do next, from the message plus two facts the agent's screen knows (identity verified? how many
+contacts about this?). `cs/nba_actions.py`: a DRAFT playbook of 22 actions (block card, fraud freeze, open dispute, trace a
+transaction, ATM case, sales referral, debt relief, retention offer, escalate, out of scope, ...), the context rule
+(`apply_context`: unverified -> verify first, except emergencies; third unresolved contact -> escalate) and a table from the
+45 banking intents to the usual action. Eval: the 120 real banking Pantip rows of the real-text set, hand-labelled with the
+best action for a verified first contact (plus acceptable alternatives, `data_domain/nba_labels_banking_eval.json`), x 4
+contexts through the rule = 480 decisions (`cs/label_nba.py` writes it, `cs/eval_nba.py` scores it).
+
+| system | top-1 | top-3 | top-1: verified first / unverified / 3rd contact |
+|---|---|---|---|
+| laya run 8 asked the NBA question directly | 0.258 | 0.542 | 0.358 / 0.208 / 0.233 |
+| teacher asked with the context in the state | 0.188 | 0.333 | 0.325 / 0.267 / 0.079 |
+| teacher on the message only + context rule | 0.458 | 0.529 | 0.358 / 0.508 / 0.483 |
+| **laya run 8 intent -> table -> context rule** | **0.696** | **0.756** | **0.658 / 0.700 / 0.713** |
+
+The teacher ignores the context fields (it answers "verify identity" for customers marked verified) and, on the message alone,
+agrees with the hand labels on 36% of real posts. Distilling it would teach laya something worse than the table, so run nba1
+(`cs/run_nba1.sh`, teacher labels spread over the contexts by the rule, replay of cs9/Pantip items) was **not trained**.
+What works today is the existing intent model plus the playbook: `cs/nba_demo.py` asks `:8011` for intent / urgency /
+frustration and scores each action as the summed probability of the intents that map to it (after the context rule), ~0.3 s.
+Caveat: the table and the hand labels are both mine, so 0.70 flatters the table; the real test is a playbook written by the
+call center and actions taken by agents on real tickets. A learned NBA model needs those (ticket -> action that resolved it);
+until then, better intent accuracy is better NBA.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).

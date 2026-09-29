@@ -62,6 +62,10 @@ def state_of(message: str, verified: bool, contacts: int) -> dict:
 
 
 NBA_Q = {"type": "choice", "instructions": "พนักงานควรทำอะไรเป็นขั้นตอนถัดไป", "criteria": ACTIONS}
+# What the teacher is asked (message only): it ignored the context fields in a smoke test (verify_identity top-1 on 18/40
+# messages marked verified), so it judges the message for the base context and apply_context does the rest.
+NBA_BASE_Q = {"type": "choice", "instructions": "ลูกค้ายืนยันตัวตนแล้วและเพิ่งติดต่อเรื่องนี้เป็นครั้งแรก พนักงานควรทำอะไรเป็นขั้นตอนถัดไป",
+              "criteria": {k: v for k, v in ACTIONS.items() if k != "verify_identity"}}
 
 # Rule baseline: the banking intent (cs_questions.INTENTS["banking"]) -> the usual action for a verified first contact.
 INTENT_DEFAULT = {

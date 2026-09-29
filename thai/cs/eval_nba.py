@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 import laya  # noqa: E402
 from cs_questions import intent_question  # noqa: E402
 from distill_from_ots import ask_teacher  # noqa: E402
-from nba_actions import INTENT_DEFAULT, apply_context  # noqa: E402
+from nba_actions import INTENT_DEFAULT, NBA_BASE_Q, apply_context  # noqa: E402
 
 
 def ranked(probs):
@@ -48,10 +48,21 @@ def main():
         preds[os.path.basename(m)] = [ranked(agent.predict(r["state"], r["questions"])["answers"]["next_action"]["probabilities"]) for r in rows]
         del agent
     if args.teacher:
-        preds["teacher"] = []
+        preds["teacher (asked with context)"], preds["teacher (message) + playbook"], base = [], [], {}
         for r in rows:
             res = ask_teacher(args.teacher, r["state"], r["questions"])
-            preds["teacher"].append(ranked(res["answers"]["next_action"]["probabilities"]) if res else [])
+            preds["teacher (asked with context)"].append(ranked(res["answers"]["next_action"]["probabilities"]) if res else [])
+            msg = r["state"]["ข้อความลูกค้า"]
+            if msg not in base:  # the labelling setup: message only, base context, then the playbook rule
+                res = ask_teacher(args.teacher, msg, {"next_action": NBA_BASE_Q})
+                base[msg] = ranked(res["answers"]["next_action"]["probabilities"]) if res else []
+            v, h = context_of(r)
+            acts = []
+            for a in base[msg]:
+                a = apply_context(a, v, h)
+                if a not in acts:
+                    acts.append(a)
+            preds["teacher (message) + playbook"].append(acts)
     if args.rule_model:
         agent = laya.Agent(args.rule_model, device="cuda")
         iq = {"intent": intent_question("banking")}

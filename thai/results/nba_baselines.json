@@ -1,0 +1,174 @@
+{
+ "laya-th-run8": {
+  "top1": 0.2583,
+  "top3": 0.5417,
+  "by_context": {
+   "base": 0.3583,
+   "repeat": 0.2333,
+   "unverified": 0.2083
+  },
+  "common_errors_base": [
+   [
+    "give_information -> ask_clarification",
+    9
+   ],
+   [
+    "out_of_scope -> escalate_supervisor",
+    6
+   ],
+   [
+    "out_of_scope -> ask_clarification",
+    5
+   ],
+   [
+    "password_or_app_help -> ask_clarification",
+    5
+   ],
+   [
+    "application_status -> ask_clarification",
+    3
+   ],
+   [
+    "branch_or_atm_location -> ask_clarification",
+    3
+   ],
+   [
+    "give_information -> card_service",
+    3
+   ],
+   [
+    "sales_referral -> debt_relief",
+    3
+   ]
+  ]
+ },
+ "teacher (asked with context)": {
+  "top1": 0.1875,
+  "top3": 0.3333,
+  "by_context": {
+   "base": 0.325,
+   "repeat": 0.0792,
+   "unverified": 0.2667
+  },
+  "common_errors_base": [
+   [
+    "give_information -> verify_identity",
+    14
+   ],
+   [
+    "sales_referral -> verify_identity",
+    12
+   ],
+   [
+    "out_of_scope -> verify_identity",
+    7
+   ],
+   [
+    "give_information -> trace_transaction",
+    6
+   ],
+   [
+    "out_of_scope -> fraud_freeze",
+    4
+   ],
+   [
+    "update_details -> verify_identity",
+    3
+   ],
+   [
+    "application_status -> verify_identity",
+    3
+   ],
+   [
+    "out_of_scope -> give_information",
+    3
+   ]
+  ]
+ },
+ "teacher (message) + playbook": {
+  "top1": 0.4583,
+  "top3": 0.5292,
+  "by_context": {
+   "base": 0.3583,
+   "repeat": 0.4833,
+   "unverified": 0.5083
+  },
+  "common_errors_base": [
+   [
+    "give_information -> trace_transaction",
+    8
+   ],
+   [
+    "sales_referral -> application_status",
+    7
+   ],
+   [
+    "out_of_scope -> trace_transaction",
+    6
+   ],
+   [
+    "out_of_scope -> fraud_freeze",
+    5
+   ],
+   [
+    "give_information -> kyc_help",
+    3
+   ],
+   [
+    "application_status -> trace_transaction",
+    3
+   ],
+   [
+    "sales_referral -> trace_transaction",
+    3
+   ],
+   [
+    "give_information -> card_service",
+    3
+   ]
+  ]
+ },
+ "rule(laya-th-run8 intent -> table)": {
+  "top1": 0.6958,
+  "top3": 0.7562,
+  "by_context": {
+   "base": 0.6583,
+   "repeat": 0.7125,
+   "unverified": 0.7
+  },
+  "common_errors_base": [
+   [
+    "give_information -> out_of_scope",
+    5
+   ],
+   [
+    "application_status -> sales_referral",
+    3
+   ],
+   [
+    "sales_referral -> out_of_scope",
+    3
+   ],
+   [
+    "give_information -> sales_referral",
+    3
+   ],
+   [
+    "out_of_scope -> fraud_freeze",
+    3
+   ],
+   [
+    "debt_relief -> out_of_scope",
+    2
+   ],
+   [
+    "branch_or_atm_location -> send_document",
+    1
+   ],
+   [
+    "debt_relief -> trace_transaction",
+    1
+   ]
+  ]
+ }
+}
