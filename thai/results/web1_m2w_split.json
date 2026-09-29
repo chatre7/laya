@@ -1,0 +1,53 @@
+{
+ "model": "/work/thai/out/laya-th-web1",
+ "results": {
+  "test_task_th": {
+   "n": 1254,
+   "element": 0.6675,
+   "operation": 0.8955,
+   "step": 0.614,
+   "random_element": 0.1013,
+   "always_click": 0.8285
+  },
+  "test_task_en": {
+   "n": 1257,
+   "element": 0.716,
+   "operation": 0.9053,
+   "step": 0.6706,
+   "random_element": 0.1012,
+   "always_click": 0.8282
+  },
+  "test_website_th": {
+   "n": 975,
+   "element": 0.6985,
+   "operation": 0.9005,
+   "step": 0.6451,
+   "random_element": 0.1062,
+   "always_click": 0.8031
+  },
+  "test_website_en": {
+   "n": 975,
+   "element": 0.7354,
+   "operation": 0.9026,
+   "step": 0.681,
+   "random_element": 0.1062,
+   "always_click": 0.8031
+  },
+  "test_domain_th": {
+   "n": 3805,
+   "element": 0.5955,
+   "operation": 0.8854,
+   "step": 0.5464,
+   "random_element": 0.1063,
+   "always_click": 0.8334
+  },
+  "test_domain_en": {
+   "n": 3838,
+   "element": 0.661,
+   "operation": 0.8986,
+   "step": 0.6123,
+   "random_element": 0.1062,
+   "always_click": 0.8312
+  }
+ }
+}

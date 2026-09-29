@@ -573,6 +573,48 @@ A2, bf16, `results/bench_fast8.json`):
 ~800-token intent sequences. The `:8011` server (own batching + `torch.compile`, ~50 ms per call) stays as it is; the fast path
 is a documented option for a bigger GPU. ONNX (`ONNXAgent`) targets CPU deployment and was not measured.
 
+## A second domain: web agent, run web1 (2026-09-29)
+
+On OpenThai's browser demo (`System One/demo/browser_agent.py`, 9 single-step Thai tasks on Wikipedia and the-internet.herokuapp)
+the call-center run 8 picked the right element 5/9 times, the teacher 7/9. `web/` trains a separate model for this, from run 3
+(general Thai distillation) rather than the call-center model:
+
+- `web/prep_m2w.py`: Multimodal-Mind2Web (osunlp, OpenRAIL), text columns only (range reads over `hf://`, no screenshots) ->
+  records in the demo's element format (`[i] <Thai role> (<role>) "<name>"`): the positive element plus 3-19 random
+  interactive-looking negatives (mean 12 options), last 3 previous actions. Train 7,362 steps; test_task 1,257,
+  test_website 975, test_domain 3,838.
+- `web/translate_tasks.py`: the 2,022 task instructions to Thai with Qwen3-4B on vLLM (2,011 kept, 4 min).
+- `web/label_web.py`: two choice questions per step, `target` and `operation` (CLICK / TYPE / SELECT), on the English and on the
+  Thai task, English or Thai question wording; human labels one-hot with smoothing 0.1, no teacher. 29,316 items.
+- `web/run_web1.sh`: 3 epochs, 2 h 12 min on GPU 1 -> `out/laya-th-web1`.
+
+Mind2Web test splits (`web/eval_web.py`, `results/{web1,run3}_m2w_split.json`), Thai task / English task:
+
+| | run 3 (no web data) | **web1** | random / always CLICK |
+|---|---|---|---|
+| element, test_task | 0.127 / 0.146 | **0.668 / 0.716** | 0.10 |
+| element, test_website | 0.153 / 0.168 | **0.699 / 0.735** | 0.11 |
+| element, test_domain | 0.139 / 0.178 | **0.596 / 0.661** | 0.11 |
+| operation, test_task / website / domain (Thai) | 0.29 / 0.26 / 0.31 | 0.90 / 0.90 / 0.89 | 0.83 / 0.80 / 0.83 |
+| element and operation both right, test_domain | 0.046 / 0.050 | **0.546 / 0.612** | |
+
+Unseen websites cost nothing and unseen domains 7 points; the translated Thai tasks trail English by 4-7. The operation head is
+only 6-10 points over always-CLICK. Not comparable to published Mind2Web numbers, which rank far more candidates per page.
+
+Browser demo, 9 tasks. `--history` (new) sends the scenario's earlier actions as `state.previous`, as in training:
+
+| | no history | `--history` | ms per step |
+|---|---|---|---|
+| web1, laya only (`:8014`, temporary) | 5/9 | 6/9 | 100-300 |
+| run 8 cascade (`:8011`) | 5/9 | 6/9 | 130-1,900 |
+| teacher (`:8010`) | 7/9 | 8/9 | 110-1,500 |
+
+With history web1 clicks Login after the password (without it, it picks the password box again: Mind2Web textboxes show no typed
+value, so the model learned to read progress from `previous`). Its remaining misses are one error on Wikipedia: for "type
+กรุงเทพมหานคร in the search box" it picks the Search *button* while its own operation head says TYPE (p 0.89), and the
+following two tasks then run on the wrong page. Constraining the element to the predicted operation's roles would fix this case.
+Not served; `:8011` stays call-center run 8.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).

@@ -1,0 +1,53 @@
+{
+ "model": "/work/thai/out/laya-th-run3",
+ "results": {
+  "test_task_th": {
+   "n": 1254,
+   "element": 0.1268,
+   "operation": 0.2943,
+   "step": 0.0399,
+   "random_element": 0.1013,
+   "always_click": 0.8285
+  },
+  "test_task_en": {
+   "n": 1257,
+   "element": 0.1456,
+   "operation": 0.2259,
+   "step": 0.0366,
+   "random_element": 0.1012,
+   "always_click": 0.8282
+  },
+  "test_website_th": {
+   "n": 975,
+   "element": 0.1528,
+   "operation": 0.2595,
+   "step": 0.039,
+   "random_element": 0.1062,
+   "always_click": 0.8031
+  },
+  "test_website_en": {
+   "n": 975,
+   "element": 0.1682,
+   "operation": 0.2297,
+   "step": 0.0359,
+   "random_element": 0.1062,
+   "always_click": 0.8031
+  },
+  "test_domain_th": {
+   "n": 3805,
+   "element": 0.1385,
+   "operation": 0.3054,
+   "step": 0.0457,
+   "random_element": 0.1063,
+   "always_click": 0.8334
+  },
+  "test_domain_en": {
+   "n": 3838,
+   "element": 0.178,
+   "operation": 0.2418,
+   "step": 0.0503,
+   "random_element": 0.1062,
+   "always_click": 0.8312
+  }
+ }
+}
