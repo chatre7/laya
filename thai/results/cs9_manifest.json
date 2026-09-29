@@ -1,0 +1,60 @@
+{
+  "records": 108801,
+  "train_records": 103328,
+  "eval_records": 5473,
+  "items": 356189,
+  "dropped": 0,
+  "by_source": {
+    "ecommerce": 30000,
+    "telecom": 11814,
+    "wisesight": 12000,
+    "insurance": 16369,
+    "banking": 12425,
+    "other_gen": 5020,
+    "pantip_telecom": 900,
+    "pantip_banking": 900,
+    "pantip_insurance": 132,
+    "b77": 13383,
+    "iqa": 5858
+  },
+  "items_by_source": {
+    "wisesight": 34200,
+    "iqa": 16641,
+    "ecommerce": 85404,
+    "b77": 38286,
+    "insurance": 46431,
+    "telecom": 33747,
+    "other_gen": 14319,
+    "banking": 35451,
+    "pantip_telecom": 24624,
+    "pantip_banking": 23770,
+    "pantip_insurance": 3316
+  },
+  "by_type": {
+    "choice": 211155,
+    "score": 63560,
+    "noul": 81474
+  },
+  "gated_out": {
+    "b77": 6592,
+    "iqa": 2900
+  },
+  "min_p": 0.3,
+  "ecom_cap": 30000,
+  "pantip_repeat": 6,
+  "questions_per_record": 3,
+  "smooth": 0.1,
+  "intents": {
+    "telecom": 31,
+    "banking": 45,
+    "insurance": 40,
+    "ecommerce": 21
+  },
+  "head_max_len": 768,
+  "max_len": 1024,
+  "mean_len": 245.53394405778954,
+  "teachers": [
+    "http://172.18.72.145:8010"
+  ],
+  "minutes": 205.3
+}

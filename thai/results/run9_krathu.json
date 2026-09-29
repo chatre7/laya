@@ -1,0 +1,61 @@
+{
+ "model": "/work/thai/out/laya-th-run9",
+ "mean_ms": 20.77871274366424,
+ "tickets": {
+  "department": 5,
+  "refund": 5,
+  "frustration_mae": 0.46154000000000006,
+  "rows": [
+   {
+    "state": "โดนหักเงินซ้ำสองครั้งเมื่อวานน",
+    "dept": "billing",
+    "p": 0.9661,
+    "frustration": 1.85,
+    "refund": 0.9719
+   },
+   {
+    "state": "เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่",
+    "dept": "technical",
+    "p": 0.9567,
+    "frustration": 1.63,
+    "refund": 0.0906
+   },
+   {
+    "state": "สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ",
+    "dept": "sales",
+    "p": 0.9709,
+    "frustration": 0.42,
+    "refund": 0.0433
+   },
+   {
+    "state": "ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ ",
+    "dept": "billing",
+    "p": 0.9875,
+    "frustration": 0.94,
+    "refund": 0.1701
+   },
+   {
+    "state": "แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ",
+    "dept": "technical",
+    "p": 0.9076,
+    "frustration": 1.82,
+    "refund": 0.2196
+   }
+  ]
+ },
+ "teacher": null,
+ "sources": {
+  "krathu500:choice": {
+   "n": 1163,
+   "acc": 0.6423,
+   "brier": 0.5322,
+   "mae": null
+  }
+ },
+ "overall": {
+  "decisions": 1163,
+  "accuracy": 0.6423,
+  "brier": 0.5322,
+  "ece": 0.1787
+ }
+}

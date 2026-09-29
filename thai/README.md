@@ -511,7 +511,19 @@ real ticket export from the call center.
 Second labelling batch (`cs/sample_pantip_extra2.py`, `data_domain/labels_{telecom,banking}_extra2.json`): telecom 500, banking 500,
 sampled from the remaining pools (the insurance pool is exhausted); 1,932 real rows in total. Same recipe and data as run 8
 otherwise (`label_cs8.py --pantip-sets extra,extra2`, `cs/run9.sh`, trained from run 3), so the difference measures what another
-1,000 real rows buy on the 360-row real set. Launched 11:22; evals on cs9 held-out, the real set, the public set and krathu-500.
+1,000 real rows buy on the 360-row real set. 356,189 items (Pantip 51,710 = 14.5%), 12 h 52 min, done 05:06.
+
+**Nothing, on average.** Real Pantip set: run 8 0.656 -> run 9 0.650 overall; telecom 0.617 -> 0.654 (urgency 0.73 -> 0.80),
+banking 0.608 -> 0.562, insurance 0.613 -> 0.542 (insurance got no new rows). Per business that is 240 decisions, so +-4 points is
+within run-to-run noise; the honest reading is a plateau around 0.65 for this recipe. cs9 held-out: on the Pantip rows the model
+never saw, run 9 scores 0.63-0.72 intent+department and 0.74-0.87 urgency (run 8's 0.80+ on the same rows is contaminated: the
+split was re-cut, so it had trained on some of them). Public 0.776 (run 8 0.780), krathu-500 0.642 (+1.9). `:8011` stays on run 8.
+`results/run9*.json`, `run8_cs9.json`, `cs9_manifest.json`, `compare_run9.py`.
+
+Why more of the same did not help: the 45-intent banking list has several near-synonyms (apply_for_loan / loan_or_debt_restructuring,
+make_transfer / transfer_problem, check_fees / check_card_annual_fee) and the labels for those are as noisy as the model; and real rows
+are still 14% of the items, diluted by 300k synthetic ones. The next experiments are cheap: (1) a short second pass from run 8 on the
+1,932 real rows only, (2) merge the near-synonym intents with the call center's list, (3) real tickets instead of forum posts.
 
 ## laya 0.3.20 (2026-09-28)
 
