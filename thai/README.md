@@ -656,8 +656,26 @@ checkpoint:
 
 "Which option matches "สูง"" -> ต่ำ; "matches "Option 2"" -> Option 1; "which box takes "tomsmith" (Username)" -> Password. Copying
 a string from the question to the matching option is what our checkpoints and the upstream base cannot do in Thai, and it is the
-whole job in this split. Two fixes, not yet done: match strings in code first and ask laya only when several options fit, and
-train on synthetic matching questions (gold by construction, any number, Thai and English).
+whole job in this split. Two fixes: match strings in code first and ask laya only when several options fit (done, below), and
+train on synthetic matching questions (gold by construction, any number, Thai and English; not done).
+
+**String matching first** (`form_agent.py`, `--no-match` turns it off). `string_match`: equal after normalising (case, spaces,
+punctuation) wins; else exactly one option containing the query (or contained in it) wins; several such are ranked by
+`SequenceMatcher` and the best wins only by a 0.15 lead, otherwise the model chooses **among those only**. A field whose
+name matches nothing goes to the one select/radio offering the value. The target step is skipped when the visible page heading
+(h1 first) already matches it. Same eight tasks:
+
+| decider | no matching | **matching first** | string matches / model calls | ms per model call |
+|---|---|---|---|---|
+| laya run 8, student only (`:8014`) | 0/8 | **8/8** | 34 / 13 | 109 |
+| run 8 cascade (`:8011`) | - | **8/8** | 34 / 12 | 1,331 |
+| teacher (`:8010`) | 8/8 | **8/8** | 34 / 11 | 1,518 |
+
+Code settles about three decisions in four; laya's remaining ones are the fuzzy ones (which of 11 autocomplete rows, which of
+4 "Chiang Mai" links, which menu to open on a 114-element page). It still errs there (on Wikipedia it takes "Search for pages
+containing ..." instead of the article) but the next step recovers. The models' own "done" answer is not usable: laya said done
+on 5 of 8 passed tasks, the teacher on 1. Caveats: eight tasks, and the portal is ours, its labels read by the planner.
+`results/form_agent_match.txt`, `results/form_agent_nomatch.txt`.
 
 ## Known limits of laya for our use
 
