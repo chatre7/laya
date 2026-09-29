@@ -612,7 +612,20 @@ Browser demo, 9 tasks. `--history` (new) sends the scenario's earlier actions as
 With history web1 clicks Login after the password (without it, it picks the password box again: Mind2Web textboxes show no typed
 value, so the model learned to read progress from `previous`). Its remaining misses are one error on Wikipedia: for "type
 กรุงเทพมหานคร in the search box" it picks the Search *button* while its own operation head says TYPE (p 0.89), and the
-following two tasks then run on the wrong page. Constraining the element to the predicted operation's roles would fix this case.
+following two tasks then run on the wrong page.
+
+`--joint` (new) picks the element maximising p(element) x p(operation its role implies). It does not rescue web1 here: web1
+gives the Search button 0.72 and the search box 0.04, whatever the wording (Thai or English, "type" or "search"); with the button
+removed from the list the box gets 0.76. The training data does not teach this: among the 71 train steps offering both a
+search-like box and a search-like button, with no TYPE just before, the target is the box 28 times and the button 5
+(`web/search_bias.py`). More likely a role prior (textbox is the target in only 13% of train steps). Run 8 through the cascade
+gains the dropdown task (6/9 -> 7/9), where its element head preferred a link but its operation head said SELECT (0.83). The
+teacher stays 8/9.
+
+| `--history --joint` | web1 | run 8 cascade | teacher |
+|---|---|---|---|
+| element | 6/9 | 7/9 | 8/9 |
+
 Not served; `:8011` stays call-center run 8.
 
 ## Known limits of laya for our use
