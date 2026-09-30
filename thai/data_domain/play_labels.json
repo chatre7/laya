@@ -1,0 +1,1505 @@
+{
+"note": "Hand labels (intent from cs_questions.INTENTS[business] or other, department, urgency 0/1/2) for the 300 held-out Google Play reviews in play_reviews_eval_sample.jsonl. App-login problems in insurance apps are `other` + technical (no such intent there).",
+"labels": {
+"play-banking-9348": [
+"unrecognised_or_wrong_charge",
+"billing",
+1
+],
+"play-insurance-20181": [
+"other",
+"technical",
+1
+],
+"play-telecom-15066": [
+"report_poor_signal_coverage",
+"technical",
+1
+],
+"play-insurance-20261": [
+"other",
+"technical",
+1
+],
+"play-insurance-16283": [
+"other",
+"technical",
+0
+],
+"play-banking-6906": [
+"other",
+"support",
+0
+],
+"play-banking-8071": [
+"payment_or_bill",
+"technical",
+1
+],
+"play-banking-10539": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-3581": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-3301": [
+"other",
+"support",
+0
+],
+"play-banking-2785": [
+"other",
+"support",
+0
+],
+"play-banking-10734": [
+"other",
+"support",
+0
+],
+"play-telecom-13742": [
+"other",
+"support",
+0
+],
+"play-insurance-16980": [
+"buy_insurance_policy",
+"sales",
+1
+],
+"play-banking-1324": [
+"other",
+"support",
+0
+],
+"play-banking-9017": [
+"other",
+"support",
+0
+],
+"play-telecom-13793": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-5955": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-12626": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-19886": [
+"other",
+"technical",
+1
+],
+"play-banking-5907": [
+"unrecognised_or_wrong_charge",
+"billing",
+2
+],
+"play-banking-7767": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-8558": [
+"check_fees",
+"billing",
+1
+],
+"play-banking-5383": [
+"other",
+"support",
+0
+],
+"play-banking-8094": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-18575": [
+"other",
+"technical",
+1
+],
+"play-banking-2201": [
+"other",
+"support",
+0
+],
+"play-telecom-16010": [
+"report_problem",
+"technical",
+1
+],
+"play-telecom-16087": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-3778": [
+"other",
+"support",
+0
+],
+"play-banking-1133": [
+"other",
+"support",
+0
+],
+"play-banking-12217": [
+"other",
+"support",
+0
+],
+"play-banking-3412": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-3648": [
+"other",
+"support",
+0
+],
+"play-banking-4946": [
+"transfer_problem",
+"technical",
+1
+],
+"play-telecom-14546": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-8265": [
+"other",
+"support",
+0
+],
+"play-insurance-17415": [
+"other",
+"support",
+0
+],
+"play-banking-7696": [
+"app_or_login_problem",
+"technical",
+2
+],
+"play-banking-12134": [
+"loan_or_debt_restructuring",
+"account",
+1
+],
+"play-banking-3650": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-1444": [
+"other",
+"support",
+0
+],
+"play-banking-10662": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-11452": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-6129": [
+"app_or_login_problem",
+"technical",
+2
+],
+"play-banking-7197": [
+"other",
+"support",
+0
+],
+"play-banking-4447": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-712": [
+"other",
+"support",
+0
+],
+"play-banking-11558": [
+"apply_for_loan",
+"sales",
+0
+],
+"play-banking-2123": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-2884": [
+"app_or_login_problem",
+"technical",
+2
+],
+"play-insurance-19085": [
+"other",
+"technical",
+1
+],
+"play-banking-11475": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-4871": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-telecom-14611": [
+"cancel_plan",
+"account",
+1
+],
+"play-insurance-17387": [
+"other",
+"support",
+0
+],
+"play-telecom-13014": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-6483": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-3159": [
+"other",
+"support",
+0
+],
+"play-insurance-18469": [
+"other",
+"support",
+0
+],
+"play-banking-8739": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-2585": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-18666": [
+"other",
+"technical",
+1
+],
+"play-banking-3924": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-11128": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-11223": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-2276": [
+"other",
+"support",
+0
+],
+"play-banking-3461": [
+"identity_verification_kyc",
+"technical",
+0
+],
+"play-insurance-17004": [
+"other",
+"support",
+0
+],
+"play-insurance-19019": [
+"other",
+"technical",
+1
+],
+"play-banking-4053": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-18541": [
+"file_claim",
+"claims",
+1
+],
+"play-telecom-15826": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-185": [
+"other",
+"support",
+0
+],
+"play-insurance-20507": [
+"other",
+"technical",
+0
+],
+"play-banking-6422": [
+"other",
+"support",
+0
+],
+"play-telecom-15479": [
+"other",
+"support",
+0
+],
+"play-banking-9059": [
+"other",
+"support",
+0
+],
+"play-telecom-13129": [
+"other",
+"support",
+0
+],
+"play-banking-945": [
+"app_or_login_problem",
+"account",
+1
+],
+"play-telecom-13002": [
+"other",
+"support",
+0
+],
+"play-banking-5353": [
+"check_current_balance_on_card",
+"account",
+1
+],
+"play-telecom-13771": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-9035": [
+"transfer_problem",
+"technical",
+1
+],
+"play-insurance-16662": [
+"customer_service",
+"support",
+1
+],
+"play-banking-5204": [
+"transfer_problem",
+"technical",
+2
+],
+"play-banking-8206": [
+"other",
+"support",
+0
+],
+"play-insurance-17928": [
+"other",
+"technical",
+1
+],
+"play-banking-11237": [
+"other",
+"support",
+0
+],
+"play-telecom-13715": [
+"other",
+"support",
+0
+],
+"play-telecom-14175": [
+"other",
+"support",
+0
+],
+"play-banking-10067": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-16870": [
+"other",
+"support",
+0
+],
+"play-insurance-19994": [
+"other",
+"support",
+0
+],
+"play-banking-2159": [
+"transfer_problem",
+"technical",
+1
+],
+"play-telecom-16073": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-12398": [
+"loan_or_debt_restructuring",
+"account",
+1
+],
+"play-banking-1768": [
+"transfer_problem",
+"technical",
+2
+],
+"play-banking-10548": [
+"other",
+"support",
+0
+],
+"play-banking-6065": [
+"other",
+"support",
+0
+],
+"play-telecom-13651": [
+"other",
+"support",
+0
+],
+"play-banking-11088": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-12093": [
+"apply_for_loan",
+"technical",
+1
+],
+"play-banking-10140": [
+"other",
+"support",
+0
+],
+"play-banking-12473": [
+"other",
+"support",
+0
+],
+"play-telecom-15993": [
+"pay",
+"technical",
+1
+],
+"play-banking-10809": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-5470": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-telecom-14388": [
+"other",
+"support",
+0
+],
+"play-banking-12108": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-12516": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-2339": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-2042": [
+"other",
+"support",
+0
+],
+"play-banking-6045": [
+"other",
+"support",
+0
+],
+"play-banking-3884": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-7337": [
+"app_or_login_problem",
+"technical",
+2
+],
+"play-banking-5036": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-17945": [
+"other",
+"technical",
+1
+],
+"play-telecom-14056": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-4845": [
+"other",
+"support",
+0
+],
+"play-banking-2433": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-4646": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-20166": [
+"payment_methods",
+"billing",
+0
+],
+"play-telecom-13298": [
+"other",
+"support",
+0
+],
+"play-banking-4990": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-5460": [
+"other",
+"support",
+0
+],
+"play-banking-2362": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-9511": [
+"top_up_or_deposit_problem",
+"billing",
+2
+],
+"play-telecom-15968": [
+"report_problem",
+"technical",
+1
+],
+"play-insurance-17804": [
+"other",
+"support",
+0
+],
+"play-insurance-18485": [
+"negotiate_settlement",
+"claims",
+1
+],
+"play-insurance-20293": [
+"other",
+"technical",
+0
+],
+"play-insurance-17095": [
+"other",
+"support",
+1
+],
+"play-banking-6031": [
+"other",
+"support",
+0
+],
+"play-banking-6998": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-1869": [
+"identity_verification_kyc",
+"technical",
+1
+],
+"play-banking-5536": [
+"other",
+"technical",
+0
+],
+"play-banking-5337": [
+"other",
+"support",
+0
+],
+"play-telecom-15559": [
+"report_poor_signal_coverage",
+"technical",
+0
+],
+"play-telecom-12942": [
+"report_problem",
+"technical",
+1
+],
+"play-telecom-15506": [
+"other",
+"support",
+0
+],
+"play-banking-846": [
+"other",
+"support",
+0
+],
+"play-telecom-13883": [
+"activate_phone",
+"technical",
+1
+],
+"play-telecom-13395": [
+"report_poor_signal_coverage",
+"technical",
+1
+],
+"play-banking-9317": [
+"unrecognised_or_wrong_charge",
+"billing",
+1
+],
+"play-banking-10726": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-telecom-14307": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-11052": [
+"app_or_login_problem",
+"technical",
+0
+],
+"play-banking-4806": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-19527": [
+"other",
+"support",
+0
+],
+"play-insurance-18640": [
+"buy_insurance_policy",
+"technical",
+1
+],
+"play-banking-10318": [
+"other",
+"support",
+0
+],
+"play-insurance-19621": [
+"other",
+"technical",
+1
+],
+"play-telecom-14149": [
+"report_poor_signal_coverage",
+"technical",
+1
+],
+"play-insurance-18936": [
+"buy_insurance_policy",
+"sales",
+0
+],
+"play-insurance-20082": [
+"other",
+"technical",
+1
+],
+"play-insurance-17147": [
+"payment_methods",
+"billing",
+1
+],
+"play-telecom-13825": [
+"other",
+"support",
+0
+],
+"play-banking-5011": [
+"other",
+"support",
+0
+],
+"play-telecom-13217": [
+"other",
+"sales",
+0
+],
+"play-banking-11463": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-telecom-15210": [
+"other",
+"support",
+0
+],
+"play-banking-12877": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-19511": [
+"other",
+"technical",
+0
+],
+"play-banking-7937": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-19998": [
+"policy_document_not_received",
+"technical",
+1
+],
+"play-banking-10285": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-16501": [
+"other",
+"technical",
+1
+],
+"play-insurance-16674": [
+"other",
+"support",
+0
+],
+"play-banking-11498": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-18881": [
+"other",
+"technical",
+1
+],
+"play-banking-11936": [
+"apply_for_loan",
+"sales",
+0
+],
+"play-banking-4893": [
+"payment_or_bill",
+"technical",
+1
+],
+"play-insurance-18585": [
+"other",
+"technical",
+1
+],
+"play-insurance-17257": [
+"general_information",
+"support",
+0
+],
+"play-insurance-20703": [
+"other",
+"technical",
+1
+],
+"play-insurance-17901": [
+"other",
+"technical",
+1
+],
+"play-banking-10264": [
+"other",
+"support",
+0
+],
+"play-insurance-16321": [
+"other",
+"support",
+0
+],
+"play-insurance-19370": [
+"other",
+"support",
+0
+],
+"play-banking-5973": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-7600": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-10778": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-2288": [
+"other",
+"support",
+0
+],
+"play-banking-1742": [
+"other",
+"support",
+0
+],
+"play-insurance-19993": [
+"other",
+"technical",
+1
+],
+"play-telecom-15181": [
+"other",
+"support",
+0
+],
+"play-banking-9815": [
+"other",
+"support",
+1
+],
+"play-banking-868": [
+"identity_verification_kyc",
+"technical",
+1
+],
+"play-banking-9949": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-18162": [
+"other",
+"technical",
+1
+],
+"play-telecom-15209": [
+"other",
+"support",
+0
+],
+"play-banking-8690": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-5899": [
+"other",
+"support",
+0
+],
+"play-telecom-15750": [
+"change_provider",
+"technical",
+1
+],
+"play-insurance-16566": [
+"other",
+"support",
+0
+],
+"play-insurance-20506": [
+"other",
+"technical",
+1
+],
+"play-telecom-13375": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-9659": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-4312": [
+"other",
+"support",
+0
+],
+"play-insurance-19319": [
+"other",
+"support",
+0
+],
+"play-banking-1099": [
+"other",
+"support",
+0
+],
+"play-insurance-16609": [
+"other",
+"support",
+0
+],
+"play-banking-5412": [
+"other",
+"support",
+0
+],
+"play-insurance-19305": [
+"other",
+"support",
+0
+],
+"play-banking-10984": [
+"other",
+"support",
+0
+],
+"play-insurance-18036": [
+"other",
+"support",
+0
+],
+"play-banking-7727": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-7414": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-8366": [
+"other",
+"support",
+0
+],
+"play-insurance-19350": [
+"other",
+"support",
+0
+],
+"play-banking-10355": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-73": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-16331": [
+"other",
+"technical",
+1
+],
+"play-banking-7759": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-11585": [
+"loan_or_debt_restructuring",
+"account",
+1
+],
+"play-insurance-18182": [
+"other",
+"technical",
+0
+],
+"play-banking-2980": [
+"other",
+"support",
+0
+],
+"play-banking-8514": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-4072": [
+"get_password",
+"technical",
+1
+],
+"play-telecom-14901": [
+"change_plan",
+"sales",
+0
+],
+"play-banking-8034": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-telecom-13305": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-2107": [
+"transfer_problem",
+"technical",
+1
+],
+"play-telecom-14406": [
+"report_problem",
+"technical",
+1
+],
+"play-insurance-20016": [
+"other",
+"support",
+0
+],
+"play-insurance-20618": [
+"other",
+"support",
+0
+],
+"play-banking-8087": [
+"identity_verification_kyc",
+"account",
+1
+],
+"play-banking-7049": [
+"app_or_login_problem",
+"technical",
+0
+],
+"play-insurance-19363": [
+"other",
+"support",
+0
+],
+"play-telecom-15397": [
+"other",
+"support",
+0
+],
+"play-banking-11000": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-telecom-15374": [
+"other",
+"support",
+0
+],
+"play-telecom-15971": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-2368": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-19250": [
+"other",
+"technical",
+1
+],
+"play-insurance-20822": [
+"information_auto_insurance",
+"sales",
+0
+],
+"play-insurance-18607": [
+"receive_payment",
+"claims",
+2
+],
+"play-banking-5429": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-2039": [
+"other",
+"support",
+0
+],
+"play-insurance-17536": [
+"other",
+"technical",
+1
+],
+"play-insurance-16821": [
+"other",
+"support",
+0
+],
+"play-telecom-13899": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-11789": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-17215": [
+"other",
+"support",
+0
+],
+"play-telecom-14583": [
+"other",
+"support",
+0
+],
+"play-banking-6063": [
+"customer_service",
+"support",
+1
+],
+"play-banking-7594": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-7194": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-8587": [
+"check_fees",
+"billing",
+1
+],
+"play-banking-6103": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-16886": [
+"other",
+"support",
+0
+],
+"play-telecom-15155": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-4220": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-telecom-15871": [
+"report_poor_signal_coverage",
+"technical",
+1
+],
+"play-insurance-20562": [
+"other",
+"support",
+0
+],
+"play-banking-4613": [
+"other",
+"support",
+0
+],
+"play-banking-2966": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-1338": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-1512": [
+"payment_or_bill",
+"technical",
+2
+],
+"play-banking-1755": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-telecom-13785": [
+"other",
+"support",
+0
+],
+"play-banking-7445": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-9937": [
+"other",
+"technical",
+0
+],
+"play-banking-7431": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-5171": [
+"other",
+"support",
+0
+],
+"play-banking-10466": [
+"other",
+"support",
+0
+],
+"play-banking-9217": [
+"other",
+"support",
+0
+],
+"play-telecom-15352": [
+"other",
+"support",
+0
+],
+"play-banking-11533": [
+"other",
+"technical",
+0
+],
+"play-insurance-19246": [
+"other",
+"technical",
+1
+],
+"play-insurance-19339": [
+"other",
+"support",
+0
+],
+"play-banking-12164": [
+"other",
+"support",
+0
+],
+"play-banking-2013": [
+"other",
+"support",
+0
+],
+"play-banking-9167": [
+"unrecognised_or_wrong_charge",
+"billing",
+1
+],
+"play-telecom-13028": [
+"report_problem",
+"technical",
+1
+],
+"play-banking-9081": [
+"identity_verification_kyc",
+"technical",
+1
+],
+"play-banking-11951": [
+"app_or_login_problem",
+"technical",
+0
+],
+"play-banking-9298": [
+"other",
+"support",
+0
+],
+"play-banking-7891": [
+"app_or_login_problem",
+"technical",
+0
+],
+"play-insurance-17354": [
+"other",
+"technical",
+1
+],
+"play-insurance-16890": [
+"other",
+"support",
+0
+],
+"play-banking-2031": [
+"payment_or_bill",
+"technical",
+1
+],
+"play-telecom-14727": [
+"report_poor_signal_coverage",
+"technical",
+1
+],
+"play-banking-2560": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-12182": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-934": [
+"other",
+"support",
+0
+],
+"play-banking-3848": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-insurance-19411": [
+"other",
+"support",
+0
+],
+"play-insurance-16508": [
+"other",
+"support",
+0
+],
+"play-insurance-17382": [
+"other",
+"support",
+0
+],
+"play-banking-11183": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-10994": [
+"other",
+"support",
+0
+],
+"play-insurance-17953": [
+"customer_service",
+"support",
+1
+],
+"play-insurance-20338": [
+"other",
+"technical",
+1
+],
+"play-insurance-20153": [
+"other",
+"technical",
+1
+],
+"play-banking-7911": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-telecom-15180": [
+"report_poor_signal_coverage",
+"technical",
+1
+],
+"play-banking-8343": [
+"app_or_login_problem",
+"technical",
+1
+],
+"play-banking-5896": [
+"other",
+"technical",
+0
+]
+}
+}
