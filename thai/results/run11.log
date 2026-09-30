@@ -1,0 +1,154 @@
+== [08:39] 1/6 short chat versions (Qwen3-4B-FP8 on GPU 1, :8012)
+2292 posts (360 eval) x 2 -> 4560/4584 kept in 16.2 min
+
+[telecom/activate_phone] ค้างชำระค่างรายเดือนเอไอเอส แต่โดนตัดสัญญาณไปแล้ว 3 วัน ไปจ่ายส่วนค้างแล้วเบอร์จะกลับมาใช้งานได้ไหมครับ พอดีค้างชำระ โดน
+   -> ค้างชำระเอไอเอส 3 วันแล้วถูกตัดสัญญาณ จ่ายแล้วเบอร์จะกลับมาใช้งานได้ไหม
+
+[telecom/activate_phone] ค้างชำระค่างรายเดือนเอไอเอส แต่โดนตัดสัญญาณไปแล้ว 3 วัน ไปจ่ายส่วนค้างแล้วเบอร์จะกลับมาใช้งานได้ไหมครับ พอดีค้างชำระ โดน
+   -> ค้างชำระค่างรายเดือนเอไอเอส 3 วัน หลังจากจ่ายค้างแล้วเบอร์จะกลับมาใช้งานได้ไหมครับ
+
+[telecom/change_provider] ขอโปร ย้ายค่าย 10-20mbs โทรฟรีไม่เกิน 200 บาทหน่อยครับ เนื่องจาก ดีแทค ไม่มีโปร 10-20mbs โทรฟรี ไม่เกิน200 บาท ว่าจะให้แ
+   -> ขอโปรย้ายค่าย 10-20mbs โทรฟรีไม่เกิน 200 บาทครับ ดีแทคไม่มีโปรนี้ ต้องการค่ายอื่นเสนอโปรให้ครับ
+
+[telecom/change_provider] ขอโปร ย้ายค่าย 10-20mbs โทรฟรีไม่เกิน 200 บาทหน่อยครับ เนื่องจาก ดีแทค ไม่มีโปร 10-20mbs โทรฟรี ไม่เกิน200 บาท ว่าจะให้แ
+   -> ขอเสนอโปรย้ายค่าย 10-20 Mbps โทรฟรี ไม่เกิน 200 บาทครับ เนื่องจากดีแทคไม่มีโปรดังกล่าว พรุ่งนี้จะไปย้ายค่ายครับ
+
+[telecom/report_poor_signal_coverage] Dtac ครับ ขอให้ช่วยตรวจสอบสัญญาณเน็ต ใช้โปรเน็ตความเร็ว 30 Mbps ขณะนี้ได้แค่ 1-2 M. ปรับแก้ไขให้ด้วยครับ และจะส่งข้อมูล 
+   -> Dtac ขอตรวจสอบสัญญาณเน็ต ใช้โปรเน็ต 30 Mbps แต่ตอนนี้ได้แค่ 1-2 M ช่วยปรับแก้ไขให้ด้วยครับ และจะส่งข้อมูลหลังไมค์ให้ครับ
+
+[telecom/report_poor_signal_coverage] Dtac ครับ ขอให้ช่วยตรวจสอบสัญญาณเน็ต ใช้โปรเน็ตความเร็ว 30 Mbps ขณะนี้ได้แค่ 1-2 M. ปรับแก้ไขให้ด้วยครับ และจะส่งข้อมูล 
+   -> Dtac ครับ ขอให้ช่วยตรวจสอบสัญญาณเน็ต ใช้โปรเน็ตความเร็ว 30 Mbps แต่ขณะนี้ได้แค่ 1-2 M ครับ ยินดีส่งข้อมูลหลังไมค์เพื่อการตรวจสอบครับ
+== [08:57] 2/6 baselines on the real sets (run 8, run 10)
+
+== laya-th-run8
+set    business      n  intent   dept    urg  false-other  other-caught | frustration exact / MAE / mean pred vs true
+long   telecom     120   0.583  0.642  0.733     9/107        9/13    | 0.617 / 0.46 / 0.99 vs 0.66
+long   banking     120   0.575  0.642  0.783    12/94        19/26    | 0.442 / 0.61 / 0.91 vs 0.37
+long   insurance   120   0.567  0.658  0.725    21/64        50/56    | 0.450 / 0.63 / 0.90 vs 0.35
+long   all         360   0.575  0.647  0.747        0.159
+short  telecom     237   0.582  0.658  0.709    16/211       13/26    | 
+short  banking     238   0.500  0.601  0.655    22/188       33/50    | 
+short  insurance   239   0.477  0.515  0.439    27/128       77/111   | 
+short  all         714   0.520  0.591  0.601        0.123
+
+== laya-th-run10
+set    business      n  intent   dept    urg  false-other  other-caught | frustration exact / MAE / mean pred vs true
+long   telecom     120   0.583  0.725  0.783     1/107        5/13    | 0.575 / 0.48 / 1.03 vs 0.66
+long   banking     120   0.550  0.617  0.808     5/94        14/26    | 0.500 / 0.59 / 0.90 vs 0.37
+long   insurance   120   0.508  0.700  0.800    14/64        44/56    | 0.433 / 0.64 / 0.94 vs 0.35
+long   all         360   0.547  0.681  0.797        0.075
+short  telecom     237   0.557  0.722  0.755     7/211       13/26    | 
+short  banking     238   0.500  0.639  0.752    13/188       26/50    | 
+short  insurance   239   0.431  0.598  0.657    21/128       68/111   | 
+short  all         714   0.496  0.653  0.721        0.078
+== [09:03] 3/6 items (cascade stopped from here)
+1835 long Pantip records, 3846 short versions; 282 with human frustration
+in-scope rows the hard model calls other: long 132/1534, short 299/3211
+{
+ "items": 87716,
+ "real_items": 67716,
+ "replay": 20000,
+ "dropped": 0,
+ "by": {
+  "long_business": 6437,
+  "long_department": 7340,
+  "long_frustration": 1128,
+  "long_has_reference": 1835,
+  "long_intent": 7736,
+  "long_sentiment": 1835,
+  "long_urgency": 7340,
+  "long_wants_human": 1835,
+  "long_wants_refund": 1835,
+  "short_business": 6422,
+  "short_department": 7692,
+  "short_intent": 8589,
+  "short_urgency": 7692
+ }
+}
+== [09:10] 4/6 train run 11 from run 8, 2 epochs, LR 1e-5 / 4e-5
+  /work/thai/data/cs/cs11_items.pt: 87716 items
+train: 87716 items, 2 epochs, 5482 updates, micro 8 x accum 4
+=== epoch 1 done, avg loss 0.3800, 102.9 min ===
+=== epoch 2 done, avg loss 0.1774, 205.8 min ===
+calibrating temperatures
+temperatures (choice, score, noul): [1.067, 1.045, 1.084]
+saved to /work/thai/out/laya-th-run11 after 206.2 min
+== [12:37] 5/6 evals
+
+== laya-th-run11
+set    business      n  intent   dept    urg  false-other  other-caught | frustration exact / MAE / mean pred vs true
+long   telecom     120   0.558  0.742  0.767     4/107        6/13    | 0.750 / 0.29 / 0.62 vs 0.66
+long   banking     120   0.533  0.633  0.833     7/94        13/26    | 0.783 / 0.29 / 0.50 vs 0.37
+long   insurance   120   0.642  0.725  0.792    20/64        54/56    | 0.767 / 0.32 / 0.44 vs 0.35
+long   all         360   0.578  0.700  0.797        0.117
+short  telecom     237   0.570  0.764  0.789    12/211       15/26    | 
+short  banking     238   0.534  0.626  0.815    23/188       35/50    | 
+short  insurance   239   0.548  0.682  0.774    35/128       88/111   | 
+short  all         714   0.550  0.691  0.793        0.133
+480 decisions (120 real messages x 4 contexts)
+system                                        top-1  top-3   top-1 by context (verified&first / unverified / 3rd contact)
+rule(laya-th-run11 intent -> table)           0.685  0.806   0.650 / 0.692 / 0.700
+
+rule(laya-th-run11 intent -> table) common errors (base context, gold -> answer): [('give_information -> out_of_scope', 5), ('application_status -> sales_referral', 3), ('out_of_scope -> fraud_freeze', 3), ('out_of_scope -> escalate_supervisor', 2), ('out_of_scope -> sales_referral', 2), ('branch_or_atm_location -> send_document', 1), ('give_information -> fraud_freeze', 1), ('application_status -> send_document', 1)]
+480 decisions (120 real messages x 4 contexts)
+system                                        top-1  top-3   top-1 by context (verified&first / unverified / 3rd contact)
+rule(laya-th-run11 intent -> table)           0.696  0.731   0.633 / 0.708 / 0.721
+
+rule(laya-th-run11 intent -> table) common errors (base context, gold -> answer): [('account_info -> plan_sales', 6), ('plan_sales -> retention_offer', 5), ('give_information -> retention_offer', 4), ('network_ticket -> troubleshoot_service', 2), ('feature_service -> retention_offer', 2), ('give_information -> escalate_supervisor', 2), ('billing_review -> escalate_supervisor', 2), ('network_ticket -> plan_sales', 1)]
+480 decisions (120 real messages x 4 contexts)
+system                                        top-1  top-3   top-1 by context (verified&first / unverified / 3rd contact)
+rule(laya-th-run11 intent -> table)           0.710  0.798   0.708 / 0.717 / 0.708
+
+rule(laya-th-run11 intent -> table) common errors (base context, gold -> answer): [('give_information -> out_of_scope', 8), ('claim_intake -> sales_quote', 3), ('claim_intake -> out_of_scope', 2), ('retention_offer -> out_of_scope', 2), ('send_policy_document -> out_of_scope', 2), ('sales_quote -> out_of_scope', 2), ('claim_status -> out_of_scope', 2), ('coverage_check -> claim_intake', 1)]
+student vs teacher on /work/thai/data/cs/cs9_eval.jsonl:
+  choice  n=21892 argmax agreement 0.918  mean TV distance 0.085
+  noul    n=16419 argmax agreement 0.990  mean TV distance 0.025
+  score   n=10946 argmax agreement 0.854  mean TV distance 0.107
+
+/work/thai/out/laya-th-run11: 5473 eval records, 91 ms/record
+overall: 11720 decisions, accuracy 0.965, Brier 0.066, ECE 0.085
+source:type                      n    acc  brier    mae
+b77:choice                    1242  0.969  0.063 
+banking:choice                1216  0.979  0.037 
+ecommerce:choice              3064  0.988  0.032 
+insurance:choice              1784  0.974  0.050 
+iqa:choice                     622  0.987  0.035 
+other_gen:choice               494  0.988  0.032 
+pantip_banking:choice          136  0.875  0.229 
+pantip_banking:score            50  0.900  0.178  0.178
+pantip_insurance:choice         19  0.842  0.254 
+pantip_insurance:score           8  1.000  0.007  0.105
+pantip_telecom:choice          116  0.914  0.161 
+pantip_telecom:score            39  0.897  0.196  0.174
+telecom:choice                1130  0.955  0.080 
+wisesight:choice              1800  0.910  0.142 
+tickets: department 5/5  refund 5/5  frustration MAE 0.35
+   โดนหักเงินซ้ำสองครั้งเมื่อวานน billing   p=0.97 frustration=1.85 refund=0.96
+   เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่ technical p=0.96 frustration=1.19 refund=0.06
+   สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ sales     p=0.96 frustration=0.28 refund=0.05
+   ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ  billing   p=0.99 frustration=1.05 refund=0.11
+   แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ technical p=0.82 frustration=1.91 refund=0.14
+student vs teacher on /work/thai/data/distill3_eval.jsonl:
+  choice  n= 2528 argmax agreement 0.687  mean TV distance 0.307
+  noul    n= 2483 argmax agreement 0.888  mean TV distance 0.125
+  score   n= 1117 argmax agreement 0.668  mean TV distance 0.279
+
+/work/thai/out/laya-th-run11: 1704 eval records, 38 ms/record
+overall: 2455 decisions, accuracy 0.773, Brier 0.395, ECE 0.158
+source:type                      n    acc  brier    mae
+massive_th:choice              300  0.820  0.317 
+prachathai:choice              163  0.896  0.210 
+prachathai:noul                588  0.888  0.198 
+sib200_th:choice               204  0.662  0.569 
+wisesight:choice               300  0.713  0.421 
+wongnai:score                  300  0.613  0.718  0.413
+xnli_th:choice                 300  0.677  0.561 
+xnli_th:noul                   300  0.827  0.324 
+tickets: department 5/5  refund 5/5  frustration MAE 0.35
+   โดนหักเงินซ้ำสองครั้งเมื่อวานน billing   p=0.97 frustration=1.85 refund=0.96
+   เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่ technical p=0.96 frustration=1.19 refund=0.06
+   สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ sales     p=0.96 frustration=0.28 refund=0.05
+   ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ  billing   p=0.99 frustration=1.05 refund=0.11
+   แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ technical p=0.82 frustration=1.91 refund=0.14
+== [13:25] 6/6 restore :8011 (run 8) and permissions
+== [13:25] done

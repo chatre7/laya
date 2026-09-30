@@ -1,0 +1,45 @@
+{
+ "rule(laya-th-run11 intent -> table)": {
+  "top1": 0.6854,
+  "top3": 0.8063,
+  "by_context": {
+   "base": 0.65,
+   "repeat": 0.7,
+   "unverified": 0.6917
+  },
+  "common_errors_base": [
+   [
+    "give_information -> out_of_scope",
+    5
+   ],
+   [
+    "application_status -> sales_referral",
+    3
+   ],
+   [
+    "out_of_scope -> fraud_freeze",
+    3
+   ],
+   [
+    "out_of_scope -> escalate_supervisor",
+    2
+   ],
+   [
+    "out_of_scope -> sales_referral",
+    2
+   ],
+   [
+    "branch_or_atm_location -> send_document",
+    1
+   ],
+   [
+    "give_information -> fraud_freeze",
+    1
+   ],
+   [
+    "application_status -> send_document",
+    1
+   ]
+  ]
+ }
+}

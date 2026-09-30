@@ -1,0 +1,45 @@
+{
+ "rule(laya-th-run11 intent -> table)": {
+  "top1": 0.7104,
+  "top3": 0.7979,
+  "by_context": {
+   "base": 0.7083,
+   "repeat": 0.7083,
+   "unverified": 0.7167
+  },
+  "common_errors_base": [
+   [
+    "give_information -> out_of_scope",
+    8
+   ],
+   [
+    "claim_intake -> sales_quote",
+    3
+   ],
+   [
+    "claim_intake -> out_of_scope",
+    2
+   ],
+   [
+    "retention_offer -> out_of_scope",
+    2
+   ],
+   [
+    "send_policy_document -> out_of_scope",
+    2
+   ],
+   [
+    "sales_quote -> out_of_scope",
+    2
+   ],
+   [
+    "claim_status -> out_of_scope",
+    2
+   ],
+   [
+    "coverage_check -> claim_intake",
+    1
+   ]
+  ]
+ }
+}

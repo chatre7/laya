@@ -713,6 +713,39 @@ Caveat: the tables and the hand labels are both mine, so these numbers flatter t
 by the call center and actions agents took on real tickets. A learned NBA model needs those (ticket -> action that resolved
 it); until then, better intent accuracy is better NBA.
 
+## Run 11: short chat versions, human frustration labels, hard examples (2026-09-30)
+
+Three fixes aimed at the intent errors behind the next-best-action misses, and at frustration over-scoring, all on the real rows:
+
+- **Short chat versions.** Real callers type one or two sentences; our only real texts are long forum posts. `cs/shorten_pantip.py`
+  rewrites each of the 2,292 hand-labelled Pantip posts as a chat message to the company (Qwen3-4B-FP8 on vLLM, two styles,
+  4,560 kept of 4,584, 16 min); the human intent / department / urgency carry over. The 360 eval posts' versions (714) are a
+  new **short** eval set; the rest (3,846) train.
+- **Human frustration.** 660 rows hand-labelled 0 / 1 / 2 (`data_domain/frustration_real_eval.json` for the 360 eval posts,
+  `frustration_train.json` for 300 training posts). The teacher's frustration targets are dropped on the Pantip rows.
+- **Hard examples.** In-scope rows run 8 calls `other` (132 of 1,534 long, 299 of 3,211 short) get their intent item 3 more times.
+
+`cs/label_cs11.py`: 67,716 real items + 20,000 replayed synthetic cs9 items; `cs/run11.sh`: second pass from run 8, 2 epochs,
+LR 1e-5 / 4e-5, 3 h 26 min. `cs/eval_real.py` scores long and short, false-other (in-scope called `other`) and frustration.
+
+| | run 8 | run 10 | **run 11** |
+|---|---|---|---|
+| long (360): intent / department / urgency | 0.575 / 0.647 / 0.747 | 0.547 / 0.681 / 0.797 | 0.578 / **0.700** / **0.797** |
+| long: false-other (telecom / banking / insurance) | 9/107, 12/94, 21/64 = 16% | 1, 5, 14 = **7.5%** | 4, 7, 20 = 12% |
+| long: frustration exact / MAE / mean predicted vs true | 0.50 / 0.57 / 0.93 vs 0.46 | 0.50 / 0.57 / 0.96 vs 0.46 | **0.77 / 0.30 / 0.52 vs 0.46** |
+| short (714): intent / department / urgency | 0.520 / 0.591 / 0.601 | 0.496 / 0.653 / 0.721 | **0.550 / 0.691 / 0.793** |
+| short: false-other | 12% | **7.8%** | 13% |
+| next best action, rule top-1: banking / telecom / insurance | 0.690 / 0.667 / 0.656 | - | 0.685 / **0.696** / **0.710** |
+| cs9 held-out / public set | 0.968 / 0.780 | 0.963 / 0.774 | 0.965 / 0.773 |
+
+What moved: frustration is fixed (the model over-scored calm messages by half a point; now exact 0.77 and no bias),
+department and urgency gain 5 points on the long posts and 10-19 on the short ones, next-best-action gains on telecom and
+insurance. What did not: intent itself is flat on the long posts (+3 on the short ones), and false-other only fell from 16% to
+12% on long, not at all on short, despite the hard examples; run 10 (Pantip-only pass) still has the lowest false-other but
+the lowest `other` recall. Insurance stays the weak business (20/64 in-scope long posts called `other`). Public set -0.7.
+`results/real_baselines.json`, `real11.json`, `nba_*_run11.json`, `run11*.json`, `run11.log`. Not served yet: `:8011` stays
+on run 8 pending the choice.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
