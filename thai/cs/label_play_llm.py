@@ -46,8 +46,8 @@ def schema(biz):
             "required": ["intent", "department", "urgency"], "additionalProperties": False}
 
 
-def ask(url, model, biz, text):
-    body = {"model": model, "messages": [{"role": "user", "content": prompt(biz, text[:600])}], "temperature": 0, "max_tokens": 60,
+def ask(url, model, biz, text, max_chars=600):
+    body = {"model": model, "messages": [{"role": "user", "content": prompt(biz, text[:max_chars])}], "temperature": 0, "max_tokens": 60,
             "response_format": {"type": "json_schema", "json_schema": {"name": "label", "schema": schema(biz), "strict": True}},
             "chat_template_kwargs": {"enable_thinking": False}}
     req = urllib.request.Request(url + "/v1/chat/completions", json.dumps(body, ensure_ascii=False).encode(), {"content-type": "application/json"})
