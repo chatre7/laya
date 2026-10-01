@@ -1,0 +1,45 @@
+{
+ "rule(laya-th-run13 intent -> table)": {
+  "top1": 0.6646,
+  "top3": 0.7833,
+  "by_context": {
+   "base": 0.6333,
+   "repeat": 0.6708,
+   "unverified": 0.6833
+  },
+  "common_errors_base": [
+   [
+    "give_information -> out_of_scope",
+    5
+   ],
+   [
+    "application_status -> sales_referral",
+    3
+   ],
+   [
+    "out_of_scope -> sales_referral",
+    2
+   ],
+   [
+    "branch_or_atm_location -> escalate_supervisor",
+    2
+   ],
+   [
+    "out_of_scope -> debt_relief",
+    2
+   ],
+   [
+    "sales_referral -> out_of_scope",
+    2
+   ],
+   [
+    "give_information -> debt_relief",
+    2
+   ],
+   [
+    "out_of_scope -> send_document",
+    2
+   ]
+  ]
+ }
+}

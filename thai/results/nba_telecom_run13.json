@@ -1,0 +1,45 @@
+{
+ "rule(laya-th-run13 intent -> table)": {
+  "top1": 0.7208,
+  "top3": 0.7438,
+  "by_context": {
+   "base": 0.6583,
+   "repeat": 0.7542,
+   "unverified": 0.7167
+  },
+  "common_errors_base": [
+   [
+    "plan_sales -> retention_offer",
+    5
+   ],
+   [
+    "give_information -> retention_offer",
+    4
+   ],
+   [
+    "billing_review -> escalate_supervisor",
+    3
+   ],
+   [
+    "out_of_scope -> feature_service",
+    2
+   ],
+   [
+    "network_ticket -> troubleshoot_service",
+    2
+   ],
+   [
+    "device_service -> out_of_scope",
+    2
+   ],
+   [
+    "feature_service -> retention_offer",
+    2
+   ],
+   [
+    "account_info -> plan_sales",
+    2
+   ]
+  ]
+ }
+}

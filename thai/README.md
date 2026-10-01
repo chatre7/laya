@@ -777,6 +777,33 @@ collapses (the teacher's urgency targets on the review items say "urgent" for ap
 messages are the target. The useful outcome is the recipe and the 300-review eval set, and the finding that the teacher cannot
 label reviews. `results/real12.json`, `play12.json`, `nba_*_run12.json`, `run12*.json`, `run12.log`.
 
+## Run 13: the reviews labelled by an LLM (2026-10-01)
+
+Same reviews, a different labeller: Qwen3-8B-FP8 on vLLM with the business's intent list, the departments and the urgency
+scale in the prompt and a JSON-schema-constrained answer (`cs/label_play_llm.py`). Against the 300 hand labels it scores
+intent 0.74 / department 0.72 / urgency 0.78 (0.71 / 0.67 / 0.73 before one prompt revision that states the convention for
+app problems, made after seeing the first errors on these same 300, so the 300 are not a clean test of the labeller). It labels
+all 20,567 reviews in 90 min (13,137 `other`, 4,228 app/login problems) versus 1,234 usable rows from teacher+student agreement.
+`cs/label_cs13.py` caps each (business, intent) at 1,500 rows -> 9,202 reviews, 41,510 items, + 50,000 replayed run 11 items;
+a pass from run 11 (`cs/run13.sh`, 2 epochs, 4 h 8 min).
+
+| | run 11 | run 12 (teacher+student) | **run 13 (LLM labels)** |
+|---|---|---|---|
+| reviews (300): intent / department / urgency | 0.557 / 0.623 / 0.467 | 0.633 / 0.620 / 0.253 | **0.737 / 0.740 / 0.807** |
+| reviews: false-other | 73% | 37% | **28%** |
+| long (360): intent / department / urgency | **0.578 / 0.700** / 0.797 | 0.556 / 0.686 / 0.797 | 0.561 / 0.683 / **0.822** |
+| long: false-other | 12% | **8.3%** | 9.8% |
+| short (714): intent / department / urgency | 0.550 / 0.691 / 0.793 | 0.555 / 0.693 / 0.763 | 0.553 / **0.702 / 0.800** |
+| short: false-other | 13% | 10.6% | **10.4%** |
+| next best action, rule top-1: banking / telecom / insurance | **0.685** / 0.696 / 0.710 | 0.675 / 0.683 / **0.727** | 0.665 / **0.721** / 0.721 |
+| cs9 held-out / public set | **0.965 / 0.773** | 0.962 / 0.769 | 0.955 / 0.757 |
+
+The student reaches the labeller's own accuracy on the reviews (0.737 vs 0.74) at 1/100 of the cost per message, so on this
+kind of text the ceiling is now the labels, not the model. The Pantip sets are flat (urgency +2.5, banking intent on long posts
+-4), and the price is 1.6 points on the public set and 1 on cs9: 41k items of one narrow register pull the model that way.
+Which to serve depends on the traffic: short app/chat-style messages -> run 13; forum-length or mixed -> run 11.
+`results/play13.json`, `real13.json`, `nba_*_run13.json`, `run13*.json`, `run13.log`.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).

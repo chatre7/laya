@@ -1,0 +1,127 @@
+== [10:45] 1/5 LLM labels (Qwen3-8B-FP8)
+300/300 labelled in 1.2 min
+telecom    n=  51 intent 0.725 dept 0.745 urg 0.804 false-other 7/31 other-caught 19/20
+banking    n= 175 intent 0.709 dept 0.691 urg 0.760 false-other 37/114 other-caught 58/61
+insurance  n=  74 intent 0.838 dept 0.770 urg 0.824 false-other 8/13 other-caught 58/61
+all        n= 300 intent 0.743 dept 0.720 urg 0.783 false-other 52/158 other-caught 135/142
+intent errors (gold -> llm): [('app_or_login_problem -> other', 25), ('report_problem -> other', 6), ('identity_verification_kyc -> other', 4), ('buy_insurance_policy -> other', 3), ('payment_or_bill -> other', 3), ('transfer_problem -> make_transfer', 2), ('loan_or_debt_restructuring -> other', 2), ('customer_service -> other', 2), ('report_poor_signal_coverage -> complaint', 2), ('unrecognised_or_wrong_charge -> other', 1), ('report_poor_signal_coverage -> report_problem', 1), ('unrecognised_or_wrong_charge -> account_suspended_or_fraud', 1), ('check_fees -> unrecognised_or_wrong_charge', 1), ('other -> deposit_or_interest_info', 1), ('apply_for_loan -> apply_for_card', 1)]
+  2000/20567, 8.7 min
+  4000/20567, 17.5 min
+  6000/20567, 26.2 min
+  8000/20567, 34.9 min
+  10000/20567, 43.7 min
+  12000/20567, 52.4 min
+  14000/20567, 61.0 min
+  16000/20567, 69.8 min
+  18000/20567, 78.5 min
+  20000/20567, 87.2 min
+20567/20567 labelled in 89.6 min
+intents [('other', 13137), ('app_or_login_problem', 4228), ('report_problem', 826), ('complaint', 224), ('transfer_problem', 133), ('identity_verification_kyc', 108), ('make_transfer', 107), ('account_suspended_or_fraud', 101), ('report_poor_signal_coverage', 97), ('change_personal_details', 93), ('top_up_or_deposit_problem', 83), ('top_up_problem', 79)] departments Counter({'support': 12047, 'technical': 6766, 'account': 1088, 'billing': 390, 'sales': 154, 'claims': 122}) urgency Counter({0: 12457, 1: 7511, 2: 599})
+== [12:15] 2/5 items
+20567 labelled reviews -> 9202 after cap 1500; top [(('banking', 'other'), 1500), (('banking', 'app_or_login_problem'), 1500), (('insurance', 'other'), 1500), (('telecom', 'other'), 1500), (('telecom', 'report_problem'), 826), (('telecom', 'complaint'), 140), (('banking', 'transfer_problem'), 133), (('banking', 'identity_verification_kyc'), 108)]
+{
+ "reviews": 9202,
+ "play_items": 41510,
+ "replay": 50000,
+ "items": 91510,
+ "dropped": 0
+}
+== [12:17] 3/5 train run 13 from run 11, 2 epochs, LR 1e-5 / 4e-5
+  /work/thai/data/cs/cs13_items.pt: 91510 items
+train: 91510 items, 2 epochs, 5718 updates, micro 8 x accum 4
+=== epoch 1 done, avg loss 0.5249, 124.1 min ===
+=== epoch 2 done, avg loss 0.3648, 248.3 min ===
+calibrating temperatures
+temperatures (choice, score, noul): [1.118, 1.064, 0.98]
+saved to /work/thai/out/laya-th-run13 after 248.6 min
+== [16:26] 4/5 evals
+
+== laya-th-run11  (300 hand-labelled reviews)
+telecom    n=  51 intent 0.529 dept 0.588 urg 0.510 false-other 22/31 other-caught 20/20
+banking    n= 175 intent 0.451 dept 0.663 urg 0.474 false-other 84/114 other-caught 56/61
+insurance  n=  74 intent 0.824 dept 0.554 urg 0.419 false-other 9/13 other-caught 58/61
+all        n= 300 intent 0.557 dept 0.623 urg 0.467 false-other 115/158 other-caught 134/142
+
+== laya-th-run13  (300 hand-labelled reviews)
+telecom    n=  51 intent 0.745 dept 0.765 urg 0.824 false-other 7/31 other-caught 20/20
+banking    n= 175 intent 0.686 dept 0.731 urg 0.777 false-other 29/114 other-caught 52/61
+insurance  n=  74 intent 0.851 dept 0.743 urg 0.865 false-other 9/13 other-caught 60/61
+all        n= 300 intent 0.737 dept 0.740 urg 0.807 false-other 45/158 other-caught 132/142
+
+== laya-th-run13
+set    business      n  intent   dept    urg  false-other  other-caught | frustration exact / MAE / mean pred vs true
+long   telecom     120   0.575  0.750  0.817     2/107        5/13    | 0.708 / 0.32 / 0.69 vs 0.66
+long   banking     120   0.492  0.608  0.817     9/94        11/26    | 0.742 / 0.31 / 0.51 vs 0.37
+long   insurance   120   0.617  0.692  0.833    15/64        48/56    | 0.692 / 0.36 / 0.42 vs 0.35
+long   all         360   0.561  0.683  0.822        0.098
+short  telecom     237   0.586  0.810  0.768     7/211       11/26    | 
+short  banking     238   0.550  0.634  0.824    15/188       32/50    | 
+short  insurance   239   0.523  0.661  0.808    33/128       84/111   | 
+short  all         714   0.553  0.702  0.800        0.104
+480 decisions (120 real messages x 4 contexts)
+system                                        top-1  top-3   top-1 by context (verified&first / unverified / 3rd contact)
+rule(laya-th-run13 intent -> table)           0.665  0.783   0.633 / 0.683 / 0.671
+
+rule(laya-th-run13 intent -> table) common errors (base context, gold -> answer): [('give_information -> out_of_scope', 5), ('application_status -> sales_referral', 3), ('out_of_scope -> sales_referral', 2), ('branch_or_atm_location -> escalate_supervisor', 2), ('out_of_scope -> debt_relief', 2), ('sales_referral -> out_of_scope', 2), ('give_information -> debt_relief', 2), ('out_of_scope -> send_document', 2)]
+480 decisions (120 real messages x 4 contexts)
+system                                        top-1  top-3   top-1 by context (verified&first / unverified / 3rd contact)
+rule(laya-th-run13 intent -> table)           0.721  0.744   0.658 / 0.717 / 0.754
+
+rule(laya-th-run13 intent -> table) common errors (base context, gold -> answer): [('plan_sales -> retention_offer', 5), ('give_information -> retention_offer', 4), ('billing_review -> escalate_supervisor', 3), ('out_of_scope -> feature_service', 2), ('network_ticket -> troubleshoot_service', 2), ('device_service -> out_of_scope', 2), ('feature_service -> retention_offer', 2), ('account_info -> plan_sales', 2)]
+480 decisions (120 real messages x 4 contexts)
+system                                        top-1  top-3   top-1 by context (verified&first / unverified / 3rd contact)
+rule(laya-th-run13 intent -> table)           0.721  0.817   0.708 / 0.725 / 0.725
+
+rule(laya-th-run13 intent -> table) common errors (base context, gold -> answer): [('give_information -> out_of_scope', 6), ('claim_intake -> sales_quote', 3), ('retention_offer -> out_of_scope', 3), ('out_of_scope -> claim_status', 3), ('claim_status -> claim_intake', 2), ('sales_quote -> out_of_scope', 2), ('coverage_check -> claim_intake', 1), ('sales_quote -> give_information', 1)]
+student vs teacher on /work/thai/data/cs/cs9_eval.jsonl:
+  choice  n=21892 argmax agreement 0.902  mean TV distance 0.112
+  noul    n=16419 argmax agreement 0.989  mean TV distance 0.024
+  score   n=10946 argmax agreement 0.816  mean TV distance 0.141
+
+/work/thai/out/laya-th-run13: 5473 eval records, 90 ms/record
+overall: 11720 decisions, accuracy 0.955, Brier 0.086, ECE 0.096
+source:type                      n    acc  brier    mae
+b77:choice                    1242  0.955  0.089 
+banking:choice                1216  0.987  0.035 
+ecommerce:choice              3064  0.983  0.043 
+insurance:choice              1784  0.974  0.056 
+iqa:choice                     622  0.965  0.075 
+other_gen:choice               494  0.970  0.064 
+pantip_banking:choice          136  0.912  0.157 
+pantip_banking:score            50  0.940  0.113  0.149
+pantip_insurance:choice         19  0.895  0.188 
+pantip_insurance:score           8  1.000  0.008  0.110
+pantip_telecom:choice          116  0.888  0.209 
+pantip_telecom:score            39  0.897  0.152  0.161
+telecom:choice                1130  0.946  0.099 
+wisesight:choice              1800  0.872  0.210 
+tickets: department 5/5  refund 5/5  frustration MAE 0.36
+   โดนหักเงินซ้ำสองครั้งเมื่อวานน billing   p=0.95 frustration=1.87 refund=0.97
+   เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่ technical p=0.96 frustration=1.20 refund=0.05
+   สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ sales     p=0.95 frustration=0.32 refund=0.04
+   ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ  billing   p=0.98 frustration=1.05 refund=0.09
+   แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ technical p=0.95 frustration=1.89 refund=0.09
+student vs teacher on /work/thai/data/distill3_eval.jsonl:
+  choice  n= 2528 argmax agreement 0.687  mean TV distance 0.308
+  noul    n= 2483 argmax agreement 0.888  mean TV distance 0.123
+  score   n= 1117 argmax agreement 0.657  mean TV distance 0.296
+
+/work/thai/out/laya-th-run13: 1704 eval records, 38 ms/record
+overall: 2455 decisions, accuracy 0.757, Brier 0.417, ECE 0.172
+source:type                      n    acc  brier    mae
+massive_th:choice              300  0.783  0.355 
+prachathai:choice              163  0.883  0.210 
+prachathai:noul                588  0.895  0.201 
+sib200_th:choice               204  0.623  0.616 
+wisesight:choice               300  0.680  0.463 
+wongnai:score                  300  0.603  0.728  0.417
+xnli_th:choice                 300  0.677  0.567 
+xnli_th:noul                   300  0.797  0.376 
+tickets: department 5/5  refund 5/5  frustration MAE 0.36
+   โดนหักเงินซ้ำสองครั้งเมื่อวานน billing   p=0.95 frustration=1.87 refund=0.97
+   เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่ technical p=0.96 frustration=1.20 refund=0.05
+   สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ sales     p=0.95 frustration=0.32 refund=0.04
+   ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ  billing   p=0.98 frustration=1.05 refund=0.09
+   แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ technical p=0.95 frustration=1.89 refund=0.09
+== [17:16] 5/5 restore :8011 (run 8) and permissions
+== [17:16] done
