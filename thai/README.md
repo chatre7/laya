@@ -746,6 +746,37 @@ the lowest `other` recall. Insurance stays the weak business (20/64 in-scope lon
 `results/real_baselines.json`, `real11.json`, `nba_*_run11.json`, `run11*.json`, `run11.log`. Not served yet: `:8011` stays
 on run 8 pending the choice.
 
+## Run 12: Google Play reviews (2026-09-30/10-01)
+
+The Hub has no Thai call-center text (`cs/hf_thai_search.py`: 254 Thai-tagged datasets, 329 from Thai organisations; the
+closest are a 33 GB role-played call-center speech set, CC-BY-NC, and translated scam dialogues). Google Play reviews of Thai
+bank / telecom / insurance apps are public, short (63 chars on average) and in the customer's own words: `cs/fetch_play_reviews.py`
+fetched 20,867 (banking 12.9k incl. wallets and a consumer-loan app, insurance 4.6k, telecom 3.3k); 300 held out and
+hand-labelled (`data_domain/play_labels.json`: 142 are praise or no request = `other`, 83 app/login problems).
+
+Labelling (`cs/label_play.py`): the teacher answers every question and run 11 the intent; a review is kept when the teacher's
+probability of the student's intent is >= 0.2. Only **1,234 of 12,000** pass (strict top-1 agreement 10%): the teacher invents
+intents for praise ("ดีมาก" -> apply_for_card 0.96) and the student calls many real problems `other`. 11,106 review items +
+40,000 replayed run 11 items, a pass from run 11 (`cs/run12.sh`, 2 epochs, 2 h). `cs/eval_play.py` scores the 300.
+
+| | run 11 | **run 12** |
+|---|---|---|
+| reviews (300): intent / department / urgency | 0.557 / 0.623 / 0.467 | **0.633** / 0.620 / 0.253 |
+| reviews: false-other (in-scope called other) | 115/158 = 73% | **58/158 = 37%** |
+| long (360): intent / department / urgency | 0.578 / 0.700 / 0.797 | 0.556 / 0.686 / 0.797 |
+| long: false-other | 12% | **8.3%** |
+| short (714): intent / department / urgency | 0.550 / 0.691 / 0.793 | 0.555 / 0.693 / 0.763 |
+| short: false-other | 13% | **10.6%** |
+| next best action, rule top-1: banking / telecom / insurance | 0.685 / 0.696 / 0.710 | 0.675 / 0.683 / **0.727** |
+| cs9 held-out / public set | 0.965 / 0.773 | 0.962 / 0.769 |
+
+The reviews teach what they contain: short app complaints. On them intent +8 and false-other halves; false-other also falls
+on the long and short Pantip sets. The costs: banking intent on the long posts -6 (0.533 -> 0.475), urgency on the reviews
+collapses (the teacher's urgency targets on the review items say "urgent" for app complaints that the hand labels call
+"today"), everything else within a point. Run 11 remains the better all-round checkpoint; run 12 only if short app-style
+messages are the target. The useful outcome is the recipe and the 300-review eval set, and the finding that the teacher cannot
+label reviews. `results/real12.json`, `play12.json`, `nba_*_run12.json`, `run12*.json`, `run12.log`.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
