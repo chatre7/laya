@@ -834,6 +834,8 @@ more than they teach it. Averaged over the three real-text sets: intent 0.562 / 
 moves it now is better labels (call-center staff, or a taxonomy with fewer overlapping intents), not more of this.
 `results/real14.json`, `play14.json`, `nba_*_run14.json`, `run14*.json`, `run14.log`.
 
+**Served since 2026-10-02: `:8011` runs run 14** (`docker-compose.cascade.yml` mounts `out/laya-th-run14`; roll back by mounting `out/laya-th-run8`). The cascade threshold is unchanged (0.7), although on real call-center text the teacher fallback does not help.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
