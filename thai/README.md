@@ -870,6 +870,24 @@ right or wrong and, if wrong, picks the right group and department; each click a
 testers to remove names, phone and account numbers first. The feedback file is the human-labelled call-center text this
 project lacks; it stays on the box and is not committed.
 
+## Mood against the customers' own stars, and sarcasm (2026-10-02)
+
+`cs/eval_stars.py`, no training: 3,000 Google Play reviews with the star rating the reviewer gave, and the 3,300 sentences
+of `Tippawan/thai-ambiguous-sentiment` (sarcasm, indirect praise, neutral facts; pos / neg / neu labels, provenance and licence
+not stated on the Hub, so a test set only). `results/stars.json`.
+
+| run 14 on reviews | 1 star | 2 | 3 | 4 | 5 stars |
+|---|---|---|---|---|---|
+| `sentiment` = negative | 0.89 | 0.77 | 0.65 | 0.29 | 0.15 |
+| `sentiment` = positive | 0.01 | 0.03 | 0.07 | 0.30 | 0.58 |
+| mean `frustration` (0-2) | 1.29 | 1.10 | 1.06 | 0.82 | 0.57 |
+
+1-2 stars called negative or 4-5 stars called positive: 0.72 (run 8: 0.63); the opposite polarity on 8.6%; the rest neutral.
+Frustration falls with every star and separates 1-2 from 4-5 stars with AUC 0.89. The 15% of 5-star reviews called negative
+are mostly real: people give five stars and write "เข้าแอปไม่ได้". Sarcasm is a different story: 0.49 on the ambiguous set,
+19/100 on the sentences marked sarcasm; "ระบบทำงานได้สมบูรณ์แบบมากจ้า ค้างไปแค่ 10 รอบเอง" reads as praise (negative ->
+positive 529 of 1,100), and indirect praise reads as neutral or negative. Neither run was trained on anything like it.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
