@@ -1,0 +1,458 @@
+{
+ "laya-th-run8": {
+  "rows": {
+   "long_telecom": {
+    "n": 120,
+    "fine": 0.5917,
+    "group": 0.6583,
+    "group_top3": 0.8333
+   },
+   "long_banking": {
+    "n": 120,
+    "fine": 0.575,
+    "group": 0.6667,
+    "group_top3": 0.7667
+   },
+   "long_insurance": {
+    "n": 120,
+    "fine": 0.5667,
+    "group": 0.6417,
+    "group_top3": 0.675
+   },
+   "long_all": {
+    "n": 360,
+    "fine": 0.5778,
+    "group": 0.6556,
+    "group_top3": 0.7583
+   },
+   "short_telecom": {
+    "n": 237,
+    "fine": 0.5823,
+    "group": 0.6287,
+    "group_top3": 0.7722
+   },
+   "short_banking": {
+    "n": 238,
+    "fine": 0.5,
+    "group": 0.6008,
+    "group_top3": 0.7311
+   },
+   "short_insurance": {
+    "n": 239,
+    "fine": 0.477,
+    "group": 0.5523,
+    "group_top3": 0.6025
+   },
+   "short_all": {
+    "n": 714,
+    "fine": 0.5196,
+    "group": 0.5938,
+    "group_top3": 0.7017
+   },
+   "reviews_telecom": {
+    "n": 51,
+    "fine": 0.4902,
+    "group": 0.5098,
+    "group_top3": 0.5686
+   },
+   "reviews_banking": {
+    "n": 175,
+    "fine": 0.4571,
+    "group": 0.4629,
+    "group_top3": 0.5371
+   },
+   "reviews_insurance": {
+    "n": 74,
+    "fine": 0.8514,
+    "group": 0.8514,
+    "group_top3": 0.9189
+   },
+   "reviews_all": {
+    "n": 300,
+    "fine": 0.56,
+    "group": 0.5667,
+    "group_top3": 0.6367
+   },
+   "all_telecom": {
+    "n": 408,
+    "fine": 0.5735,
+    "group": 0.6225,
+    "group_top3": 0.7647
+   },
+   "all_banking": {
+    "n": 533,
+    "fine": 0.5028,
+    "group": 0.5704,
+    "group_top3": 0.6754
+   },
+   "all_insurance": {
+    "n": 433,
+    "fine": 0.5658,
+    "group": 0.6282,
+    "group_top3": 0.6767
+   },
+   "all_all": {
+    "n": 1374,
+    "fine": 0.5437,
+    "group": 0.6041,
+    "group_top3": 0.7023
+   }
+  },
+  "confusions": {
+   "telecom": [
+    [
+     "network_problem -> other",
+     34
+    ],
+    [
+     "plan_new_change -> cancel_port_out",
+     16
+    ],
+    [
+     "payment -> top_up",
+     12
+    ],
+    [
+     "network_problem -> plan_new_change",
+     5
+    ],
+    [
+     "cancel_port_out -> plan_new_change",
+     4
+    ],
+    [
+     "other -> sim_number",
+     4
+    ],
+    [
+     "other -> network_problem",
+     4
+    ],
+    [
+     "bill_usage_info -> network_problem",
+     4
+    ],
+    [
+     "bill_dispute -> other",
+     3
+    ],
+    [
+     "contact_complaint -> cancel_port_out",
+     3
+    ]
+   ],
+   "banking": [
+    [
+     "app_login_identity -> other",
+     69
+    ],
+    [
+     "loan_apply -> other",
+     11
+    ],
+    [
+     "branch_contact -> other",
+     9
+    ],
+    [
+     "account_info_documents -> wrong_charge_refund",
+     9
+    ],
+    [
+     "other -> transfer_payment",
+     8
+    ],
+    [
+     "fees_rates_products -> other",
+     8
+    ],
+    [
+     "account_info_documents -> transfer_payment",
+     6
+    ],
+    [
+     "loan_repay_debt -> loan_apply",
+     5
+    ],
+    [
+     "loan_repay_debt -> other",
+     5
+    ],
+    [
+     "loan_apply -> loan_repay_debt",
+     5
+    ]
+   ],
+   "insurance": [
+    [
+     "other -> buy_quote_info",
+     26
+    ],
+    [
+     "general_info -> other",
+     15
+    ],
+    [
+     "coverage_question -> buy_quote_info",
+     12
+    ],
+    [
+     "claim_new -> buy_quote_info",
+     12
+    ],
+    [
+     "general_info -> buy_quote_info",
+     10
+    ],
+    [
+     "renewal -> buy_quote_info",
+     9
+    ],
+    [
+     "claim_follow_up -> other",
+     7
+    ],
+    [
+     "other -> claim_follow_up",
+     7
+    ],
+    [
+     "coverage_question -> other",
+     7
+    ],
+    [
+     "buy_quote_info -> other",
+     6
+    ]
+   ]
+  }
+ },
+ "laya-th-run14": {
+  "rows": {
+   "long_telecom": {
+    "n": 120,
+    "fine": 0.5667,
+    "group": 0.6417,
+    "group_top3": 0.8083
+   },
+   "long_banking": {
+    "n": 120,
+    "fine": 0.55,
+    "group": 0.6667,
+    "group_top3": 0.7417
+   },
+   "long_insurance": {
+    "n": 120,
+    "fine": 0.5583,
+    "group": 0.6417,
+    "group_top3": 0.7083
+   },
+   "long_all": {
+    "n": 360,
+    "fine": 0.5583,
+    "group": 0.65,
+    "group_top3": 0.7528
+   },
+   "short_telecom": {
+    "n": 237,
+    "fine": 0.5865,
+    "group": 0.6582,
+    "group_top3": 0.8143
+   },
+   "short_banking": {
+    "n": 238,
+    "fine": 0.5756,
+    "group": 0.6807,
+    "group_top3": 0.7521
+   },
+   "short_insurance": {
+    "n": 239,
+    "fine": 0.5188,
+    "group": 0.5983,
+    "group_top3": 0.682
+   },
+   "short_all": {
+    "n": 714,
+    "fine": 0.5602,
+    "group": 0.6457,
+    "group_top3": 0.7493
+   },
+   "reviews_telecom": {
+    "n": 51,
+    "fine": 0.7255,
+    "group": 0.8039,
+    "group_top3": 0.8824
+   },
+   "reviews_banking": {
+    "n": 175,
+    "fine": 0.7029,
+    "group": 0.7371,
+    "group_top3": 0.8229
+   },
+   "reviews_insurance": {
+    "n": 74,
+    "fine": 0.8514,
+    "group": 0.8514,
+    "group_top3": 0.9459
+   },
+   "reviews_all": {
+    "n": 300,
+    "fine": 0.7433,
+    "group": 0.7767,
+    "group_top3": 0.8633
+   },
+   "all_telecom": {
+    "n": 408,
+    "fine": 0.598,
+    "group": 0.6716,
+    "group_top3": 0.8211
+   },
+   "all_banking": {
+    "n": 533,
+    "fine": 0.6116,
+    "group": 0.6961,
+    "group_top3": 0.773
+   },
+   "all_insurance": {
+    "n": 433,
+    "fine": 0.5866,
+    "group": 0.6536,
+    "group_top3": 0.7344
+   },
+   "all_all": {
+    "n": 1374,
+    "fine": 0.5997,
+    "group": 0.6754,
+    "group_top3": 0.7751
+   }
+  },
+  "confusions": {
+   "telecom": [
+    [
+     "payment -> top_up",
+     18
+    ],
+    [
+     "network_problem -> other",
+     10
+    ],
+    [
+     "cancel_port_out -> plan_new_change",
+     8
+    ],
+    [
+     "bill_usage_info -> plan_new_change",
+     8
+    ],
+    [
+     "plan_new_change -> cancel_port_out",
+     7
+    ],
+    [
+     "plan_new_change -> bill_dispute",
+     5
+    ],
+    [
+     "add_on_services -> other",
+     5
+    ],
+    [
+     "cancel_port_out -> bill_dispute",
+     5
+    ],
+    [
+     "network_problem -> plan_new_change",
+     4
+    ],
+    [
+     "other -> sim_number",
+     4
+    ]
+   ],
+   "banking": [
+    [
+     "app_login_identity -> other",
+     26
+    ],
+    [
+     "account_info_documents -> wrong_charge_refund",
+     8
+    ],
+    [
+     "other -> loan_apply",
+     7
+    ],
+    [
+     "fees_rates_products -> other",
+     7
+    ],
+    [
+     "branch_contact -> fraud_suspended",
+     5
+    ],
+    [
+     "branch_contact -> other",
+     5
+    ],
+    [
+     "account_info_documents -> other",
+     5
+    ],
+    [
+     "loan_apply -> loan_repay_debt",
+     5
+    ],
+    [
+     "other -> transfer_payment",
+     5
+    ],
+    [
+     "other -> card_apply_info",
+     5
+    ]
+   ],
+   "insurance": [
+    [
+     "general_info -> other",
+     17
+    ],
+    [
+     "other -> buy_quote_info",
+     12
+    ],
+    [
+     "claim_new -> buy_quote_info",
+     7
+    ],
+    [
+     "buy_quote_info -> other",
+     7
+    ],
+    [
+     "coverage_question -> other",
+     6
+    ],
+    [
+     "contact_agent -> other",
+     5
+    ],
+    [
+     "buy_quote_info -> general_info",
+     5
+    ],
+    [
+     "claim_follow_up -> other",
+     5
+    ],
+    [
+     "other -> coverage_question",
+     5
+    ],
+    [
+     "other -> general_info",
+     5
+    ]
+   ]
+  }
+ }
+}
