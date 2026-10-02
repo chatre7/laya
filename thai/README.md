@@ -804,6 +804,36 @@ kind of text the ceiling is now the labels, not the model. The Pantip sets are f
 Which to serve depends on the traffic: short app/chat-style messages -> run 13; forum-length or mixed -> run 11.
 `results/play13.json`, `real13.json`, `nba_*_run13.json`, `run13*.json`, `run13.log`.
 
+## Run 14: LLM labels on the forum posts, kept where the student agrees (2026-10-01/02)
+
+Can the LLM labeller also extend the Pantip data? `cs/label_pantip_llm.py --eval`: on the 360 hand-labelled posts Qwen3-8B
+scores intent 0.57 / department 0.65 / urgency 0.79, the same as run 11 (0.58 / 0.70 / 0.80), so its labels alone teach
+nothing. But the two err on different posts (`cs/agree_check.py`): they agree on the intent of 50% of posts and are right on
+80% of those (department: agree 57%, right 88%; urgency: agree 76%, right 90%); at least one is right on 75%.
+
+`cs/label_cs14.py`: the 3,558 posts without hand labels (2,634 Pantip, 924 wisesight) labelled by the LLM, each question kept
+only where run 11 agrees (intent 2,213, department 2,047, urgency 2,163); the LLM-labelled reviews capped at 800 per
+(business, intent) instead of 1,500 (6,376 reviews); 60,000 replayed run 11 items. 41,482 new items, a pass from run 11
+(`cs/run14.sh`, 2 epochs, 4 h 43 min).
+
+| | run 11 | run 13 | **run 14** |
+|---|---|---|---|
+| reviews (300): intent / department / urgency | 0.557 / 0.623 / 0.467 | 0.737 / 0.740 / 0.807 | **0.743** / 0.737 / **0.820** |
+| long (360): intent / department / urgency | **0.578** / 0.700 / 0.797 | 0.561 / 0.683 / **0.822** | 0.561 / **0.722** / 0.806 |
+| long intent: telecom / banking / insurance | 0.558 / 0.533 / **0.642** | 0.575 / 0.492 / 0.617 | 0.575 / **0.550** / 0.558 |
+| short (714): intent / department / urgency | 0.550 / 0.691 / 0.793 | 0.553 / 0.702 / **0.800** | **0.560 / 0.712** / 0.788 |
+| false-other: reviews / long / short | 73% / 12% / 13% | 28% / **9.8%** / 10.4% | **27%** / 13% / **9.7%** |
+| next best action, rule top-1: banking / telecom / insurance | 0.685 / 0.696 / 0.710 | 0.665 / **0.721 / 0.721** | **0.713** / 0.652 / 0.662 |
+| cs9 held-out / public set | **0.965 / 0.773** | 0.955 / 0.757 | 0.957 / 0.763 |
+
+Run 14 keeps run 13's gains on the reviews, has the best department everywhere and gives back part of the public-set loss, but
+it is not a clear step past run 13: on 360 posts one standard error is ~2.6 points and the per-business moves (banking up,
+insurance down) are inside that. Agreement labels are mostly posts the student already gets right, so they steady the model
+more than they teach it. Averaged over the three real-text sets: intent 0.562 / 0.617 / **0.621**, department 0.671 / 0.708 /
+**0.724**, urgency 0.686 / **0.810** / 0.805 (run 11 / 13 / 14). Intent on forum posts has been ~0.56-0.58 since run 8; what
+moves it now is better labels (call-center staff, or a taxonomy with fewer overlapping intents), not more of this.
+`results/real14.json`, `play14.json`, `nba_*_run14.json`, `run14*.json`, `run14.log`.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
