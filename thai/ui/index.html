@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>โต๊ะทดสอบการคัดแยกเรื่อง</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14213d; --teal: #0f8b8d; --teal-dark: #0a6a6c; --paper: #ffffff; --desk: #e6ecf2; --line: #c9d3de;
+    --muted: #55657a; --amber: #c27c00; --red: #c22b2b; --calm: #2f7d4f; --tint: #f3f7fa;
+  }
+  * { box-sizing: border-box; }
+  html { font-size: 17px; }
+  body { margin: 0; background: var(--desk); color: var(--ink); font-family: "IBM Plex Sans Thai Looped", "Leelawadee UI", Tahoma, sans-serif; line-height: 1.6; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+
+  header.top { background: var(--ink); color: #fff; padding: 18px 28px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: end; justify-content: space-between; }
+  header.top h1 { margin: 0; font-size: 1.45rem; font-weight: 700; letter-spacing: 0; }
+  header.top p { margin: 2px 0 0; color: #c5d0de; font-size: .92rem; max-width: 60ch; }
+  .tester label { display: block; font-size: .82rem; color: #c5d0de; }
+  .tester input { background: #1e2f52; border: 1px solid #3b4d73; color: #fff; border-radius: 4px; padding: 6px 10px; width: 210px; }
+
+  main { display: grid; grid-template-columns: minmax(320px, 440px) minmax(0, 1fr); gap: 28px; padding: 28px; max-width: 1240px; margin: 0 auto; align-items: start; }
+  @media (max-width: 860px) { main { grid-template-columns: 1fr; padding: 16px; gap: 20px; } header.top { padding: 16px; } }
+
+  .desk h2 { font-size: 1.05rem; margin: 0 0 10px; font-weight: 600; }
+  .biz { display: flex; border: 1px solid var(--ink); border-radius: 6px; overflow: hidden; margin-bottom: 14px; }
+  .biz label { flex: 1; text-align: center; padding: 8px 6px; cursor: pointer; background: var(--paper); font-weight: 500; font-size: .95rem; border-right: 1px solid var(--ink); }
+  .biz label:last-child { border-right: 0; }
+  .biz input { position: absolute; opacity: 0; pointer-events: none; }
+  .biz input:checked + span { color: #fff; }
+  .biz label:has(input:checked) { background: var(--ink); color: #fff; }
+  .biz label:has(input:focus-visible) { outline: 3px solid var(--teal); outline-offset: -3px; }
+
+  textarea { width: 100%; min-height: 150px; resize: vertical; padding: 12px 14px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); line-height: 1.6; }
+  .samples { margin: 10px 0 16px; }
+  .samples p { margin: 0 0 6px; font-size: .86rem; color: var(--muted); }
+  .samples button { display: block; width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px dashed var(--line); padding: 6px 2px; cursor: pointer; color: var(--teal-dark); font-size: .92rem; }
+  .samples button:hover { background: var(--tint); }
+
+  .context { display: grid; gap: 8px; padding: 12px 14px; background: var(--tint); border: 1px solid var(--line); border-radius: 6px; margin-bottom: 16px; font-size: .95rem; }
+  .context label { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+  .context select { padding: 4px 8px; border: 1px solid var(--line); border-radius: 4px; background: #fff; flex: 1 1 200px; min-width: 0; }
+  .go { width: 100%; background: var(--teal); color: #fff; border: 0; border-radius: 6px; padding: 12px; font-weight: 600; font-size: 1.05rem; cursor: pointer; }
+  .go:hover { background: var(--teal-dark); }
+  .go[disabled] { opacity: .6; cursor: wait; }
+  .privacy { font-size: .82rem; color: var(--muted); margin: 12px 0 0; }
+
+  /* the slip: the one loud element */
+  .slip { background: var(--paper); border-radius: 0 0 8px 8px; position: relative; padding: 30px 30px 24px; box-shadow: 0 10px 26px rgba(20, 33, 61, .14);
+          -webkit-mask: radial-gradient(circle 7px at 14px 0, #0000 98%, #000) -14px 0 / 28px 100%; mask: radial-gradient(circle 7px at 14px 0, #0000 98%, #000) -14px 0 / 28px 100%; }
+  .slip .head { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; border-bottom: 2px solid var(--ink); padding-bottom: 8px; margin-bottom: 18px; }
+  .slip .head strong { font-size: 1rem; }
+  .slip .head span { font-size: .82rem; color: var(--muted); }
+  .empty { padding: 60px 20px; text-align: center; color: var(--muted); }
+  .error { padding: 16px; border-left: 4px solid var(--red); background: #fdf2f2; }
+
+  .field-name { font-size: .86rem; color: var(--muted); margin: 0 0 2px; }
+  .group-main { font-size: 1.7rem; font-weight: 700; line-height: 1.3; margin: 0; }
+  .conf { display: flex; align-items: center; gap: 12px; margin: 10px 0 6px; }
+  .bar { flex: 1; height: 10px; background: var(--desk); border-radius: 5px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--teal); width: 0; transition: width .45s ease-out; }
+  .conf b { min-width: 3.2em; text-align: right; font-size: 1.05rem; }
+  .alts { margin: 0 0 20px; padding: 0; list-style: none; font-size: .92rem; color: var(--muted); }
+  .alts li { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dotted var(--line); padding: 3px 0; }
+
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 6px; margin-bottom: 20px; }
+  .facts > div { padding: 12px 14px; border-right: 1px solid var(--line); }
+  .facts > div:last-child { border-right: 0; }
+  .facts b { display: block; font-size: 1.08rem; }
+  @media (max-width: 560px) { .facts { grid-template-columns: 1fr; } .facts > div { border-right: 0; border-bottom: 1px solid var(--line); } .facts > div:last-child { border-bottom: 0; } }
+  .meter { display: flex; gap: 4px; margin-top: 6px; }
+  .meter i { flex: 1; height: 8px; border-radius: 2px; background: var(--desk); }
+  .meter[data-level="0"] i:nth-child(1) { background: var(--calm); }
+  .meter[data-level="1"] i:nth-child(-n+2) { background: var(--amber); }
+  .meter[data-level="2"] i { background: var(--red); }
+
+  .actions { margin: 0 0 18px; padding-left: 1.4em; }
+  .actions li { margin-bottom: 6px; }
+  .actions li:first-child { font-weight: 600; }
+  .actions small { color: var(--muted); font-weight: 400; }
+  .foot { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
+
+  .review { margin-top: 20px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 18px 22px; }
+  .review h2 { font-size: 1.05rem; margin: 0 0 10px; }
+  .choice { display: flex; gap: 12px; flex-wrap: wrap; }
+  .choice button { padding: 9px 26px; border-radius: 6px; border: 2px solid var(--ink); background: #fff; font-weight: 600; cursor: pointer; }
+  .choice button.yes:hover, .choice button.yes[aria-pressed="true"] { background: var(--calm); border-color: var(--calm); color: #fff; }
+  .choice button.no:hover, .choice button.no[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: #fff; }
+  .fix { display: grid; gap: 10px; margin-top: 14px; }
+  .fix label { font-size: .9rem; display: grid; gap: 3px; }
+  .fix select, .fix input { padding: 8px 10px; border: 1px solid var(--line); border-radius: 4px; background: #fff; width: 100%; }
+  .fix button { justify-self: start; background: var(--ink); color: #fff; border: 0; border-radius: 6px; padding: 9px 20px; font-weight: 600; cursor: pointer; }
+  .saved { margin: 12px 0 0; color: var(--calm); font-weight: 600; }
+  .tally { font-size: .86rem; color: var(--muted); margin: 10px 0 0; }
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>โต๊ะทดสอบการคัดแยกเรื่อง</h1>
+    <p>พิมพ์ข้อความของลูกค้า ระบบจะบอกว่าเป็นเรื่องอะไร ส่งแผนกไหน ด่วนแค่ไหน แล้วช่วยบอกเราว่าถูกหรือไม่</p>
+  </div>
+  <div class="tester">
+    <label for="tester">ชื่อผู้ทดสอบ (ไม่บังคับ)</label>
+    <input id="tester" autocomplete="off" maxlength="60">
+  </div>
+</header>
+
+<main>
+  <section class="desk" aria-label="ข้อความลูกค้า">
+    <h2>ธุรกิจ</h2>
+    <div class="biz" id="biz" role="radiogroup" aria-label="ธุรกิจ"></div>
+
+    <h2><label for="msg">ข้อความของลูกค้า</label></h2>
+    <textarea id="msg" maxlength="2000" placeholder="เช่น โอนเงินไปตั้งแต่เมื่อวาน ยังไม่เข้าเลยครับ"></textarea>
+    <div class="samples"><p>หรือกดเลือกข้อความตัวอย่าง</p><div id="samples"></div></div>
+
+    <div class="context">
+      <label><input type="checkbox" id="verified" checked> ลูกค้ายืนยันตัวตนแล้ว</label>
+      <label>ติดต่อเรื่องนี้เป็น
+        <select id="contacts"><option value="1">ครั้งแรก</option><option value="3">ครั้งที่ 3 ขึ้นไป ยังไม่ได้รับการแก้ไข</option></select>
+      </label>
+    </div>
+    <button class="go" id="go">วิเคราะห์ข้อความ</button>
+    <p class="privacy">ระบบจะบันทึกข้อความเฉพาะเมื่อคุณกด ถูกต้อง หรือ ไม่ถูก เพื่อใช้ปรับปรุงระบบ โปรดลบชื่อ เบอร์โทร และเลขบัญชีของลูกค้าออกก่อนพิมพ์</p>
+  </section>
+
+  <section aria-label="ผลการคัดแยก">
+    <div class="slip" id="slip" aria-live="polite">
+      <div class="head"><strong>ใบรับเรื่อง</strong><span id="slipmeta"></span></div>
+      <div class="empty" id="empty">พิมพ์ข้อความลูกค้าทางซ้าย แล้วกด วิเคราะห์ข้อความ<br>ผลจะแสดงที่นี่</div>
+      <div class="error" id="error" hidden></div>
+      <div id="result" hidden>
+        <p class="field-name">หมวดของเรื่อง</p>
+        <p class="group-main" id="g0"></p>
+        <div class="conf"><div class="bar"><i id="g0bar"></i></div><b id="g0p"></b></div>
+        <ul class="alts" id="alts"></ul>
+        <div class="facts">
+          <div><p class="field-name">ส่งแผนก</p><b id="dept"></b></div>
+          <div><p class="field-name">ความด่วน</p><b id="urg"></b><div class="meter" id="urgm"><i></i><i></i><i></i></div></div>
+          <div><p class="field-name">อารมณ์ลูกค้า</p><b id="fru"></b><div class="meter" id="frum"><i></i><i></i><i></i></div></div>
+        </div>
+        <p class="field-name">ขั้นตอนที่ควรทำต่อ (เรียงตามความเหมาะสม)</p>
+        <ol class="actions" id="actions"></ol>
+        <p class="foot" id="foot"></p>
+      </div>
+    </div>
+
+    <div class="review" id="review" hidden>
+      <h2>ระบบคัดแยกถูกไหม</h2>
+      <div class="choice">
+        <button class="yes" id="yes" aria-pressed="false">ถูกต้อง</button>
+        <button class="no" id="no" aria-pressed="false">ไม่ถูก</button>
+      </div>
+      <div class="fix" id="fix" hidden>
+        <label>หมวดที่ถูกต้อง<select id="rightGroup"></select></label>
+        <label>แผนกที่ถูกต้อง<select id="rightDept"></select></label>
+        <label>หมายเหตุ (ไม่บังคับ)<input id="note" maxlength="500" placeholder="เช่น เรื่องนี้ทีมเราส่งให้ฝ่ายสินเชื่อ"></label>
+        <button id="saveFix">บันทึกคำตอบที่ถูกต้อง</button>
+      </div>
+      <p class="saved" id="saved" hidden>บันทึกแล้ว ขอบคุณที่ช่วยตรวจ</p>
+      <p class="tally" id="tally"></p>
+    </div>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let META = null, LAST = null;
+const pct = (p) => Math.round(p * 100) + "%";
+const biz = () => document.querySelector('input[name="biz"]:checked').value;
+const bizMeta = () => META.businesses.find((b) => b.id === biz());
+
+function fillSelect(sel, items, value) {
+  sel.replaceChildren(...items.map((it) => { const o = document.createElement("option"); o.value = it.id; o.textContent = it.name; return o; }));
+  if (value) sel.value = value;
+}
+function renderBusiness() {
+  const b = bizMeta();
+  $("samples").replaceChildren(...b.samples.map((s) => { const x = document.createElement("button"); x.type = "button"; x.textContent = s; x.onclick = () => { $("msg").value = s; analyze(); }; return x; }));
+}
+function showTally(s) { $("tally").textContent = s.total ? `ทีมตรวจไปแล้ว ${s.total} ข้อความ ระบบถูก ${s.correct} ข้อความ` : ""; }
+
+async function init() {
+  META = await (await fetch("api/meta")).json();
+  $("biz").replaceChildren(...META.businesses.map((b, i) => {
+    const l = document.createElement("label"), r = document.createElement("input"), s = document.createElement("span");
+    r.type = "radio"; r.name = "biz"; r.value = b.id; r.checked = i === 0; r.onchange = renderBusiness; s.textContent = b.name; l.append(r, s); return l;
+  }));
+  renderBusiness();
+  $("tester").value = localStorage.getItem("tester") || "";
+  $("tester").oninput = () => localStorage.setItem("tester", $("tester").value);
+  showTally(await (await fetch("api/stats")).json());
+}
+
+async function analyze() {
+  const message = $("msg").value.trim();
+  $("error").hidden = true;
+  if (message.length < 2) { $("empty").hidden = true; $("result").hidden = true; $("review").hidden = true; $("error").hidden = false; $("error").textContent = "ยังไม่มีข้อความ พิมพ์ข้อความของลูกค้าก่อนแล้วกดอีกครั้ง"; return; }
+  const req = { business: biz(), message, verified: $("verified").checked, contacts: Number($("contacts").value) };
+  $("go").disabled = true; $("go").textContent = "กำลังวิเคราะห์";
+  try {
+    const res = await fetch("api/analyze", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(req) });
+    if (!res.ok) throw new Error((await res.json()).detail || res.status);
+    const r = await res.json();
+    LAST = { req, r };
+    $("empty").hidden = true; $("result").hidden = false;
+    $("slipmeta").textContent = `${bizMeta().name}  เวลา ${new Date().toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" })}`;
+    $("g0").textContent = r.groups[0].name; $("g0p").textContent = pct(r.groups[0].p);
+    $("g0bar").style.width = "0"; requestAnimationFrame(() => { $("g0bar").style.width = pct(r.groups[0].p); });
+    $("alts").replaceChildren(...r.groups.slice(1).filter((g) => g.p >= 0.02).map((g) => { const li = document.createElement("li"), a = document.createElement("span"), b = document.createElement("span"); a.textContent = "หรืออาจเป็น " + g.name; b.textContent = pct(g.p); li.append(a, b); return li; }));
+    $("dept").textContent = r.department.name;
+    $("urg").textContent = r.urgency.label; $("urgm").dataset.level = r.urgency.level;
+    $("fru").textContent = r.frustration.label; $("frum").dataset.level = r.frustration.level;
+    $("actions").replaceChildren(...r.actions.filter((a) => a.p >= 0.02).map((a) => { const li = document.createElement("li"), sm = document.createElement("small"); li.textContent = a.name + " "; sm.textContent = pct(a.p); li.append(sm); return li; }));
+    $("foot").textContent = `เรื่องย่อยที่ระบบเลือก: ${r.fine.name} (${pct(r.fine.p)})  ใช้เวลา ${r.ms} มิลลิวินาที`;
+    $("review").hidden = false; $("fix").hidden = true; $("saved").hidden = true;
+    $("yes").setAttribute("aria-pressed", "false"); $("no").setAttribute("aria-pressed", "false"); $("yes").disabled = $("no").disabled = false; $("note").value = "";
+    fillSelect($("rightGroup"), bizMeta().groups, r.groups[0].id); fillSelect($("rightDept"), META.departments, r.department.id);
+  } catch (e) {
+    $("empty").hidden = true; $("result").hidden = true; $("review").hidden = true; $("error").hidden = false;
+    $("error").textContent = "วิเคราะห์ไม่สำเร็จ: " + e.message + " ลองกดอีกครั้ง ถ้ายังไม่ได้ให้แจ้งผู้ดูแลระบบ";
+  } finally { $("go").disabled = false; $("go").textContent = "วิเคราะห์ข้อความ"; }
+}
+
+async function save(correct) {
+  if (!LAST) return;
+  const body = { ...LAST.req, correct, predicted_group: LAST.r.groups[0].id, predicted_department: LAST.r.department.id, tester: $("tester").value.trim(),
+                 right_group: correct ? LAST.r.groups[0].id : $("rightGroup").value, right_department: correct ? LAST.r.department.id : $("rightDept").value,
+                 note: correct ? "" : $("note").value.trim() };
+  const res = await fetch("api/feedback", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+  if (res.ok) { showTally(await res.json()); $("saved").hidden = false; $("fix").hidden = true; $("yes").disabled = $("no").disabled = true; LAST = null; }
+}
+
+$("go").onclick = analyze;
+$("msg").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) analyze(); });
+$("yes").onclick = () => { $("yes").setAttribute("aria-pressed", "true"); save(true); };
+$("no").onclick = () => { $("no").setAttribute("aria-pressed", "true"); $("yes").setAttribute("aria-pressed", "false"); $("fix").hidden = false; $("rightGroup").focus(); };
+$("saveFix").onclick = () => save(false);
+init();
+</script>
+</body>
+</html>

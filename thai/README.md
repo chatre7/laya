@@ -859,6 +859,17 @@ telecom `payment -> top_up` 18 times, where the eval labels (written before `top
 `check_mobile_payments` for top-up mistakes. `cs/INTENT_GROUPS.md` is the sheet for the call-center team (groups in Thai, the
 fine intents inside each, accuracy, remaining confusions); `results/groups.json`.
 
+## Test desk for the call-center team (`ui/`, port 8020)
+
+`http://172.18.72.145:8020`: a page in Thai where an agent types a customer message (or picks a sample), chooses the business
+and the context (verified, repeat contact) and gets a "case slip": merged intent group with its probability and the runners-up,
+department, urgency, customer mood, next best actions, from the served model at `:8011` (`ui/app.py`, FastAPI, no GPU;
+`ui/index.html`, one file; `ui/deploy.sh` runs it from the `laya-cascade` image). Under the slip the agent marks the answer
+right or wrong and, if wrong, picks the right group and department; each click appends one line to `ui_data/feedback.jsonl`
+(message, context, the model's answer, the correction, tester, time). Nothing is stored on analyze alone, and the page asks
+testers to remove names, phone and account numbers first. The feedback file is the human-labelled call-center text this
+project lacks; it stays on the box and is not committed.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
