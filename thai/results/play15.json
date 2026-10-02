@@ -1,0 +1,36 @@
+{
+ "laya-th-run15": {
+  "telecom": {
+   "n": 51,
+   "intent": 0.7255,
+   "department": 0.7451,
+   "urgency": 0.8824,
+   "false_other": 0.2258,
+   "other_caught": 0.95
+  },
+  "banking": {
+   "n": 175,
+   "intent": 0.6686,
+   "department": 0.7486,
+   "urgency": 0.8057,
+   "false_other": 0.2193,
+   "other_caught": 0.8361
+  },
+  "insurance": {
+   "n": 74,
+   "intent": 0.8784,
+   "department": 0.7568,
+   "urgency": 0.8378,
+   "false_other": 0.4615,
+   "other_caught": 0.9836
+  },
+  "all": {
+   "n": 300,
+   "intent": 0.73,
+   "department": 0.75,
+   "urgency": 0.8267,
+   "false_other": 0.2405,
+   "other_caught": 0.9155
+  }
+ }
+}

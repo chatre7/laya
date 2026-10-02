@@ -888,6 +888,42 @@ are mostly real: people give five stars and write "เข้าแอปไม�
 19/100 on the sentences marked sarcasm; "ระบบทำงานได้สมบูรณ์แบบมากจ้า ค้างไปแค่ 10 รอบเอง" reads as praise (negative ->
 positive 529 of 1,100), and indirect praise reads as neutral or negative. Neither run was trained on anything like it.
 
+## Run 15: sarcasm and star-labelled mood - works, and breaks "neutral" (2026-10-02)
+
+A pass from run 14 (`cs/run15.sh`, 76,589 items = 16,589 new + 60,000 replay), `sentiment` and `frustration` only:
+
+- **Composed contrast sets** (`cs/gen_sarcasm.py`): an LLM asked for sarcasm writes complaints with a smile, so Qwen3-8B writes
+  only the *events* (something that went wrong, the same thing played down, something that went well, an indirect compliment)
+  and fixed Thai praise / complaint frames are put around them: praise + bad event = sarcastic, praise + good event = sincere,
+  and so on. 5,390 messages after a filter, 10% held out.
+- **Mined reviews** (`cs/mine_sarcasm.py`, `data_domain/sarcasm_mined.json`): the 111 low-star reviews run 14 called positive,
+  read by hand: 13 sarcasm, 69 plain complaints, 17 praise with a low star, 12 unclear. The first two go in, x6.
+- **Stars as labels**: 3,000 reviews of 1-2 stars as negative and 3,000 of 4-5 stars as positive, skipping those run 14 reads
+  as the opposite polarity (five stars and a complaint is common).
+
+| | run 14 | run 15 |
+|---|---|---|
+| reviews: 1-2 stars negative or 4-5 stars positive | 0.720 | **0.879** |
+| reviews: the opposite polarity | 0.086 | 0.113 |
+| frustration, 1-2 vs 4-5 stars (AUC) | 0.886 | 0.905 |
+| held-out composed: sarcastic / sincere / indirect praise / plain negative | 0.62 / 0.80 / 0.33 / 0.97 | 0.98 / 0.99 / 0.98 / 1.00 |
+| ambiguous set: sarcasm (100) / indirect praise (1,000) | 19 / 254 | 48 / 925 |
+| ambiguous set: neutral facts (1,000) / Neutral-Fact (50) / Mixed (50) | 873 / 42 / 20 | **158 / 5 / 1** |
+| ambiguous set, all 3,300 | 0.492 | 0.506 |
+| Wisesight sentiment: public set / cs9 held-out | 0.67 / 0.88 | **0.55 / 0.82** |
+| public set / cs9 held-out, overall | 0.763 / 0.957 | 0.744 / 0.949 |
+| real posts, long: intent / department / urgency | 0.561 / 0.722 / 0.806 | 0.586 / 0.728 / 0.814 |
+| reviews (300 hand labels): intent / department / urgency | 0.743 / 0.737 / 0.820 | 0.730 / 0.750 / 0.827 |
+
+The sarcasm half works on text it has not seen (the ambiguous set is not ours). But every new sentiment item was positive or
+negative, and the model stopped answering "neutral": 1% of reviews are called neutral where run 14 said 9-40%, a neutral fact
+is now called positive (749 of 1,100), and Wisesight loses 12 points. A 3-star "เปลี่ยนอีเมลไม่ได้" should be negative, a
+"สอบถามครับ แอปตัวเก่าจะไม่ใช้แล้วหรอ" should not. Mean frustration also dropped at every star (1.29 -> 1.05 at one star) while
+its ranking improved. **Run 15 is not served.** Triage is unchanged within noise.
+
+Run 16 (`cs/run16.sh`, running) is the same pass with the Wisesight training split added under the `sentiment` question:
+3,000 neutral, 462 question (x2), 1,000 positive, 1,000 negative; the 601 texts that are also in the eval sets are left out.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).

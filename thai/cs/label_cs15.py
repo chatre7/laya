@@ -5,8 +5,11 @@
   - star ratings as sentiment labels (mine_sarcasm.py -> play_sentiment.jsonl): 1-2 stars = negative, 4-5 = positive, only
     where the text does not contradict the stars (5-star reviews that complain are common);
   - replay of the run 14 items.
+Run 16 adds --wisesight: run 15 had only positive / negative new items and stopped answering "neutral", so the Wisesight
+training split (neutral and question mostly, texts of the eval sets excluded) goes in under the same `sentiment` question.
 
     python label_cs15.py
+    python label_cs15.py --wisesight /work/thai/data/cc/wisesight_train.jsonl --out /work/thai/data/cs/cs16_items.pt
 """
 import argparse
 import json
@@ -46,6 +49,11 @@ def main():
     ap.add_argument("--replay-n", type=int, default=60000)
     ap.add_argument("--smooth", type=float, default=0.1)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--wisesight", default="", help="wisesight_train.jsonl (text, label 0 pos / 1 neu / 2 neg / 3 q); off when empty")
+    ap.add_argument("--ws-neutral", type=int, default=3000)
+    ap.add_argument("--ws-polar", type=int, default=1000, help="positive and negative each")
+    ap.add_argument("--ws-question-repeat", type=int, default=2)
+    ap.add_argument("--exclude", default="/work/thai/data/eval.jsonl,/work/thai/data/cs/cs9_eval_human.jsonl", help="eval sets whose texts stay out")
     args = ap.parse_args()
     rng = random.Random(args.seed)
     recs = []  # (text, sentiment, frustration or None, repeat, source)
@@ -78,6 +86,25 @@ def main():
         n_star[lab] += 1
         recs.append((r["text"], lab, None, 1, f"stars_{lab}"))
     print(f"mined {sum(m['kind'] in ('sarcasm', 'plain_negative') for m in mined)} x{args.mined_repeat}; star-labelled {dict(n_star)}", flush=True)
+
+    if args.wisesight:
+        held = set()
+        for p in args.exclude.split(","):
+            for l in open(p, encoding="utf-8"):
+                st = json.loads(l)["state"]
+                held.update(v.strip() for v in (st.values() if isinstance(st, dict) else [st]) if isinstance(v, str))
+        ws = [json.loads(l) for l in open(args.wisesight, encoding="utf-8")]
+        rng.shuffle(ws)
+        cap = {"positive": args.ws_polar, "neutral": args.ws_neutral, "negative": args.ws_polar, "question": len(ws)}
+        n_ws, n_held = Counter(), 0
+        for r in ws:
+            lab = ("positive", "neutral", "negative", "question")[r["label"]]
+            if r["text"].strip() in held:
+                n_held += 1
+            elif len(r["text"].strip()) >= 8 and n_ws[lab] < cap[lab]:
+                n_ws[lab] += 1
+                recs.append((r["text"].strip(), lab, None, args.ws_question_repeat if lab == "question" else 1, f"wisesight_{lab}"))
+        print(f"wisesight {dict(n_ws)} (question x{args.ws_question_repeat}), {n_held} skipped as eval texts", flush=True)
 
     _fix_tokenizer_config(args.student)
     tok = AutoTokenizer.from_pretrained(os.path.join(args.student, "tokenizer"))

@@ -1,0 +1,119 @@
+{
+ "model": "/work/thai/out/laya-th-run15",
+ "mean_ms": 37.63405923478025,
+ "tickets": {
+  "department": 5,
+  "refund": 5,
+  "frustration_mae": 0.46496000000000004,
+  "rows": [
+   {
+    "state": "โดนหักเงินซ้ำสองครั้งเมื่อวานน",
+    "dept": "billing",
+    "p": 0.9602,
+    "frustration": 1.04,
+    "refund": 0.9582
+   },
+   {
+    "state": "เน็ตบ้านหลุดบ่อยมากตั้งแต่เมื่",
+    "dept": "technical",
+    "p": 0.9609,
+    "frustration": 1.0,
+    "refund": 0.0427
+   },
+   {
+    "state": "สนใจเปลี่ยนเป็นแพ็กเกจ 5G ที่โ",
+    "dept": "sales",
+    "p": 0.96,
+    "frustration": 0.32,
+    "refund": 0.0342
+   },
+   {
+    "state": "ใบแจ้งหนี้เดือนนี้แพงกว่าปกติ ",
+    "dept": "billing",
+    "p": 0.9792,
+    "frustration": 0.92,
+    "refund": 0.0868
+   },
+   {
+    "state": "แอปล็อกอินไม่ได้ ขึ้นว่ารหัสผิ",
+    "dept": "technical",
+    "p": 0.9539,
+    "frustration": 1.88,
+    "refund": 0.0735
+   }
+  ]
+ },
+ "teacher": {
+  "choice": {
+   "n": 2528,
+   "argmax_agreement": 0.6772,
+   "mean_tv": 0.3215
+  },
+  "noul": {
+   "n": 2483,
+   "argmax_agreement": 0.8752,
+   "mean_tv": 0.135
+  },
+  "score": {
+   "n": 1117,
+   "argmax_agreement": 0.6535,
+   "mean_tv": 0.2945
+  }
+ },
+ "sources": {
+  "massive_th:choice": {
+   "n": 300,
+   "acc": 0.7933,
+   "brier": 0.3617,
+   "mae": null
+  },
+  "prachathai:choice": {
+   "n": 163,
+   "acc": 0.8834,
+   "brier": 0.2063,
+   "mae": null
+  },
+  "prachathai:noul": {
+   "n": 588,
+   "acc": 0.8878,
+   "brier": 0.1931,
+   "mae": null
+  },
+  "sib200_th:choice": {
+   "n": 204,
+   "acc": 0.6127,
+   "brier": 0.6356,
+   "mae": null
+  },
+  "wisesight:choice": {
+   "n": 300,
+   "acc": 0.55,
+   "brier": 0.6478,
+   "mae": null
+  },
+  "wongnai:score": {
+   "n": 300,
+   "acc": 0.6133,
+   "brier": 0.6905,
+   "mae": 0.414
+  },
+  "xnli_th:choice": {
+   "n": 300,
+   "acc": 0.69,
+   "brier": 0.5387,
+   "mae": null
+  },
+  "xnli_th:noul": {
+   "n": 300,
+   "acc": 0.8033,
+   "brier": 0.3572,
+   "mae": null
+  }
+ },
+ "overall": {
+  "decisions": 2455,
+  "accuracy": 0.7438,
+  "brier": 0.43,
+  "ece": 0.1774
+ }
+}
