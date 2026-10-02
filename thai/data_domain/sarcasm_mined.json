@@ -1,0 +1,782 @@
+{
+"note": "Hand check of the 111 Google Play reviews with 1-2 stars that run 14 read as positive (mine_sarcasm.py). sarcasm and plain_negative are negative; praise_low_star and unclear are not used.",
+"rows": [
+{
+"id": "play-banking-2198",
+"business": "banking",
+"score": 1,
+"text": "ปรับปรุงเเม่งโคตรบ่อย",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-2973",
+"business": "banking",
+"score": 1,
+"text": "ชอบลบถภภภการถูภ",
+"kind": "unclear"
+},
+{
+"id": "play-insurance-20211",
+"business": "insurance",
+"score": 1,
+"text": "เข้ายากมากค่ะ",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-15952",
+"business": "telecom",
+"score": 1,
+"text": "เวลาจะเข้าต้องเข้าสู่ระบบตลอดแอปก่อนใช้งานดีมากคะ",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-19121",
+"business": "insurance",
+"score": 1,
+"text": "ล็อคจนน่าเบื่อ",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-8229",
+"business": "banking",
+"score": 2,
+"text": "สวยดีสักพักสในโลกออนไลน์วันให้",
+"kind": "unclear"
+},
+{
+"id": "play-banking-2725",
+"business": "banking",
+"score": 1,
+"text": "อย่างเฮียเลย",
+"kind": "unclear"
+},
+{
+"id": "play-banking-4626",
+"business": "banking",
+"score": 1,
+"text": "ดีมากค่ะชอบ",
+"kind": "praise_low_star"
+},
+{
+"id": "play-telecom-14058",
+"business": "telecom",
+"score": 2,
+"text": "เน้นเน็ตมาตรฐานราคถูก ถูกใจประชาชน รอบเดือน 30วัน/ 10G รักษามาตรฐาน 1mb ความเร็วไม่คงที่ เพื่อแก้ไขความยากจน ครับ ช่วยดูแลกันขอความเห็นใจด้วยนะครับ",
+"kind": "sarcasm"
+},
+{
+"id": "play-banking-1110",
+"business": "banking",
+"score": 2,
+"text": "เพิ่มอีกสามดาวนะเยี่ยมมาก",
+"kind": "praise_low_star"
+},
+{
+"id": "play-banking-1064",
+"business": "banking",
+"score": 2,
+"text": "ให้บริการได้ดี",
+"kind": "praise_low_star"
+},
+{
+"id": "play-banking-9929",
+"business": "banking",
+"score": 2,
+"text": "งงมากอัพเดทบ่อยสุด",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-13392",
+"business": "telecom",
+"score": 1,
+"text": "ประทับใจ ใช้งานอย่างยาก โหลดอย่างนาน สมกับผลงานของผู้นำด้านเทคโนโลยีและสื่อสารจริงๆ คนอื่นทำไม่ได้นะ",
+"kind": "sarcasm"
+},
+{
+"id": "play-banking-346",
+"business": "banking",
+"score": 1,
+"text": "แสกนหน้าบ่อยมากๆๆๆๆน่าเบื่อ",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-9209",
+"business": "banking",
+"score": 1,
+"text": "จะใช้อัพเดทตลอด",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-3557",
+"business": "banking",
+"score": 1,
+"text": "ปรับปรุงระบบบ่อยมาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-18649",
+"business": "insurance",
+"score": 1,
+"text": "เร็วขึ้นอีกจะดี",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-19852",
+"business": "insurance",
+"score": 1,
+"text": "แอพโคตรดีเลย์ กดฟังก์ชั่นกว่าจะลิ้งค์ไป แอพเล่นเกมกากๆยังสเถียร กว่าเยอะเลย",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-943",
+"business": "banking",
+"score": 2,
+"text": "ใช้ได้ดีสะดวกยิ่งขึ้น",
+"kind": "praise_low_star"
+},
+{
+"id": "play-telecom-13134",
+"business": "telecom",
+"score": 2,
+"text": "เน็ตดีมากบอกตรง",
+"kind": "unclear"
+},
+{
+"id": "play-banking-2917",
+"business": "banking",
+"score": 1,
+"text": "ของบ่เป็นซาด ของบ่มีประโยชน์",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-18326",
+"business": "insurance",
+"score": 1,
+"text": "ไช้ยาก ฮ่วยยยยยมากกกก",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-7343",
+"business": "banking",
+"score": 2,
+"text": "บอกเลยว่า2ดาวพอ พอเลย",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-16833",
+"business": "insurance",
+"score": 1,
+"text": "ดีมากครับกระจกวิเศษไม่ขยับซักอย่างประมวลผลไม่ได้เยี่ยมครับเยี่ยม",
+"kind": "sarcasm"
+},
+{
+"id": "play-banking-7253",
+"business": "banking",
+"score": 1,
+"text": "เด้งได้เด้งดี",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-2791",
+"business": "banking",
+"score": 2,
+"text": "ผมชอบมากscB",
+"kind": "praise_low_star"
+},
+{
+"id": "play-banking-8177",
+"business": "banking",
+"score": 2,
+"text": "อัปเดดบ่อยมาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-17445",
+"business": "insurance",
+"score": 2,
+"text": "ใช้งานง่าย สะดวก ประหยัดเวลาในการติดต่อ",
+"kind": "praise_low_star"
+},
+{
+"id": "play-banking-8730",
+"business": "banking",
+"score": 1,
+"text": "ปรับปรุงอีกและ",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-6759",
+"business": "banking",
+"score": 1,
+"text": "ปรับปรุงทั้งวัน",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-5472",
+"business": "banking",
+"score": 1,
+"text": "เข้าอยากมากมาย",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-13706",
+"business": "telecom",
+"score": 1,
+"text": "โหลดอยากมากๆๆๆๆเลย",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-8309",
+"business": "banking",
+"score": 1,
+"text": "สเเกนหน้า อยากมาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-8942",
+"business": "banking",
+"score": 1,
+"text": "ดีมากครับใช้ง่าย",
+"kind": "praise_low_star"
+},
+{
+"id": "play-banking-6036",
+"business": "banking",
+"score": 1,
+"text": "หล่มบ่อยมาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-11023",
+"business": "banking",
+"score": 1,
+"text": "เด่งบอยมากก",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-2387",
+"business": "banking",
+"score": 1,
+"text": "อัพเดทบ่อยมากกกกกกกกกกกกกก มากที่สุดดดดดดดด",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-6976",
+"business": "banking",
+"score": 2,
+"text": "ดีๆๆๆๆ...มากเลยฮ่ะ..สดวก สบาย ...... ทำไม่ยุๆๆเข้าแอพม่ได้....ลดดาวเหลือ2",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-9236",
+"business": "banking",
+"score": 1,
+"text": "ขึ้นมาบ่อยจัด",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-14471",
+"business": "telecom",
+"score": 1,
+"text": "ดีมากเลยครับสำหรับทรู5Gแรงกว่าaisหลายเท่าเลยละบอกควบคุมทั่วประเทศสภาพบ้านอยุ่ไกลเสาสัญญาณโลเดียวสัญญาณเต็มนะแต่หมุนชิปหายทรูขีดเดียวยังเเรงกว่าอีก กากเกินต้าน",
+"kind": "sarcasm"
+},
+{
+"id": "play-banking-4943",
+"business": "banking",
+"score": 1,
+"text": "ขอสเตทเม้นอย่างนานเลยขอบอก ใครจำเป็นใช้ด่วนก็ซวยไป ทำใจ",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-1569",
+"business": "banking",
+"score": 1,
+"text": "มาปิดปรับปรุง ตอนกูจะใช้เงินเนี่ยนะ ดีจริงๆ",
+"kind": "sarcasm"
+},
+{
+"id": "play-telecom-13919",
+"business": "telecom",
+"score": 2,
+"text": "ใช้ทีก็ปรับปรุงที ยอมใจเลย 555",
+"kind": "sarcasm"
+},
+{
+"id": "play-banking-10068",
+"business": "banking",
+"score": 1,
+"text": "กากขึ้นทุกวัน",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-8497",
+"business": "banking",
+"score": 1,
+"text": "เเดกตังจัด",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-1039",
+"business": "banking",
+"score": 2,
+"text": "การใช้งานงา่ยสะดวกมากชอบ",
+"kind": "praise_low_star"
+},
+{
+"id": "play-banking-8974",
+"business": "banking",
+"score": 2,
+"text": "ชอบเด้งออกเวลาเข้า",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-14521",
+"business": "telecom",
+"score": 1,
+"text": "บริการเเย่มาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-2025",
+"business": "banking",
+"score": 1,
+"text": "ไช่ดีสะดวก",
+"kind": "praise_low_star"
+},
+{
+"id": "play-insurance-17903",
+"business": "insurance",
+"score": 1,
+"text": "แนะนำให้ลองไปดูแอพของคู่แข่งเขาทำได้ดีเลยครับ",
+"kind": "sarcasm"
+},
+{
+"id": "play-banking-64",
+"business": "banking",
+"score": 2,
+"text": "สมบูรณ์. เข็มทอง",
+"kind": "unclear"
+},
+{
+"id": "play-insurance-16470",
+"business": "insurance",
+"score": 2,
+"text": "พัฒนาให้เบ่นง่าย",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-6899",
+"business": "banking",
+"score": 1,
+"text": "เป็นแอพที่โครตกากที่สุดที่เคยใช้มา",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-18446",
+"business": "insurance",
+"score": 1,
+"text": "ดีดออกตลอดครับ",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-19899",
+"business": "insurance",
+"score": 2,
+"text": "ควรใช้ง่ายและเข้าใจกว่านี้",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-4858",
+"business": "banking",
+"score": 1,
+"text": "เเอกล้มอีกเเล้ว เเย่มาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-10063",
+"business": "banking",
+"score": 1,
+"text": "หาซื้อเลขที่เราต้องการได้ง่าย สะดวกและรวดเร็ว ไม่ต้องกังวลว่าจะหาเลขไม่ได้ เป็นแอปที่เยี่ยมยอดมากค่ะ ใช้บริการมานานอล้ว ถูกใจสุดๆ พอเปลี่ยนโทรศัพท์ใหม่มีปัญหาตลอด ทั้งที่เวอร์ชั่น16 ต้องลบแอปติดตั้งใหม่ ขอให้ดาวเดียวละกัน",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-6140",
+"business": "banking",
+"score": 1,
+"text": "แอพล้มบ่อย",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-15144",
+"business": "telecom",
+"score": 1,
+"text": "อย่ามาขัดขวางคนจะรักกัน แฟนบอกรักผมสัญญาหายตอนแฟนผมพูด คิดว่าจะขวางคนรักกันได้เหรอ ผมรักแฟนผมมาก ผมรักเธอมาก เธอบอกรักผมแล้วมันสดุด เอาไป1ดาว",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-5559",
+"business": "banking",
+"score": 1,
+"text": "ลองใช้บริการก่อน ถ้าดีจริง จะกลับมาเพิ่มให้",
+"kind": "unclear"
+},
+{
+"id": "play-banking-812",
+"business": "banking",
+"score": 1,
+"text": "ดีมากไปคับ",
+"kind": "praise_low_star"
+},
+{
+"id": "play-insurance-18611",
+"business": "insurance",
+"score": 1,
+"text": "เเอปกากมากกกกกด",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-14418",
+"business": "telecom",
+"score": 1,
+"text": "แอพกากมากกก พัฒนาบ้างเถอะ",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-14660",
+"business": "telecom",
+"score": 1,
+"text": "เติมปุบเงินหายปับเจริญครับเน็ตวิละบาท เยี่ยมจริงๆ",
+"kind": "sarcasm"
+},
+{
+"id": "play-banking-4388",
+"business": "banking",
+"score": 1,
+"text": "ระบบกากมาก#อัฟเอตแล้วไม่ได้เรื่อง",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-7195",
+"business": "banking",
+"score": 1,
+"text": "โคตรกากเลย",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-6277",
+"business": "banking",
+"score": 1,
+"text": "app นี้มันชอบมีแต่ปัญหา",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-13509",
+"business": "telecom",
+"score": 1,
+"text": "อัพเดทยากมาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-16485",
+"business": "insurance",
+"score": 1,
+"text": "บ่ดี บ่ได้เงินจริง",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-4980",
+"business": "banking",
+"score": 1,
+"text": "หลังไล่มบ่อยจัด",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-5712",
+"business": "banking",
+"score": 1,
+"text": "อับตลอดเลย",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-7589",
+"business": "banking",
+"score": 1,
+"text": "ก่ากเข้าเเอปยาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-9410",
+"business": "banking",
+"score": 1,
+"text": "ใช้งานไมๆด้คุถ",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-16775",
+"business": "insurance",
+"score": 1,
+"text": "น่าเบื่อค่ะ",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-14192",
+"business": "telecom",
+"score": 1,
+"text": "แน่มากๆๆๆๆๆๆ",
+"kind": "unclear"
+},
+{
+"id": "play-banking-2049",
+"business": "banking",
+"score": 1,
+"text": "บัคบ่อยจังค้าบ",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-10634",
+"business": "banking",
+"score": 2,
+"text": "ยอดเยี่ยมในการจัดการกับผู้ที่ต้องการครับ",
+"kind": "unclear"
+},
+{
+"id": "play-banking-8240",
+"business": "banking",
+"score": 2,
+"text": "ดีจะกลับมาเพิ่มให้",
+"kind": "unclear"
+},
+{
+"id": "play-banking-4755",
+"business": "banking",
+"score": 1,
+"text": "เจ้าหน้าที่บริการดี",
+"kind": "praise_low_star"
+},
+{
+"id": "play-insurance-20164",
+"business": "insurance",
+"score": 1,
+"text": "ติดต่อยากลำบากซับซ้อนน่าเบื่อ",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-20780",
+"business": "insurance",
+"score": 1,
+"text": "Load อยากมากๆๆ",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-12013",
+"business": "banking",
+"score": 1,
+"text": "เเย่มากมาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-11155",
+"business": "banking",
+"score": 2,
+"text": "เข้ายากจริงๆ",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-18459",
+"business": "insurance",
+"score": 1,
+"text": "แอปกากจัดๆ",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-217",
+"business": "banking",
+"score": 2,
+"text": "เข้ายาก ชอบเด็ดออก",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-1051",
+"business": "banking",
+"score": 2,
+"text": "อัปเดทสิ่งใหม่ๆ ให้ความรู้เพิ่มเติม เพื่อให้เข้าถึงบริการทางก้านการเงินได้ดีมาก",
+"kind": "praise_low_star"
+},
+{
+"id": "play-banking-4927",
+"business": "banking",
+"score": 1,
+"text": "ใช้งานดีมากแต่ปรับปรุงระบบทีนานมาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-15195",
+"business": "telecom",
+"score": 2,
+"text": "เริ่ดมากค่า",
+"kind": "praise_low_star"
+},
+{
+"id": "play-banking-10637",
+"business": "banking",
+"score": 1,
+"text": "แอพดีมากครับ เอาไป1ดาวพอ",
+"kind": "sarcasm"
+},
+{
+"id": "play-telecom-15014",
+"business": "telecom",
+"score": 1,
+"text": "สมัครเน็ตผ่าเฝเเอปทรูกากาได้ใจจริงๆเลย เปลืองตังเอาตังไปซื้อลูกชิ้นเลี้ยงหมายังจะดีกว่าอีก ถุ้ย",
+"kind": "sarcasm"
+},
+{
+"id": "play-insurance-18189",
+"business": "insurance",
+"score": 1,
+"text": "รู้ข้อมูลรวดเร็วมาก",
+"kind": "praise_low_star"
+},
+{
+"id": "play-banking-9403",
+"business": "banking",
+"score": 1,
+"text": "อัปบ่อยเกิน",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-15236",
+"business": "telecom",
+"score": 1,
+"text": "ดีมากครับเอาไปเลย⭐⭐⭐⭐⭐",
+"kind": "sarcasm"
+},
+{
+"id": "play-banking-884",
+"business": "banking",
+"score": 2,
+"text": "รีวิวดีมากเลยค่ะ",
+"kind": "praise_low_star"
+},
+{
+"id": "play-telecom-14053",
+"business": "telecom",
+"score": 1,
+"text": "โคตรดีเลย มีความเสถียรมาก เหมาะสำหรับคนโง่ใช้",
+"kind": "sarcasm"
+},
+{
+"id": "play-banking-8235",
+"business": "banking",
+"score": 2,
+"text": "ลองใช้ก่อน",
+"kind": "unclear"
+},
+{
+"id": "play-telecom-14465",
+"business": "telecom",
+"score": 1,
+"text": "ค่ายนี้ชอบแอบเปลี่ยนโปรของผู้ใช้งานเก่าเห็นแก่ตัวสุดๆ",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-8991",
+"business": "banking",
+"score": 1,
+"text": "แอปใช้งานได้ดีมากเลยครับ สะดวกไวและเข้าถึงง่าย ดีต่อผู้ใช้งานจริง",
+"kind": "praise_low_star"
+},
+{
+"id": "play-banking-8462",
+"business": "banking",
+"score": 1,
+"text": "ชอบให้ทำรายการใหม่บ่อย เแนเพราะอะไร",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-20745",
+"business": "insurance",
+"score": 1,
+"text": "หวยมากกกกก",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-14082",
+"business": "telecom",
+"score": 1,
+"text": "ปรับปรุงบ่อยมาก กากมาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-16607",
+"business": "insurance",
+"score": 1,
+"text": "น่าเบื่อขึ้นให้ดาวโหลดตลอด",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-12361",
+"business": "banking",
+"score": 1,
+"text": "อยากก็ู้ค่ะ",
+"kind": "unclear"
+},
+{
+"id": "play-telecom-16067",
+"business": "telecom",
+"score": 2,
+"text": "อยากทราบว่า จรวดบินอยุ่นั้นแหล่ะ จะจ่ายก็อยาก แอฟเดิมดีอยู่แล้ว รวดเร็วทันใจ นี่ช้ามาก ำม่โอเคเลย",
+"kind": "plain_negative"
+},
+{
+"id": "play-telecom-14831",
+"business": "telecom",
+"score": 2,
+"text": "โลดแอฟมายากลมาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-insurance-18550",
+"business": "insurance",
+"score": 1,
+"text": "ทำระบบได้แน่มาก",
+"kind": "sarcasm"
+},
+{
+"id": "play-banking-11251",
+"business": "banking",
+"score": 1,
+"text": "อัพเดทบ่อยสุดๆ น่าเบื่อ",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-6320",
+"business": "banking",
+"score": 1,
+"text": "น่าเบื่อมาก",
+"kind": "plain_negative"
+},
+{
+"id": "play-banking-9120",
+"business": "banking",
+"score": 1,
+"text": "เร็ดเร็วทันใจดี แอปทรุวอเรตมีบริการทุกระบบ ใช่งานง่ายกว่าเดิม",
+"kind": "praise_low_star"
+},
+{
+"id": "play-banking-1630",
+"business": "banking",
+"score": 1,
+"text": "ในใจยาขมงมใหม่มอัเวลงฝ",
+"kind": "unclear"
+},
+{
+"id": "play-banking-3682",
+"business": "banking",
+"score": 1,
+"text": "ช้ามากๆๆๆๆ แก้ไขหน่อยครับ #สู้ๆนะเป็นกำลังใจเสมอ",
+"kind": "plain_negative"
+}
+]
+}

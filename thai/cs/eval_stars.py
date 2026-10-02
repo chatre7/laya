@@ -41,6 +41,7 @@ def main():
     ap.add_argument("--reviews", default="/work/thai/data_domain/play_reviews.jsonl")
     ap.add_argument("--n", type=int, default=3000)
     ap.add_argument("--out", default="/work/thai/out/stars.json")
+    ap.add_argument("--gen-eval", default="/work/thai/data/cs/sarcasm_gen_eval.jsonl")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
     rng = random.Random(args.seed)
@@ -60,6 +61,8 @@ def main():
         print(f"{len(amb)} ambiguous sentences, labels {dict(Counter(r['label'] for r in amb))}, types {dict(Counter(r['type'] for r in amb))}")
     except Exception as e:  # noqa: BLE001
         print("ambiguous set not loaded:", type(e).__name__, e)
+
+    gen = [json.loads(l) for l in open(args.gen_eval, encoding="utf-8")] if args.gen_eval and os.path.exists(args.gen_eval) else []
 
     report = {}
     for m in args.models.split(","):
@@ -105,6 +108,14 @@ def main():
                                 "confusion": {f"{g}->{p}": v for (g, p), v in c.items()}}
             print(f"ambiguous / sarcastic sentences: {acc:.3f}; by type " + ", ".join(f"{t} {a}/{n}" for t, (a, n) in by_type.items()))
             print("  gold -> answer:", dict(sorted(rep["ambiguous"]["confusion"].items(), key=lambda kv: -kv[1])))
+        if gen:  # held-out composed contrast sets (gen_sarcasm.py / label_cs15.py)
+            g = defaultdict(lambda: [0, 0])
+            for r in gen:
+                ch = agent.predict(r["text"], {"sentiment": SHARED["sentiment"]})["answers"]["sentiment"]["choice"]
+                g[r["kind"]][0] += ch == r["sentiment"]
+                g[r["kind"]][1] += 1
+            rep["composed"] = {k: [a, n] for k, (a, n) in g.items()}
+            print("held-out composed sets: " + ", ".join(f"{k} {a}/{n} = {a / n:.2f}" for k, (a, n) in sorted(g.items())))
         report[name] = rep
         del agent
     json.dump(report, open(args.out, "w"), indent=1, ensure_ascii=False)
