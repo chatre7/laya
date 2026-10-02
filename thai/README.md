@@ -836,6 +836,29 @@ moves it now is better labels (call-center staff, or a taxonomy with fewer overl
 
 **Served since 2026-10-02: `:8011` runs run 14** (`docker-compose.cascade.yml` mounts `out/laya-th-run14`; roll back by mounting `out/laya-th-run8`). The cascade threshold is unchanged (0.7), although on real call-center text the teacher fallback does not help.
 
+## Merging the intents (2026-10-02)
+
+The 116 fine intents come from the Bitext taxonomies, not from a Thai call center, and several overlap (transfer / transfer
+problem / cancel transfer; change plan / sign up / change provider; six `information_*`). `cs/intent_groups.py` is a DRAFT
+merge into the groups an agent would handle differently: telecom 31 -> 11, banking 45 -> 15, insurance 40 -> 14 (+ `other`).
+Nothing is retrained: the model answers the fine question and the probabilities are summed per group (`group_probs`).
+`cs/eval_groups.py` on the 1,374 hand-labelled real texts (Pantip long 360, short 714, reviews 300):
+
+| run 14 | fine intent | **merged group** | group in top 3 |
+|---|---|---|---|
+| telecom (408) | 0.598 | **0.672** | 0.821 |
+| banking (533) | 0.612 | **0.696** | 0.773 |
+| insurance (433) | 0.587 | **0.654** | 0.734 |
+| all | 0.600 | **0.675** | 0.775 |
+| run 8, all | 0.544 | 0.604 | 0.702 |
+
++7.5 points for free, less than the intent -> action table suggested, because most of what is left is not confusion between
+neighbouring intents but the in-scope / `other` boundary (banking: app or login problem called `other` 26 times; insurance:
+general information called `other` 17, `other` called buy/quote 12), which no merge fixes. One taxonomy artefact shows too:
+telecom `payment -> top_up` 18 times, where the eval labels (written before `top_up_problem` existed) say
+`check_mobile_payments` for top-up mistakes. `cs/INTENT_GROUPS.md` is the sheet for the call-center team (groups in Thai, the
+fine intents inside each, accuracy, remaining confusions); `results/groups.json`.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
