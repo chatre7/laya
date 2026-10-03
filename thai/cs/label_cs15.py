@@ -10,6 +10,8 @@ training split (neutral and question mostly, texts of the eval sets excluded) go
 
     python label_cs15.py
     python label_cs15.py --wisesight /work/thai/data/cc/wisesight_train.jsonl --out /work/thai/data/cs/cs16_items.pt
+Run 17 weights the neutral side more (run 16 got "neutral" back only half-way): 6,000 neutral x2, question x3.
+    python label_cs15.py --wisesight ... --ws-neutral 6000 --ws-neutral-repeat 2 --ws-question-repeat 3 --out .../cs17_items.pt
 """
 import argparse
 import json
@@ -53,6 +55,7 @@ def main():
     ap.add_argument("--ws-neutral", type=int, default=3000)
     ap.add_argument("--ws-polar", type=int, default=1000, help="positive and negative each")
     ap.add_argument("--ws-question-repeat", type=int, default=2)
+    ap.add_argument("--ws-neutral-repeat", type=int, default=1, help="run 17: 2")
     ap.add_argument("--exclude", default="/work/thai/data/eval.jsonl,/work/thai/data/cs/cs9_eval_human.jsonl", help="eval sets whose texts stay out")
     args = ap.parse_args()
     rng = random.Random(args.seed)
@@ -103,8 +106,9 @@ def main():
                 n_held += 1
             elif len(r["text"].strip()) >= 8 and n_ws[lab] < cap[lab]:
                 n_ws[lab] += 1
-                recs.append((r["text"].strip(), lab, None, args.ws_question_repeat if lab == "question" else 1, f"wisesight_{lab}"))
-        print(f"wisesight {dict(n_ws)} (question x{args.ws_question_repeat}), {n_held} skipped as eval texts", flush=True)
+                rep = {"question": args.ws_question_repeat, "neutral": args.ws_neutral_repeat}.get(lab, 1)
+                recs.append((r["text"].strip(), lab, None, rep, f"wisesight_{lab}"))
+        print(f"wisesight {dict(n_ws)} (question x{args.ws_question_repeat}, neutral x{args.ws_neutral_repeat}), {n_held} skipped as eval texts", flush=True)
 
     _fix_tokenizer_config(args.student)
     tok = AutoTokenizer.from_pretrained(os.path.join(args.student, "tokenizer"))

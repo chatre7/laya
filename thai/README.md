@@ -945,7 +945,13 @@ Wisesight is back where it was and the sarcasm gains stay (43/100 against 19), s
 the mix was. "Neutral" is half-recovered: a neutral fact in the ambiguous set is still called positive 500 times of 1,100
 (run 14: 2), the mixed sentences never get "neutral", and reviews are called neutral 1-6% of the time where run 14 said
 9-40% (most of those were complaints, so part of that is right). Intent on long posts is the best so far, 0.614, mostly
-from fewer false `other`. Candidate to serve; a further pass would weight the neutral examples more.
+from fewer false `other`.
+
+**Served since 2026-10-03: `:8011` runs run 16** (roll back by mounting `out/laya-th-run14`). Spot check through the server:
+"ระบบทำงานได้สมบูรณ์แบบมากจ้า ค้างไปแค่ 10 รอบเอง" -> negative 0.90 (run 14: positive), "สอบถามครับ แอปตัวเก่าจะไม่ใช้แล้วหรอครับ"
+-> question 0.82, "วันนี้ไปต่อบัตรที่สาขามา รอประมาณ 20 นาที" -> neutral 0.78, 30 ms each.
+
+Run 17 (`cs/run17.sh`, running) weights the neutral side more: 6,000 Wisesight neutral x2 and question x3, otherwise run 16.
 
 ## Known limits of laya for our use
 
