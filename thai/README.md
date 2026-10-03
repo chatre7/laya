@@ -921,8 +921,31 @@ is now called positive (749 of 1,100), and Wisesight loses 12 points. A 3-star "
 "สอบถามครับ แอปตัวเก่าจะไม่ใช้แล้วหรอ" should not. Mean frustration also dropped at every star (1.29 -> 1.05 at one star) while
 its ranking improved. **Run 15 is not served.** Triage is unchanged within noise.
 
-Run 16 (`cs/run16.sh`, running) is the same pass with the Wisesight training split added under the `sentiment` question:
-3,000 neutral, 462 question (x2), 1,000 positive, 1,000 negative; the 601 texts that are also in the eval sets are left out.
+## Run 16: the same pass with neutral and question examples (2026-10-02/03)
+
+`cs/run16.sh`: run 15's items plus the Wisesight training split under the `sentiment` question (3,000 neutral, 462 question
+x2, 1,000 positive, 1,000 negative; the 601 texts that are also in the eval sets left out), 82,513 items, again from run 14.
+`results/*16*`.
+
+| | run 14 | run 15 | run 16 |
+|---|---|---|---|
+| reviews: 1-2 stars negative or 4-5 stars positive / the opposite | 0.720 / 0.086 | 0.879 / 0.113 | 0.861 / 0.107 |
+| frustration, 1-2 vs 4-5 stars (AUC) | 0.886 | 0.905 | 0.910 |
+| held-out composed: sarcastic / sincere / indirect praise / plain negative | 0.62 / 0.80 / 0.33 / 0.97 | 0.98 / 0.99 / 0.98 / 1.00 | 0.98 / 0.99 / 0.98 / 1.00 |
+| ambiguous set: sarcasm (100) / indirect praise (1,000) | 19 / 254 | 48 / 925 | 43 / 889 |
+| ambiguous set: neutral facts (1,000) / Neutral-Fact (50) / Mixed (50) | 873 / 42 / 20 | 158 / 5 / 1 | 386 / 16 / 0 |
+| ambiguous set, all 3,300 | 0.492 | 0.506 | **0.552** |
+| Wisesight sentiment: public set / cs9 held-out | 0.67 / 0.88 | 0.55 / 0.82 | 0.69 / 0.88 |
+| public set / cs9 held-out, overall | 0.763 / 0.957 | 0.744 / 0.949 | 0.760 / 0.957 |
+| real posts, long: intent / department / urgency (false-other) | 0.561 / 0.722 / 0.806 (12.4%) | 0.586 / 0.728 / 0.814 (12.4%) | **0.614** / 0.722 / 0.811 (9.1%) |
+| real posts, short: intent / department / urgency | 0.560 / 0.712 / 0.788 | 0.553 / 0.710 / 0.800 | 0.560 / 0.695 / 0.809 |
+| reviews (300 hand labels): intent / department / urgency | 0.743 / 0.737 / 0.820 | 0.730 / 0.750 / 0.827 | 0.723 / 0.747 / 0.840 |
+
+Wisesight is back where it was and the sarcasm gains stay (43/100 against 19), so the two were not in conflict, only
+the mix was. "Neutral" is half-recovered: a neutral fact in the ambiguous set is still called positive 500 times of 1,100
+(run 14: 2), the mixed sentences never get "neutral", and reviews are called neutral 1-6% of the time where run 14 said
+9-40% (most of those were complaints, so part of that is right). Intent on long posts is the best so far, 0.614, mostly
+from fewer false `other`. Candidate to serve; a further pass would weight the neutral examples more.
 
 ## Known limits of laya for our use
 
