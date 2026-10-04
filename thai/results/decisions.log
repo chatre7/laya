@@ -1,0 +1,55 @@
+== laya-multilingual
+massive_intent_th                        100 cases  acc 0.480  [choice 48/100=0.480]
+massive_intent_th_full                  2974 cases  acc 0.379  [choice 1128/2974=0.379]
+massive_intent_th_heldout_scenarios      796 cases  acc 0.436  [choice 347/796=0.436]
+massive_intent_ar                        100 cases  acc 0.460  [choice 46/100=0.460]
+massive_intent_hi                        100 cases  acc 0.470  [choice 47/100=0.470]
+massive_intent_ja                        100 cases  acc 0.640  [choice 64/100=0.640]
+massive_intent_ko                        100 cases  acc 0.470  [choice 47/100=0.470]
+massive_intent_ru                        100 cases  acc 0.570  [choice 57/100=0.570]
+massive_intent_zh_CN                     100 cases  acc 0.650  [choice 65/100=0.650]
+massive_th_sampler_eval                 1092 cases  acc 0.577  [choice 589/1009=0.584  noul 277/491=0.564]
+wisesight_sampler_eval                  1052 cases  acc 0.461  [choice 225/517=0.435  noul 271/503=0.539  score 195/480=0.406]
+iapp_sampler_eval                        647 cases  acc 0.533  [choice 187/392=0.477  noul 158/255=0.620]
+probe_noul_labels                        400 cases  acc 0.615  [default 246/400=0.615  noul 492/800=0.615  relabelled 246/400=0.615] agree 1.000, both right on the true cases 8/9
+probe_noul_negation                      400 cases  acc 0.489  [claim 300/400=0.750  negated 91/400=0.228  noul 391/800=0.489] flip 0.113
+probe_option_count                       400 cases  acc 0.589  [choice 942/1600=0.589  k12 188/400=0.470  k20 145/400=0.362  k3 330/400=0.825  k6 279/400=0.698]
+probe_score_orientation                  400 cases  acc 0.374  [normal 152/400=0.380  reversed 147/400=0.367  score 299/800=0.374] mirrored 0.263; non-neutral cases n=184: mirrored 0.234, both right 0.065
+synth_eval_domains_th                    300 cases  acc 0.560  [choice 210/298=0.705  noul 152/252=0.603  score 64/211=0.303]
+== laya-th-run14
+massive_intent_th                        100 cases  acc 0.920  [choice 92/100=0.920]
+massive_intent_th_full                  2974 cases  acc 0.683  [choice 2032/2974=0.683]
+massive_intent_th_heldout_scenarios      796 cases  acc 0.752  [choice 599/796=0.752]
+massive_intent_ar                        100 cases  acc 0.590  [choice 59/100=0.590]
+massive_intent_hi                        100 cases  acc 0.720  [choice 72/100=0.720]
+massive_intent_ja                        100 cases  acc 0.850  [choice 85/100=0.850]
+massive_intent_ko                        100 cases  acc 0.720  [choice 72/100=0.720]
+massive_intent_ru                        100 cases  acc 0.760  [choice 76/100=0.760]
+massive_intent_zh_CN                     100 cases  acc 0.860  [choice 86/100=0.860]
+massive_th_sampler_eval                 1092 cases  acc 0.654  [choice 678/1009=0.672  noul 303/491=0.617]
+wisesight_sampler_eval                  1052 cases  acc 0.639  [choice 314/517=0.607  noul 345/503=0.686  score 300/480=0.625]
+iapp_sampler_eval                        647 cases  acc 0.487  [choice 164/392=0.418  noul 151/255=0.592]
+probe_noul_labels                        400 cases  acc 0.945  [default 378/400=0.945  noul 756/800=0.945  relabelled 378/400=0.945] agree 1.000, both right on the true cases 4/9
+probe_noul_negation                      400 cases  acc 0.580  [claim 340/400=0.850  negated 124/400=0.310  noul 464/800=0.580] flip 0.220
+probe_option_count                       400 cases  acc 0.776  [choice 1242/1600=0.776  k12 294/400=0.735  k20 263/400=0.657  k3 355/400=0.887  k6 330/400=0.825]
+probe_score_orientation                  400 cases  acc 0.655  [normal 258/400=0.645  reversed 266/400=0.665  score 524/800=0.655] mirrored 0.887; non-neutral cases n=184: mirrored 0.891, both right 0.609
+synth_eval_domains_th                    300 cases  acc 0.582  [choice 232/298=0.778  noul 129/252=0.512  score 82/211=0.389]
+== laya-th-run16
+massive_intent_th                        100 cases  acc 0.930  [choice 93/100=0.930]
+massive_intent_th_full                  2974 cases  acc 0.675  [choice 2008/2974=0.675]
+massive_intent_th_heldout_scenarios      796 cases  acc 0.741  [choice 590/796=0.741]
+massive_intent_ar                        100 cases  acc 0.600  [choice 60/100=0.600]
+massive_intent_hi                        100 cases  acc 0.730  [choice 73/100=0.730]
+massive_intent_ja                        100 cases  acc 0.830  [choice 83/100=0.830]
+massive_intent_ko                        100 cases  acc 0.700  [choice 70/100=0.700]
+massive_intent_ru                        100 cases  acc 0.730  [choice 73/100=0.730]
+massive_intent_zh_CN                     100 cases  acc 0.860  [choice 86/100=0.860]
+massive_th_sampler_eval                 1092 cases  acc 0.655  [choice 676/1009=0.670  noul 307/491=0.625]
+wisesight_sampler_eval                  1052 cases  acc 0.661  [choice 321/517=0.621  noul 363/503=0.722  score 307/480=0.640]
+iapp_sampler_eval                        647 cases  acc 0.487  [choice 164/392=0.418  noul 151/255=0.592]
+probe_noul_labels                        400 cases  acc 0.927  [default 371/400=0.927  noul 742/800=0.927  relabelled 371/400=0.927] agree 1.000, both right on the true cases 5/9
+probe_noul_negation                      400 cases  acc 0.600  [claim 341/400=0.853  negated 139/400=0.347  noul 480/800=0.600] flip 0.280
+probe_option_count                       400 cases  acc 0.772  [choice 1236/1600=0.772  k12 295/400=0.738  k20 254/400=0.635  k3 354/400=0.885  k6 333/400=0.833]
+probe_score_orientation                  400 cases  acc 0.645  [normal 251/400=0.627  reversed 265/400=0.662  score 516/800=0.645] mirrored 0.850; non-neutral cases n=184: mirrored 0.870, both right 0.582
+synth_eval_domains_th                    300 cases  acc 0.553  [choice 217/298=0.728  noul 129/252=0.512  score 75/211=0.355]
+== done

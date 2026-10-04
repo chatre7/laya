@@ -1,0 +1,947 @@
+{
+ "laya-multilingual": {
+  "massive_intent_th": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.48,
+   "errors": 0,
+   "by": {
+    "choice": [
+     48,
+     100,
+     0.48
+    ]
+   }
+  },
+  "massive_intent_th_full": {
+   "cases": 2974,
+   "questions": 2974,
+   "accuracy": 0.3793,
+   "errors": 0,
+   "by": {
+    "choice": [
+     1128,
+     2974,
+     0.3793
+    ]
+   }
+  },
+  "massive_intent_th_heldout_scenarios": {
+   "cases": 796,
+   "questions": 796,
+   "accuracy": 0.4359,
+   "errors": 0,
+   "by": {
+    "choice": [
+     347,
+     796,
+     0.4359
+    ]
+   }
+  },
+  "massive_intent_ar": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.46,
+   "errors": 0,
+   "by": {
+    "choice": [
+     46,
+     100,
+     0.46
+    ]
+   }
+  },
+  "massive_intent_hi": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.47,
+   "errors": 0,
+   "by": {
+    "choice": [
+     47,
+     100,
+     0.47
+    ]
+   }
+  },
+  "massive_intent_ja": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.64,
+   "errors": 0,
+   "by": {
+    "choice": [
+     64,
+     100,
+     0.64
+    ]
+   }
+  },
+  "massive_intent_ko": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.47,
+   "errors": 0,
+   "by": {
+    "choice": [
+     47,
+     100,
+     0.47
+    ]
+   }
+  },
+  "massive_intent_ru": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.57,
+   "errors": 0,
+   "by": {
+    "choice": [
+     57,
+     100,
+     0.57
+    ]
+   }
+  },
+  "massive_intent_zh_CN": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.65,
+   "errors": 0,
+   "by": {
+    "choice": [
+     65,
+     100,
+     0.65
+    ]
+   }
+  },
+  "massive_th_sampler_eval": {
+   "cases": 1092,
+   "questions": 1500,
+   "accuracy": 0.5773,
+   "errors": 0,
+   "by": {
+    "choice": [
+     589,
+     1009,
+     0.5837
+    ],
+    "noul": [
+     277,
+     491,
+     0.5642
+    ]
+   }
+  },
+  "wisesight_sampler_eval": {
+   "cases": 1052,
+   "questions": 1500,
+   "accuracy": 0.4607,
+   "errors": 0,
+   "by": {
+    "choice": [
+     225,
+     517,
+     0.4352
+    ],
+    "noul": [
+     271,
+     503,
+     0.5388
+    ],
+    "score": [
+     195,
+     480,
+     0.4062
+    ]
+   }
+  },
+  "iapp_sampler_eval": {
+   "cases": 647,
+   "questions": 647,
+   "accuracy": 0.5332,
+   "errors": 0,
+   "by": {
+    "choice": [
+     187,
+     392,
+     0.477
+    ],
+    "noul": [
+     158,
+     255,
+     0.6196
+    ]
+   }
+  },
+  "probe_noul_labels": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.615,
+   "errors": 0,
+   "by": {
+    "default": [
+     246,
+     400,
+     0.615
+    ],
+    "noul": [
+     492,
+     800,
+     0.615
+    ],
+    "relabelled": [
+     246,
+     400,
+     0.615
+    ]
+   },
+   "agree": 1.0,
+   "true_cases": [
+    8,
+    9
+   ]
+  },
+  "probe_noul_negation": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.4888,
+   "errors": 0,
+   "by": {
+    "claim": [
+     300,
+     400,
+     0.75
+    ],
+    "negated": [
+     91,
+     400,
+     0.2275
+    ],
+    "noul": [
+     391,
+     800,
+     0.4888
+    ]
+   },
+   "flip": 0.1125
+  },
+  "probe_option_count": {
+   "cases": 400,
+   "questions": 1600,
+   "accuracy": 0.5887,
+   "errors": 0,
+   "by": {
+    "choice": [
+     942,
+     1600,
+     0.5887
+    ],
+    "k12": [
+     188,
+     400,
+     0.47
+    ],
+    "k20": [
+     145,
+     400,
+     0.3625
+    ],
+    "k3": [
+     330,
+     400,
+     0.825
+    ],
+    "k6": [
+     279,
+     400,
+     0.6975
+    ]
+   }
+  },
+  "probe_score_orientation": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.3738,
+   "errors": 0,
+   "by": {
+    "normal": [
+     152,
+     400,
+     0.38
+    ],
+    "reversed": [
+     147,
+     400,
+     0.3675
+    ],
+    "score": [
+     299,
+     800,
+     0.3738
+    ]
+   },
+   "mirrored": 0.2625,
+   "polar": {
+    "n": 184,
+    "mirrored": 0.2337,
+    "both_right": 0.0652
+   }
+  },
+  "synth_eval_domains_th": {
+   "cases": 300,
+   "questions": 761,
+   "accuracy": 0.5598,
+   "errors": 0,
+   "by": {
+    "choice": [
+     210,
+     298,
+     0.7047
+    ],
+    "noul": [
+     152,
+     252,
+     0.6032
+    ],
+    "score": [
+     64,
+     211,
+     0.3033
+    ]
+   }
+  }
+ },
+ "laya-th-run14": {
+  "massive_intent_th": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.92,
+   "errors": 0,
+   "by": {
+    "choice": [
+     92,
+     100,
+     0.92
+    ]
+   }
+  },
+  "massive_intent_th_full": {
+   "cases": 2974,
+   "questions": 2974,
+   "accuracy": 0.6833,
+   "errors": 0,
+   "by": {
+    "choice": [
+     2032,
+     2974,
+     0.6833
+    ]
+   }
+  },
+  "massive_intent_th_heldout_scenarios": {
+   "cases": 796,
+   "questions": 796,
+   "accuracy": 0.7525,
+   "errors": 0,
+   "by": {
+    "choice": [
+     599,
+     796,
+     0.7525
+    ]
+   }
+  },
+  "massive_intent_ar": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.59,
+   "errors": 0,
+   "by": {
+    "choice": [
+     59,
+     100,
+     0.59
+    ]
+   }
+  },
+  "massive_intent_hi": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.72,
+   "errors": 0,
+   "by": {
+    "choice": [
+     72,
+     100,
+     0.72
+    ]
+   }
+  },
+  "massive_intent_ja": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.85,
+   "errors": 0,
+   "by": {
+    "choice": [
+     85,
+     100,
+     0.85
+    ]
+   }
+  },
+  "massive_intent_ko": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.72,
+   "errors": 0,
+   "by": {
+    "choice": [
+     72,
+     100,
+     0.72
+    ]
+   }
+  },
+  "massive_intent_ru": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.76,
+   "errors": 0,
+   "by": {
+    "choice": [
+     76,
+     100,
+     0.76
+    ]
+   }
+  },
+  "massive_intent_zh_CN": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.86,
+   "errors": 0,
+   "by": {
+    "choice": [
+     86,
+     100,
+     0.86
+    ]
+   }
+  },
+  "massive_th_sampler_eval": {
+   "cases": 1092,
+   "questions": 1500,
+   "accuracy": 0.654,
+   "errors": 0,
+   "by": {
+    "choice": [
+     678,
+     1009,
+     0.672
+    ],
+    "noul": [
+     303,
+     491,
+     0.6171
+    ]
+   }
+  },
+  "wisesight_sampler_eval": {
+   "cases": 1052,
+   "questions": 1500,
+   "accuracy": 0.6393,
+   "errors": 0,
+   "by": {
+    "choice": [
+     314,
+     517,
+     0.6074
+    ],
+    "noul": [
+     345,
+     503,
+     0.6859
+    ],
+    "score": [
+     300,
+     480,
+     0.625
+    ]
+   }
+  },
+  "iapp_sampler_eval": {
+   "cases": 647,
+   "questions": 647,
+   "accuracy": 0.4869,
+   "errors": 0,
+   "by": {
+    "choice": [
+     164,
+     392,
+     0.4184
+    ],
+    "noul": [
+     151,
+     255,
+     0.5922
+    ]
+   }
+  },
+  "probe_noul_labels": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.945,
+   "errors": 0,
+   "by": {
+    "default": [
+     378,
+     400,
+     0.945
+    ],
+    "noul": [
+     756,
+     800,
+     0.945
+    ],
+    "relabelled": [
+     378,
+     400,
+     0.945
+    ]
+   },
+   "agree": 1.0,
+   "true_cases": [
+    4,
+    9
+   ]
+  },
+  "probe_noul_negation": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.58,
+   "errors": 0,
+   "by": {
+    "claim": [
+     340,
+     400,
+     0.85
+    ],
+    "negated": [
+     124,
+     400,
+     0.31
+    ],
+    "noul": [
+     464,
+     800,
+     0.58
+    ]
+   },
+   "flip": 0.22
+  },
+  "probe_option_count": {
+   "cases": 400,
+   "questions": 1600,
+   "accuracy": 0.7762,
+   "errors": 0,
+   "by": {
+    "choice": [
+     1242,
+     1600,
+     0.7762
+    ],
+    "k12": [
+     294,
+     400,
+     0.735
+    ],
+    "k20": [
+     263,
+     400,
+     0.6575
+    ],
+    "k3": [
+     355,
+     400,
+     0.8875
+    ],
+    "k6": [
+     330,
+     400,
+     0.825
+    ]
+   }
+  },
+  "probe_score_orientation": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.655,
+   "errors": 0,
+   "by": {
+    "normal": [
+     258,
+     400,
+     0.645
+    ],
+    "reversed": [
+     266,
+     400,
+     0.665
+    ],
+    "score": [
+     524,
+     800,
+     0.655
+    ]
+   },
+   "mirrored": 0.8875,
+   "polar": {
+    "n": 184,
+    "mirrored": 0.8913,
+    "both_right": 0.6087
+   }
+  },
+  "synth_eval_domains_th": {
+   "cases": 300,
+   "questions": 761,
+   "accuracy": 0.5821,
+   "errors": 0,
+   "by": {
+    "choice": [
+     232,
+     298,
+     0.7785
+    ],
+    "noul": [
+     129,
+     252,
+     0.5119
+    ],
+    "score": [
+     82,
+     211,
+     0.3886
+    ]
+   }
+  }
+ },
+ "laya-th-run16": {
+  "massive_intent_th": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.93,
+   "errors": 0,
+   "by": {
+    "choice": [
+     93,
+     100,
+     0.93
+    ]
+   }
+  },
+  "massive_intent_th_full": {
+   "cases": 2974,
+   "questions": 2974,
+   "accuracy": 0.6752,
+   "errors": 0,
+   "by": {
+    "choice": [
+     2008,
+     2974,
+     0.6752
+    ]
+   }
+  },
+  "massive_intent_th_heldout_scenarios": {
+   "cases": 796,
+   "questions": 796,
+   "accuracy": 0.7412,
+   "errors": 0,
+   "by": {
+    "choice": [
+     590,
+     796,
+     0.7412
+    ]
+   }
+  },
+  "massive_intent_ar": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.6,
+   "errors": 0,
+   "by": {
+    "choice": [
+     60,
+     100,
+     0.6
+    ]
+   }
+  },
+  "massive_intent_hi": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.73,
+   "errors": 0,
+   "by": {
+    "choice": [
+     73,
+     100,
+     0.73
+    ]
+   }
+  },
+  "massive_intent_ja": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.83,
+   "errors": 0,
+   "by": {
+    "choice": [
+     83,
+     100,
+     0.83
+    ]
+   }
+  },
+  "massive_intent_ko": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.7,
+   "errors": 0,
+   "by": {
+    "choice": [
+     70,
+     100,
+     0.7
+    ]
+   }
+  },
+  "massive_intent_ru": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.73,
+   "errors": 0,
+   "by": {
+    "choice": [
+     73,
+     100,
+     0.73
+    ]
+   }
+  },
+  "massive_intent_zh_CN": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.86,
+   "errors": 0,
+   "by": {
+    "choice": [
+     86,
+     100,
+     0.86
+    ]
+   }
+  },
+  "massive_th_sampler_eval": {
+   "cases": 1092,
+   "questions": 1500,
+   "accuracy": 0.6553,
+   "errors": 0,
+   "by": {
+    "choice": [
+     676,
+     1009,
+     0.67
+    ],
+    "noul": [
+     307,
+     491,
+     0.6253
+    ]
+   }
+  },
+  "wisesight_sampler_eval": {
+   "cases": 1052,
+   "questions": 1500,
+   "accuracy": 0.6607,
+   "errors": 0,
+   "by": {
+    "choice": [
+     321,
+     517,
+     0.6209
+    ],
+    "noul": [
+     363,
+     503,
+     0.7217
+    ],
+    "score": [
+     307,
+     480,
+     0.6396
+    ]
+   }
+  },
+  "iapp_sampler_eval": {
+   "cases": 647,
+   "questions": 647,
+   "accuracy": 0.4869,
+   "errors": 0,
+   "by": {
+    "choice": [
+     164,
+     392,
+     0.4184
+    ],
+    "noul": [
+     151,
+     255,
+     0.5922
+    ]
+   }
+  },
+  "probe_noul_labels": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.9275,
+   "errors": 0,
+   "by": {
+    "default": [
+     371,
+     400,
+     0.9275
+    ],
+    "noul": [
+     742,
+     800,
+     0.9275
+    ],
+    "relabelled": [
+     371,
+     400,
+     0.9275
+    ]
+   },
+   "agree": 1.0,
+   "true_cases": [
+    5,
+    9
+   ]
+  },
+  "probe_noul_negation": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.6,
+   "errors": 0,
+   "by": {
+    "claim": [
+     341,
+     400,
+     0.8525
+    ],
+    "negated": [
+     139,
+     400,
+     0.3475
+    ],
+    "noul": [
+     480,
+     800,
+     0.6
+    ]
+   },
+   "flip": 0.28
+  },
+  "probe_option_count": {
+   "cases": 400,
+   "questions": 1600,
+   "accuracy": 0.7725,
+   "errors": 0,
+   "by": {
+    "choice": [
+     1236,
+     1600,
+     0.7725
+    ],
+    "k12": [
+     295,
+     400,
+     0.7375
+    ],
+    "k20": [
+     254,
+     400,
+     0.635
+    ],
+    "k3": [
+     354,
+     400,
+     0.885
+    ],
+    "k6": [
+     333,
+     400,
+     0.8325
+    ]
+   }
+  },
+  "probe_score_orientation": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.645,
+   "errors": 0,
+   "by": {
+    "normal": [
+     251,
+     400,
+     0.6275
+    ],
+    "reversed": [
+     265,
+     400,
+     0.6625
+    ],
+    "score": [
+     516,
+     800,
+     0.645
+    ]
+   },
+   "mirrored": 0.85,
+   "polar": {
+    "n": 184,
+    "mirrored": 0.8696,
+    "both_right": 0.5815
+   }
+  },
+  "synth_eval_domains_th": {
+   "cases": 300,
+   "questions": 761,
+   "accuracy": 0.5532,
+   "errors": 0,
+   "by": {
+    "choice": [
+     217,
+     298,
+     0.7282
+    ],
+    "noul": [
+     129,
+     252,
+     0.5119
+    ],
+    "score": [
+     75,
+     211,
+     0.3555
+    ]
+   }
+  }
+ }
+}

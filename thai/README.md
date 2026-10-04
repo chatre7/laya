@@ -976,6 +976,40 @@ questions move together, and 12,900 mood items against 60,000 replayed ones is t
 items so far. Triage is what the desk uses; run 16 stays at `:8011`. "Neutral" on general text is the known weak spot of the
 served model.
 
+## Someone else's test: hagsmand1/laya-thai-decisions (2026-10-04)
+
+[hagsmand1/laya-thai-decisions](https://huggingface.co/datasets/hagsmand1/laya-thai-decisions) (published 2026-10-03) is a
+Thai typed-decision dataset built for laya by a third party: 41,776 training questions with soft targets (gold blended with
+an LLM teacher) from MASSIVE, wisesight, wongnai, thaisum, iapp, eight synthetic workflows and synthetic NLI, and 17 frozen
+eval suites. Its card lists its own weaknesses (H1-H5, M1-M8); licences are per source. `eval_decisions.py` runs the suites;
+on the public checkpoint it reproduces the card's baseline (0.379 against 0.378 on MASSIVE th full, 0.113 against 0.118 on
+negation), so the scoring matches. `results/decisions.json`.
+
+| suite (cases) | public checkpoint | run 14 | run 16 (served) |
+|---|---|---|---|
+| MASSIVE th intent, 20 options (2,974) | 0.379 | 0.683 | 0.675 |
+| MASSIVE th, scenarios absent from their train (796) | 0.436 | 0.752 | 0.741 |
+| MASSIVE in ar / hi / ja / ko / ru / zh, mean (600) | 0.543 | 0.750 | 0.742 |
+| MASSIVE th, unseen phrasings (1,092) | 0.577 | 0.654 | 0.655 |
+| wisesight, unseen phrasings (1,052) | 0.461 | 0.639 | 0.661 |
+| iapp reading comprehension, unseen phrasings (647) | 0.533 | 0.487 | 0.487 |
+| unseen synthetic domains: insurance claims, school admin (300) | 0.560 | 0.582 | 0.553 |
+| - of which choice / yes-no / 4-level score | 0.705 / 0.603 / 0.303 | 0.778 / 0.512 / 0.389 | 0.728 / 0.512 / 0.355 |
+| probe: a claim and its negation get opposite answers (400) | 0.113 | 0.220 | 0.280 |
+| probe: reversed 3-level scale gives the mirrored level (400) | 0.263 | 0.887 | 0.850 |
+| probe: intent with 3 / 6 / 12 / 20 options (400) | 0.825 / 0.698 / 0.470 / 0.362 | 0.887 / 0.825 / 0.735 / 0.657 | 0.885 / 0.833 / 0.738 / 0.635 |
+
+What it shows about our runs: on Thai text with questions like ours they are far ahead of the public checkpoint, also in
+the other six languages, which nothing here trained. But on **questions they were not trained on** they are no better than
+the public checkpoint: a yes/no question on an unseen domain is a coin flip (0.512), a 4-level scale is 0.36, reading
+comprehension is below the baseline, and a negated yes/no question is answered as if it were not negated (0.35 on the
+negated half). Fourteen runs on one fixed question set made a model for that question set. (`probe_noul_labels` says
+nothing: 9 of 400 cases are true.)
+
+Run 18 (`cs/label_cs18.py`, `cs/run18.sh`, running) trains on the Thai part of their `train` split from run 16: 25,681
+questions with their soft targets, plus 60,000 replayed run 16 items. Left out: thaisum (scraped news, publisher copyright
+per the card), the non-Thai rows, and 100 rows whose text is in our own eval sets.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
