@@ -951,7 +951,30 @@ from fewer false `other`.
 "ระบบทำงานได้สมบูรณ์แบบมากจ้า ค้างไปแค่ 10 รอบเอง" -> negative 0.90 (run 14: positive), "สอบถามครับ แอปตัวเก่าจะไม่ใช้แล้วหรอครับ"
 -> question 0.82, "วันนี้ไปต่อบัตรที่สาขามา รอประมาณ 20 นาที" -> neutral 0.78, 30 ms each.
 
-Run 17 (`cs/run17.sh`, running) weights the neutral side more: 6,000 Wisesight neutral x2 and question x3, otherwise run 16.
+## Run 17: more weight on neutral - a trade, not served (2026-10-03/04)
+
+`cs/run17.sh`: run 16 with 6,000 Wisesight neutral x2 and question x3 (91,975 items), again from run 14. `results/*17*`.
+
+| | run 16 (served) | run 17 |
+|---|---|---|
+| ambiguous set: neutral facts (1,000) / Neutral-Fact (50) / Mixed (50) | 386 / 16 / 0 | **603 / 24 / 5** |
+| ambiguous set: sarcasm (100) / indirect praise (1,000) | 43 / 889 | 42 / 680 |
+| ambiguous set, all 3,300 | 0.552 | 0.555 |
+| Wisesight sentiment: public set / cs9 held-out | 0.69 / 0.88 | **0.71** / 0.87 |
+| public set / cs9 held-out, overall | 0.760 / 0.957 | 0.770 / 0.955 |
+| reviews: 1-2 stars negative or 4-5 stars positive / the opposite | 0.861 / 0.107 | 0.840 / 0.101 |
+| frustration, 1-2 vs 4-5 stars (AUC) | 0.910 | 0.913 |
+| held-out composed: sarcastic / sincere / indirect praise / plain negative | 0.98 / 0.99 / 0.98 / 1.00 | 0.99 / 0.98 / 0.98 / 1.00 |
+| real posts, long: intent / department / urgency (false-other) | **0.614 / 0.722 / 0.811** (9.1%) | 0.578 / 0.700 / 0.794 (13.2%) |
+| real posts, short: intent / department / urgency | 0.560 / 0.695 / 0.809 | 0.559 / 0.700 / 0.793 |
+| reviews (300 hand labels): intent / department / urgency | 0.723 / 0.747 / 0.840 | 0.730 / 0.750 / 0.830 |
+
+More neutral examples buy more "neutral": 603 of 1,000 neutral facts (run 14: 873), Wisesight at its best. The price is
+indirect praise back to neutral (889 -> 680) and, less expected, the long forum posts: intent, department and urgency all
+drop and false `other` goes from 9% to 13%. 360 posts is a small set (13 posts between the two runs), but the three
+questions move together, and 12,900 mood items against 60,000 replayed ones is the largest share of new single-question
+items so far. Triage is what the desk uses; run 16 stays at `:8011`. "Neutral" on general text is the known weak spot of the
+served model.
 
 ## Known limits of laya for our use
 
