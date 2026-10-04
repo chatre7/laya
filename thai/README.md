@@ -1006,9 +1006,45 @@ comprehension is below the baseline, and a negated yes/no question is answered a
 negated half). Fourteen runs on one fixed question set made a model for that question set. (`probe_noul_labels` says
 nothing: 9 of 400 cases are true.)
 
-Run 18 (`cs/label_cs18.py`, `cs/run18.sh`, running) trains on the Thai part of their `train` split from run 16: 25,681
-questions with their soft targets, plus 60,000 replayed run 16 items. Left out: thaisum (scraped news, publisher copyright
-per the card), the non-Thai rows, and 100 rows whose text is in our own eval sets.
+## Run 18: training on laya-thai-decisions (2026-10-04)
+
+`cs/label_cs18.py`, `cs/run18.sh`: the Thai part of their `train` split with its soft targets, 25,681 questions, plus 60,000
+replayed run 16 items, a pass from run 16. Left out: thaisum (scraped news, publisher copyright per the card), the non-Thai
+rows, and 100 rows whose text is in our own eval sets. `results/*18*`.
+
+| their suites | run 16 (served) | run 18 |
+|---|---|---|
+| MASSIVE th intent, 20 options (2,974) | 0.675 | 0.733 |
+| MASSIVE th, scenarios absent from their train (796) | 0.741 | 0.749 |
+| MASSIVE in six other languages, mean (600) | 0.742 | 0.740 |
+| MASSIVE th / wisesight / iapp, unseen phrasings | 0.655 / 0.661 / 0.487 | 0.849 / 0.737 / **0.910** |
+| unseen synthetic domains: all, then choice / yes-no / 4-level score (300) | 0.553: 0.728 / 0.512 / 0.355 | **0.765**: 0.883 / 0.671 / 0.711 |
+| probe: a claim and its negation get opposite answers | 0.280 | **0.938** |
+| probe: reversed scale gives the mirrored level | 0.850 | 0.900 |
+| probe: intent with 3 / 6 / 12 / 20 options | 0.885 / 0.833 / 0.738 / 0.635 | 0.958 / 0.897 / 0.855 / 0.757 |
+
+| our sets | run 16 | run 18 |
+|---|---|---|
+| real posts, long: intent / department / urgency (false-other) | 0.614 / 0.722 / 0.811 (9.1%) | 0.606 / 0.711 / 0.806 (10.9%) |
+| real posts, short: intent / department / urgency | 0.560 / 0.695 / 0.809 | 0.578 / 0.706 / 0.794 |
+| reviews (300 hand labels): intent / department / urgency | 0.723 / 0.747 / 0.840 | 0.720 / 0.747 / 0.830 |
+| cs9 held-out / public set (ECE) | 0.957 / 0.760 (0.158) | 0.954 / 0.761 (0.105) |
+| Wisesight sentiment in our form: public / cs9 | 0.69 / 0.88 | 0.65 / 0.87 |
+| reviews: stars agreement / frustration AUC | 0.861 / 0.910 | 0.872 / 0.916 |
+| ambiguous set: all / sarcasm (100) / neutral facts (1,000) | 0.552 / 43 / 386 | 0.524 / 42 / 349 |
+| held-out composed: sarcastic / sincere / indirect praise / plain negative | 0.98 / 0.99 / 0.98 / 1.00 | 0.98 / 0.99 / 0.98 / 1.00 |
+
+Our triage does not move, which is the first requirement. On their suites the gains are large, but read them for what they
+are: the "unseen phrasings" suites share sources and question kinds with their `train`, the negation probe is one question
+("is it a question") turned around, and the unseen-domain suite keeps only what their own teacher agreed with (their H4).
+`cs/new_questions_demo.py` asks six questions on twelve messages written for the check: run 16 gets 5/12, run 18 7/12. The
+two it gains are churn and scam, kinds their `train` contains; on the kinds neither set has (a negated churn question in
+Thai, a threat to go to the regulator, writing on behalf of someone else, a 4-level effort scale) both get 3 of 8. Twelve
+cases prove little, but they do not show a model that follows any question. What run 18 buys is a wider set of known
+question kinds and robustness to phrasing, option keys and scale direction - not zero-shot questions.
+
+Not served: nothing on the desk asks those questions yet, the mood side loses a little (ambiguous set, Wisesight in our
+form), and the licences of the new training data are per source (wongnai LGPL-3.0, teacher outputs of a commercial LLM).
 
 ## Known limits of laya for our use
 
