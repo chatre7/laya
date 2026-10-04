@@ -5,7 +5,7 @@ answer a question it was never trained on? Prints p(yes) (or the chosen level) p
 """
 import argparse
 
-import laya
+from agents import load_agent
 
 CASES = [  # (message, question id, expected)
     ("เน็ตหลุดทุกวัน แจ้งไปสามรอบแล้วยังไม่มีใครมาดู ถ้าสิ้นเดือนนี้ยังไม่ได้เรื่องจะย้ายค่ายแล้วนะ", "churn", True),
@@ -38,7 +38,7 @@ def main():
     ap.add_argument("--device", default="cuda")
     args = ap.parse_args()
     for path in args.models.split(","):
-        agent = laya.Agent(path, device=args.device)
+        agent = load_agent(path, args.device)
         ok = 0
         print("==", path.rstrip("/").split("/")[-1])
         for text, qid, exp in CASES:

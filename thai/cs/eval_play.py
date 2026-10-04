@@ -11,7 +11,7 @@ from collections import defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
-import laya  # noqa: E402
+from agents import load_agent  # noqa: E402
 from cs_questions import SHARED, intent_question  # noqa: E402
 
 
@@ -27,7 +27,7 @@ def main():
     rows = [r for r in rows if r["id"] in labels]
     report = {}
     for m in args.models.split(","):
-        agent = laya.Agent(m, device="cuda")
+        agent = load_agent(m)
         st = defaultdict(lambda: defaultdict(float))
         for r in rows:
             intent, dept, urg = labels[r["id"]]

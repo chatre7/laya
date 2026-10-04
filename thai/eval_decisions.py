@@ -10,10 +10,14 @@ Score is read as the most probable level. A record the model cannot take (option
 """
 import argparse
 import json
+import os
+import sys
 from collections import defaultdict
 
-import laya
 from datasets import load_dataset
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "cs"))
+from agents import load_agent  # noqa: E402
 
 REPO = "hagsmand1/laya-thai-decisions"
 
@@ -41,7 +45,7 @@ def main():
     for path in args.models.split(","):
         name = path.rstrip("/").split("/")[-1]
         try:
-            agent = laya.Agent(path, device=args.device)
+            agent = load_agent(path, args.device)
         except Exception as e:  # noqa: BLE001
             print(f"== {name}: not loaded ({type(e).__name__}: {e})", flush=True)
             continue
