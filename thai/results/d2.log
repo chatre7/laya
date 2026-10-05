@@ -1,0 +1,212 @@
+==== [19:14] Decision-2.0-Kai-0.6B: new questions
+== Decision-2.0-Kai-0.6B
+  ok  churn       want True  p(yes) 0.65  | เน็ตหลุดทุกวัน แจ้งไปสามรอบแล้วยังไม่มีใครมาดู ถ้าสิ้นเดือนน
+  ok  churn       want False p(yes) 0.12  | ขอสอบถามโปรเน็ตรายเดือนที่ถูกที่สุดตอนนี้หน่อยครับ
+  BAD not_churn   want False p(yes) 0.59  | เน็ตหลุดทุกวัน แจ้งไปสามรอบแล้วยังไม่มีใครมาดู ถ้าสิ้นเดือนน
+  BAD not_churn   want True  p(yes) 0.16  | ขอสอบถามโปรเน็ตรายเดือนที่ถูกที่สุดตอนนี้หน่อยครับ
+  ok  scam        want True  p(yes) 0.51  | มีคนโทรมาบอกว่าเป็นเจ้าหน้าที่ธนาคาร ให้กดลิงก์แล้วกรอกรหัส 
+  ok  scam        want False p(yes) 0.12  | อยากทราบว่าบัตรเดบิตใบใหม่ใช้กดเงินต่างประเทศได้ไหมคะ
+  ok  threat      want True  p(yes) 0.63  | จะไปร้องเรียน สคบ. กับลงโซเชียลให้หมด ถ้าไม่คืนเงินภายในวันน
+  ok  threat      want False p(yes) 0.09  | รบกวนช่วยตรวจสอบยอดให้หน่อยนะคะ ขอบคุณค่ะ
+  ok  third_party want True  p(yes) 0.64  | แม่ผมอายุ 78 ใช้แอปไม่เป็น ผมเลยทำรายการแทนให้ครับ แต่ระบบให
+  ok  third_party want False p(yes) 0.19  | ผมลืมรหัสผ่านแอปครับ ต้องทำยังไง
+  BAD effort      want 0     level 1      | ขอบคุณน้องพนักงานที่ช่วยแก้ปัญหาให้เร็วมากครับ ประทับใจ
+  BAD effort      want 3     level 2      | โทรไปห้ารอบ รอสายรอบละครึ่งชั่วโมง ไปสาขาอีกสองครั้งก็ยังไม่
+  8/12
+==== [19:14] Decision-2.0-Kai-0.6B: reviews (300 hand labels)
+
+== Decision-2.0-Kai-0.6B  (300 hand-labelled reviews)
+telecom    n=  51 intent 0.431 dept 0.608 urg 0.549 false-other 5/31 other-caught 12/20
+banking    n= 175 intent 0.503 dept 0.651 urg 0.571 false-other 20/114 other-caught 38/61
+insurance  n=  74 intent 0.689 dept 0.460 urg 0.500 false-other 2/13 other-caught 47/61
+all        n= 300 intent 0.537 dept 0.597 urg 0.550 false-other 27/158 other-caught 97/142
+==== [19:21] Decision-2.0-Kai-0.6B: real posts
+
+== Decision-2.0-Kai-0.6B
+set    business      n  intent   dept    urg  false-other  other-caught | frustration exact / MAE / mean pred vs true
+long   telecom     120   0.475  0.467  0.333    11/107        4/13    | 0.458 / 0.60 / 1.10 vs 0.66
+long   banking     120   0.408  0.492  0.158     9/94         7/26    | 0.333 / 0.71 / 1.04 vs 0.37
+long   insurance   120   0.225  0.425  0.233     5/64        11/56    | 0.267 / 0.79 / 1.08 vs 0.35
+long   all         360   0.369  0.461  0.242        0.094
+short  telecom     237   0.506  0.456  0.329    17/211        7/26    | 
+short  banking     238   0.387  0.475  0.168    13/188       14/50    | 
+short  insurance   239   0.218  0.397  0.234     7/128       14/111   | 
+short  all         714   0.370  0.443  0.244        0.070
+==== [19:43] Decision-2.0-Kai-0.6B: mood (1000 reviews, ambiguous set, composed sets), run 16 on the same sample
+1000 reviews, stars {1: 425, 2: 78, 3: 73, 4: 50, 5: 374}
+3300 ambiguous sentences, labels {'neg': 1100, 'pos': 1100, 'neu': 1100}, types {'ประชดประชัน (Sarcasm)': 100, 'ชมแบบซ่อนรูป / ติเพื่อชม': 100, 'ได้อย่างเสียอย่าง (Mixed/Balanced)': 50, 'เป็นกลาง / ข้อเท็จจริง (Neutral/Fact)': 50, 'ประชดประชัน/คำวิจารณ์เชิงลบ': 1000, 'ชมแบบซ่อนรูป/เชิงบวกทางอ้อม': 1000, 'ข้อเท็จจริง/กลางๆ/สอบถาม': 1000}
+
+== laya-th-run16: reviews
+stars   n   negative  neutral  positive  question   mean frustration
+  1     425      0.97     0.01      0.02      0.00   1.05
+  2      78      0.83     0.04      0.12      0.01   0.87
+  3      73      0.79     0.08      0.12      0.00   0.86
+  4      50      0.34     0.08      0.56      0.02   0.50
+  5     374      0.17     0.06      0.76      0.01   0.34
+1-2 stars called negative or 4-5 stars called positive: 0.851; the opposite: 0.106; by business {'banking': 0.8258, 'insurance': 0.8966, 'telecom': 0.8867}
+frustration separates 1-2 stars from 4-5 stars with AUC 0.909
+ambiguous / sarcastic sentences: 0.552; by type ประชดประชัน (Sarcasm) 43/100, ชมแบบซ่อนรูป / ติเพื่อชม 79/100, ได้อย่างเสียอย่าง (Mixed/Balanced) 0/50, เป็นกลาง / ข้อเท็จจริง (Neutral/Fact) 16/50, ประชดประชัน/คำวิจารณ์เชิงลบ 410/1000, ชมแบบซ่อนรูป/เชิงบวกทางอ้อม 889/1000, ข้อเท็จจริง/กลางๆ/สอบถาม 386/1000
+  gold -> answer: {'positive->positive': 968, 'negative->positive': 647, 'neutral->positive': 500, 'negative->negative': 453, 'neutral->neutral': 402, 'neutral->question': 145, 'positive->negative': 129, 'neutral->negative': 53, 'positive->neutral': 3}
+held-out composed sets: indirect_praise 57/58 = 0.98, plain_negative 102/102 = 1.00, sarcastic 181/185 = 0.98, sincere 192/194 = 0.99
+
+== Decision-2.0-Kai-0.6B: reviews
+stars   n   negative  neutral  positive  question   mean frustration
+  1     425      0.77     0.11      0.02      0.10   1.25
+  2      78      0.54     0.24      0.04      0.18   1.20
+  3      73      0.55     0.19      0.07      0.19   1.18
+  4      50      0.28     0.14      0.36      0.22   1.02
+  5     374      0.16     0.14      0.63      0.07   0.88
+1-2 stars called negative or 4-5 stars called positive: 0.672; the opposite: 0.093; by business {'banking': 0.6341, 'insurance': 0.7586, 'telecom': 0.7}
+frustration separates 1-2 stars from 4-5 stars with AUC 0.845
+ambiguous / sarcastic sentences: 0.444; by type ประชดประชัน (Sarcasm) 35/100, ชมแบบซ่อนรูป / ติเพื่อชม 85/100, ได้อย่างเสียอย่าง (Mixed/Balanced) 13/50, เป็นกลาง / ข้อเท็จจริง (Neutral/Fact) 18/50, ประชดประชัน/คำวิจารณ์เชิงลบ 229/1000, ชมแบบซ่อนรูป/เชิงบวกทางอ้อม 653/1000, ข้อเท็จจริง/กลางๆ/สอบถาม 433/1000
+  gold -> answer: {'positive->positive': 738, 'negative->positive': 652, 'neutral->neutral': 464, 'neutral->question': 394, 'negative->negative': 264, 'neutral->positive': 216, 'positive->neutral': 162, 'positive->negative': 116, 'negative->neutral': 98, 'negative->question': 86, 'positive->question': 84, 'neutral->negative': 26}
+held-out composed sets: indirect_praise 30/58 = 0.52, plain_negative 84/102 = 0.82, sarcastic 62/185 = 0.34, sincere 150/194 = 0.77
+==== [19:48] Decision-2.0-Kai-0.6B: laya-thai-decisions, Thai suites
+== Decision-2.0-Kai-0.6B
+massive_intent_th                        100 cases  acc 0.730  [choice 73/100=0.730]
+wisesight_sampler_eval                  1052 cases  acc 0.617  [choice 243/517=0.470  noul 436/503=0.867  score 247/480=0.515]
+probe_noul_negation                      400 cases  acc 0.814  [claim 332/400=0.830  negated 319/400=0.797  noul 651/800=0.814] flip 0.932
+probe_score_orientation                  400 cases  acc 0.568  [normal 222/400=0.555  reversed 232/400=0.580  score 454/800=0.568] mirrored 0.935; non-neutral cases n=184: mirrored 0.924, both right 0.565
+synth_eval_domains_th                    300 cases  acc 0.733  [choice 276/298=0.926  noul 181/252=0.718  score 101/211=0.479]
+==== [19:51] Decision-2.0-Sol-2B: new questions
+== Decision-2.0-Sol-2B
+  BAD churn       want True  p(yes) 0.39  | เน็ตหลุดทุกวัน แจ้งไปสามรอบแล้วยังไม่มีใครมาดู ถ้าสิ้นเดือนน
+  ok  churn       want False p(yes) 0.29  | ขอสอบถามโปรเน็ตรายเดือนที่ถูกที่สุดตอนนี้หน่อยครับ
+  ok  not_churn   want False p(yes) 0.49  | เน็ตหลุดทุกวัน แจ้งไปสามรอบแล้วยังไม่มีใครมาดู ถ้าสิ้นเดือนน
+  BAD not_churn   want True  p(yes) 0.33  | ขอสอบถามโปรเน็ตรายเดือนที่ถูกที่สุดตอนนี้หน่อยครับ
+  ok  scam        want True  p(yes) 0.69  | มีคนโทรมาบอกว่าเป็นเจ้าหน้าที่ธนาคาร ให้กดลิงก์แล้วกรอกรหัส 
+  ok  scam        want False p(yes) 0.12  | อยากทราบว่าบัตรเดบิตใบใหม่ใช้กดเงินต่างประเทศได้ไหมคะ
+  BAD threat      want True  p(yes) 0.48  | จะไปร้องเรียน สคบ. กับลงโซเชียลให้หมด ถ้าไม่คืนเงินภายในวันน
+  ok  threat      want False p(yes) 0.36  | รบกวนช่วยตรวจสอบยอดให้หน่อยนะคะ ขอบคุณค่ะ
+  ok  third_party want True  p(yes) 0.59  | แม่ผมอายุ 78 ใช้แอปไม่เป็น ผมเลยทำรายการแทนให้ครับ แต่ระบบให
+  ok  third_party want False p(yes) 0.27  | ผมลืมรหัสผ่านแอปครับ ต้องทำยังไง
+  BAD effort      want 0     level 3      | ขอบคุณน้องพนักงานที่ช่วยแก้ปัญหาให้เร็วมากครับ ประทับใจ
+  BAD effort      want 3     level 2      | โทรไปห้ารอบ รอสายรอบละครึ่งชั่วโมง ไปสาขาอีกสองครั้งก็ยังไม่
+  7/12
+==== [19:53] Decision-2.0-Sol-2B: reviews (300 hand labels)
+
+== Decision-2.0-Sol-2B  (300 hand-labelled reviews)
+telecom    n=  51 intent 0.275 dept 0.529 urg 0.588 false-other 7/31 other-caught 7/20
+banking    n= 175 intent 0.160 dept 0.549 urg 0.577 false-other 1/114 other-caught 6/61
+insurance  n=  74 intent 0.108 dept 0.513 urg 0.473 false-other 0/13 other-caught 5/61
+all        n= 300 intent 0.167 dept 0.537 urg 0.553 false-other 8/158 other-caught 18/142
+==== [20:03] Decision-2.0-Sol-2B: real posts
+
+== Decision-2.0-Sol-2B
+set    business      n  intent   dept    urg  false-other  other-caught | frustration exact / MAE / mean pred vs true
+long   telecom     120   0.358  0.350  0.342     6/107        3/13    | 0.458 / 0.58 / 1.06 vs 0.66
+long   banking     120   0.133  0.267  0.175     0/94         0/26    | 0.333 / 0.70 / 1.03 vs 0.37
+long   insurance   120   0.125  0.442  0.250     1/64         5/56    | 0.267 / 0.81 / 1.08 vs 0.35
+long   all         360   0.206  0.353  0.256        0.026
+short  telecom     237   0.333  0.388  0.346    12/211        5/26    | 
+short  banking     238   0.160  0.328  0.206     2/188        6/50    | 
+short  insurance   239   0.134  0.402  0.243     2/128        8/111   | 
+short  all         714   0.209  0.372  0.265        0.030
+==== [20:39] Decision-2.0-Sol-2B: mood (1000 reviews, ambiguous set, composed sets), run 16 on the same sample
+1000 reviews, stars {1: 425, 2: 78, 3: 73, 4: 50, 5: 374}
+3300 ambiguous sentences, labels {'neg': 1100, 'pos': 1100, 'neu': 1100}, types {'ประชดประชัน (Sarcasm)': 100, 'ชมแบบซ่อนรูป / ติเพื่อชม': 100, 'ได้อย่างเสียอย่าง (Mixed/Balanced)': 50, 'เป็นกลาง / ข้อเท็จจริง (Neutral/Fact)': 50, 'ประชดประชัน/คำวิจารณ์เชิงลบ': 1000, 'ชมแบบซ่อนรูป/เชิงบวกทางอ้อม': 1000, 'ข้อเท็จจริง/กลางๆ/สอบถาม': 1000}
+
+== laya-th-run16: reviews
+stars   n   negative  neutral  positive  question   mean frustration
+  1     425      0.97     0.01      0.02      0.00   1.05
+  2      78      0.83     0.04      0.12      0.01   0.87
+  3      73      0.79     0.08      0.12      0.00   0.86
+  4      50      0.34     0.08      0.56      0.02   0.50
+  5     374      0.17     0.06      0.76      0.01   0.34
+1-2 stars called negative or 4-5 stars called positive: 0.851; the opposite: 0.106; by business {'banking': 0.8258, 'insurance': 0.8966, 'telecom': 0.8867}
+frustration separates 1-2 stars from 4-5 stars with AUC 0.909
+ambiguous / sarcastic sentences: 0.552; by type ประชดประชัน (Sarcasm) 43/100, ชมแบบซ่อนรูป / ติเพื่อชม 79/100, ได้อย่างเสียอย่าง (Mixed/Balanced) 0/50, เป็นกลาง / ข้อเท็จจริง (Neutral/Fact) 16/50, ประชดประชัน/คำวิจารณ์เชิงลบ 410/1000, ชมแบบซ่อนรูป/เชิงบวกทางอ้อม 889/1000, ข้อเท็จจริง/กลางๆ/สอบถาม 386/1000
+  gold -> answer: {'positive->positive': 968, 'negative->positive': 647, 'neutral->positive': 500, 'negative->negative': 453, 'neutral->neutral': 402, 'neutral->question': 145, 'positive->negative': 129, 'neutral->negative': 53, 'positive->neutral': 3}
+held-out composed sets: indirect_praise 57/58 = 0.98, plain_negative 102/102 = 1.00, sarcastic 181/185 = 0.98, sincere 192/194 = 0.99
+
+== Decision-2.0-Sol-2B: reviews
+stars   n   negative  neutral  positive  question   mean frustration
+  1     425      0.81     0.02      0.01      0.16   1.21
+  2      78      0.65     0.09      0.06      0.19   1.15
+  3      73      0.59     0.04      0.05      0.32   1.14
+  4      50      0.32     0.18      0.24      0.26   1.07
+  5     374      0.37     0.07      0.44      0.13   1.07
+1-2 stars called negative or 4-5 stars called positive: 0.614; the opposite: 0.177; by business {'banking': 0.5854, 'insurance': 0.6847, 'telecom': 0.6267}
+frustration separates 1-2 stars from 4-5 stars with AUC 0.703
+ambiguous / sarcastic sentences: 0.331; by type ประชดประชัน (Sarcasm) 48/100, ชมแบบซ่อนรูป / ติเพื่อชม 36/100, ได้อย่างเสียอย่าง (Mixed/Balanced) 0/50, เป็นกลาง / ข้อเท็จจริง (Neutral/Fact) 14/50, ประชดประชัน/คำวิจารณ์เชิงลบ 450/1000, ชมแบบซ่อนรูป/เชิงบวกทางอ้อม 300/1000, ข้อเท็จจริง/กลางๆ/สอบถาม 244/1000
+  gold -> answer: {'neutral->question': 595, 'negative->negative': 498, 'positive->negative': 485, 'positive->positive': 336, 'negative->question': 283, 'positive->question': 276, 'neutral->neutral': 258, 'negative->positive': 207, 'neutral->positive': 134, 'neutral->negative': 113, 'negative->neutral': 112, 'positive->neutral': 3}
+held-out composed sets: indirect_praise 7/58 = 0.12, plain_negative 84/102 = 0.82, sarcastic 125/185 = 0.68, sincere 57/194 = 0.29
+==== [20:50] Decision-2.0-Sol-2B: laya-thai-decisions, Thai suites
+== Decision-2.0-Sol-2B
+massive_intent_th                        100 cases  acc 0.530  [choice 53/100=0.530]
+wisesight_sampler_eval                  1052 cases  acc 0.570  [choice 240/517=0.464  noul 381/503=0.757  score 234/480=0.487]
+probe_noul_negation                      400 cases  acc 0.710  [claim 284/400=0.710  negated 284/400=0.710  noul 568/800=0.710] flip 0.945
+probe_score_orientation                  400 cases  acc 0.468  [normal 185/400=0.463  reversed 189/400=0.472  score 374/800=0.468] mirrored 0.930; non-neutral cases n=184: mirrored 0.935, both right 0.571
+synth_eval_domains_th                    300 cases  acc 0.652  [choice 254/298=0.852  noul 138/252=0.548  score 104/211=0.493]
+==== [20:56] Decision-2.0-Nox-4B: new questions
+== Decision-2.0-Nox-4B
+  ok  churn       want True  p(yes) 0.77  | เน็ตหลุดทุกวัน แจ้งไปสามรอบแล้วยังไม่มีใครมาดู ถ้าสิ้นเดือนน
+  BAD churn       want False p(yes) 0.54  | ขอสอบถามโปรเน็ตรายเดือนที่ถูกที่สุดตอนนี้หน่อยครับ
+  BAD not_churn   want False p(yes) 0.54  | เน็ตหลุดทุกวัน แจ้งไปสามรอบแล้วยังไม่มีใครมาดู ถ้าสิ้นเดือนน
+  BAD not_churn   want True  p(yes) 0.46  | ขอสอบถามโปรเน็ตรายเดือนที่ถูกที่สุดตอนนี้หน่อยครับ
+  ok  scam        want True  p(yes) 0.92  | มีคนโทรมาบอกว่าเป็นเจ้าหน้าที่ธนาคาร ให้กดลิงก์แล้วกรอกรหัส 
+  ok  scam        want False p(yes) 0.06  | อยากทราบว่าบัตรเดบิตใบใหม่ใช้กดเงินต่างประเทศได้ไหมคะ
+  ok  threat      want True  p(yes) 0.89  | จะไปร้องเรียน สคบ. กับลงโซเชียลให้หมด ถ้าไม่คืนเงินภายในวันน
+  ok  threat      want False p(yes) 0.13  | รบกวนช่วยตรวจสอบยอดให้หน่อยนะคะ ขอบคุณค่ะ
+  ok  third_party want True  p(yes) 0.61  | แม่ผมอายุ 78 ใช้แอปไม่เป็น ผมเลยทำรายการแทนให้ครับ แต่ระบบให
+  ok  third_party want False p(yes) 0.33  | ผมลืมรหัสผ่านแอปครับ ต้องทำยังไง
+  BAD effort      want 0     level 1      | ขอบคุณน้องพนักงานที่ช่วยแก้ปัญหาให้เร็วมากครับ ประทับใจ
+  ok  effort      want 3     level 3      | โทรไปห้ารอบ รอสายรอบละครึ่งชั่วโมง ไปสาขาอีกสองครั้งก็ยังไม่
+  8/12
+==== [20:59] Decision-2.0-Nox-4B: reviews (300 hand labels)
+
+== Decision-2.0-Nox-4B  (300 hand-labelled reviews)
+telecom    n=  51 intent 0.216 dept 0.784 urg 0.549 false-other 0/31 other-caught 0/20
+banking    n= 175 intent 0.337 dept 0.726 urg 0.543 false-other 0/114 other-caught 1/61
+insurance  n=  74 intent 0.338 dept 0.622 urg 0.486 false-other 2/13 other-caught 21/61
+all        n= 300 intent 0.317 dept 0.710 urg 0.530 false-other 2/158 other-caught 22/142
+==== [21:23] Decision-2.0-Nox-4B: real posts
+[W1004 14:37:20.946436615 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 281018368 bytes (free: 3473408, total: 15691415552).
+
+== Decision-2.0-Nox-4B
+set    business      n  intent   dept    urg  false-other  other-caught | frustration exact / MAE / mean pred vs true
+long   telecom     120   0.550  0.392  0.333     1/107        1/13    | 0.458 / 0.55 / 1.04 vs 0.66
+long   banking     120   0.425  0.350  0.158     0/94         2/26    | 0.333 / 0.66 / 0.99 vs 0.37
+long   insurance   120   0.367  0.508  0.233     1/64        17/56    | 0.267 / 0.72 / 0.99 vs 0.35
+long   all         360   0.447  0.417  0.242        0.007
+short  telecom     237   0.498  0.401  0.338     1/211        1/26    | 
+short  banking     238   0.353  0.391  0.160     1/188        4/50    | 
+short  insurance   239   0.293  0.477  0.234     2/128       32/111   | 
+short  all         714   0.381  0.423  0.244        0.008
+==== [22:48] Decision-2.0-Nox-4B: mood (1000 reviews, ambiguous set, composed sets), run 16 on the same sample
+1000 reviews, stars {1: 425, 2: 78, 3: 73, 4: 50, 5: 374}
+3300 ambiguous sentences, labels {'neg': 1100, 'pos': 1100, 'neu': 1100}, types {'ประชดประชัน (Sarcasm)': 100, 'ชมแบบซ่อนรูป / ติเพื่อชม': 100, 'ได้อย่างเสียอย่าง (Mixed/Balanced)': 50, 'เป็นกลาง / ข้อเท็จจริง (Neutral/Fact)': 50, 'ประชดประชัน/คำวิจารณ์เชิงลบ': 1000, 'ชมแบบซ่อนรูป/เชิงบวกทางอ้อม': 1000, 'ข้อเท็จจริง/กลางๆ/สอบถาม': 1000}
+
+== laya-th-run16: reviews
+stars   n   negative  neutral  positive  question   mean frustration
+  1     425      0.97     0.01      0.02      0.00   1.05
+  2      78      0.83     0.04      0.12      0.01   0.87
+  3      73      0.79     0.08      0.12      0.00   0.86
+  4      50      0.34     0.08      0.56      0.02   0.50
+  5     374      0.17     0.06      0.76      0.01   0.34
+1-2 stars called negative or 4-5 stars called positive: 0.851; the opposite: 0.106; by business {'banking': 0.8258, 'insurance': 0.8966, 'telecom': 0.8867}
+frustration separates 1-2 stars from 4-5 stars with AUC 0.909
+ambiguous / sarcastic sentences: 0.552; by type ประชดประชัน (Sarcasm) 43/100, ชมแบบซ่อนรูป / ติเพื่อชม 79/100, ได้อย่างเสียอย่าง (Mixed/Balanced) 0/50, เป็นกลาง / ข้อเท็จจริง (Neutral/Fact) 16/50, ประชดประชัน/คำวิจารณ์เชิงลบ 410/1000, ชมแบบซ่อนรูป/เชิงบวกทางอ้อม 889/1000, ข้อเท็จจริง/กลางๆ/สอบถาม 386/1000
+  gold -> answer: {'positive->positive': 968, 'negative->positive': 647, 'neutral->positive': 500, 'negative->negative': 453, 'neutral->neutral': 402, 'neutral->question': 145, 'positive->negative': 129, 'neutral->negative': 53, 'positive->neutral': 3}
+held-out composed sets: indirect_praise 57/58 = 0.98, plain_negative 102/102 = 1.00, sarcastic 181/185 = 0.98, sincere 192/194 = 0.99
+
+== Decision-2.0-Nox-4B: reviews
+stars   n   negative  neutral  positive  question   mean frustration
+  1     425      0.80     0.04      0.01      0.15   1.21
+  2      78      0.51     0.12      0.03      0.35   1.14
+  3      73      0.53     0.08      0.08      0.30   1.12
+  4      50      0.32     0.12      0.24      0.32   1.07
+  5     374      0.16     0.10      0.58      0.16   0.99
+1-2 stars called negative or 4-5 stars called positive: 0.656; the opposite: 0.091; by business {'banking': 0.6115, 'insurance': 0.7488, 'telecom': 0.7}
+frustration separates 1-2 stars from 4-5 stars with AUC 0.796
+ambiguous / sarcastic sentences: 0.567; by type ประชดประชัน (Sarcasm) 34/100, ชมแบบซ่อนรูป / ติเพื่อชม 75/100, ได้อย่างเสียอย่าง (Mixed/Balanced) 5/50, เป็นกลาง / ข้อเท็จจริง (Neutral/Fact) 16/50, ประชดประชัน/คำวิจารณ์เชิงลบ 368/1000, ชมแบบซ่อนรูป/เชิงบวกทางอ้อม 822/1000, ข้อเท็จจริง/กลางๆ/สอบถาม 550/1000
+  gold -> answer: {'positive->positive': 897, 'neutral->neutral': 571, 'negative->positive': 487, 'negative->negative': 402, 'neutral->question': 273, 'neutral->positive': 222, 'negative->neutral': 186, 'positive->negative': 156, 'positive->neutral': 44, 'neutral->negative': 34, 'negative->question': 25, 'positive->question': 3}
+held-out composed sets: indirect_praise 29/58 = 0.50, plain_negative 90/102 = 0.88, sarcastic 94/185 = 0.51, sincere 157/194 = 0.81
+==== [23:08] Decision-2.0-Nox-4B: laya-thai-decisions, Thai suites
+== Decision-2.0-Nox-4B
+massive_intent_th                        100 cases  acc 0.800  [choice 80/100=0.800]
+wisesight_sampler_eval                  1052 cases  acc 0.603  [choice 250/517=0.484  noul 398/503=0.791  score 256/480=0.533]
+probe_noul_negation                      400 cases  acc 0.799  [claim 331/400=0.828  negated 308/400=0.770  noul 639/800=0.799] flip 0.902
+probe_score_orientation                  400 cases  acc 0.432  [normal 178/400=0.445  reversed 168/400=0.420  score 346/800=0.432] mirrored 0.728; non-neutral cases n=184: mirrored 0.804, both right 0.620
+synth_eval_domains_th                    300 cases  acc 0.719  [choice 279/298=0.936  noul 147/252=0.583  score 121/211=0.574]
+==== [23:21] done

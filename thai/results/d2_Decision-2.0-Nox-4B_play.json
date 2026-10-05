@@ -1,0 +1,36 @@
+{
+ "Decision-2.0-Nox-4B": {
+  "telecom": {
+   "n": 51,
+   "intent": 0.2157,
+   "department": 0.7843,
+   "urgency": 0.549,
+   "false_other": 0.0,
+   "other_caught": 0.0
+  },
+  "banking": {
+   "n": 175,
+   "intent": 0.3371,
+   "department": 0.7257,
+   "urgency": 0.5429,
+   "false_other": 0.0,
+   "other_caught": 0.0164
+  },
+  "insurance": {
+   "n": 74,
+   "intent": 0.3378,
+   "department": 0.6216,
+   "urgency": 0.4865,
+   "false_other": 0.1538,
+   "other_caught": 0.3443
+  },
+  "all": {
+   "n": 300,
+   "intent": 0.3167,
+   "department": 0.71,
+   "urgency": 0.53,
+   "false_other": 0.0127,
+   "other_caught": 0.1549
+  }
+ }
+}

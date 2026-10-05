@@ -1,0 +1,36 @@
+{
+ "Decision-2.0-Sol-2B": {
+  "telecom": {
+   "n": 51,
+   "intent": 0.2745,
+   "department": 0.5294,
+   "urgency": 0.5882,
+   "false_other": 0.2258,
+   "other_caught": 0.35
+  },
+  "banking": {
+   "n": 175,
+   "intent": 0.16,
+   "department": 0.5486,
+   "urgency": 0.5771,
+   "false_other": 0.0088,
+   "other_caught": 0.0984
+  },
+  "insurance": {
+   "n": 74,
+   "intent": 0.1081,
+   "department": 0.5135,
+   "urgency": 0.473,
+   "false_other": 0.0,
+   "other_caught": 0.082
+  },
+  "all": {
+   "n": 300,
+   "intent": 0.1667,
+   "department": 0.5367,
+   "urgency": 0.5533,
+   "false_other": 0.0506,
+   "other_caught": 0.1268
+  }
+ }
+}

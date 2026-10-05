@@ -1,0 +1,78 @@
+{
+ "Decision-2.0-Sol-2B": {
+  "long_telecom": {
+   "n": 120,
+   "intent": 0.3583,
+   "department": 0.35,
+   "urgency": 0.3417,
+   "false_other": 0.0561,
+   "other_caught": 0.2308,
+   "frustration_exact": 0.4583,
+   "frustration_mae": 0.5758,
+   "frustration_mean_pred": 1.0596,
+   "frustration_mean_true": 0.6583
+  },
+  "long_banking": {
+   "n": 120,
+   "intent": 0.1333,
+   "department": 0.2667,
+   "urgency": 0.175,
+   "false_other": 0.0,
+   "other_caught": 0.0,
+   "frustration_exact": 0.3333,
+   "frustration_mae": 0.6953,
+   "frustration_mean_pred": 1.0275,
+   "frustration_mean_true": 0.3667
+  },
+  "long_insurance": {
+   "n": 120,
+   "intent": 0.125,
+   "department": 0.4417,
+   "urgency": 0.25,
+   "false_other": 0.0156,
+   "other_caught": 0.0893,
+   "frustration_exact": 0.2667,
+   "frustration_mae": 0.8062,
+   "frustration_mean_pred": 1.0797,
+   "frustration_mean_true": 0.35
+  },
+  "long_all": {
+   "n": 360,
+   "intent": 0.2056,
+   "department": 0.3528,
+   "urgency": 0.2556,
+   "false_other": 0.0264
+  },
+  "short_telecom": {
+   "n": 237,
+   "intent": 0.3333,
+   "department": 0.3882,
+   "urgency": 0.346,
+   "false_other": 0.0569,
+   "other_caught": 0.1923
+  },
+  "short_banking": {
+   "n": 238,
+   "intent": 0.1597,
+   "department": 0.3277,
+   "urgency": 0.2059,
+   "false_other": 0.0106,
+   "other_caught": 0.12
+  },
+  "short_insurance": {
+   "n": 239,
+   "intent": 0.1339,
+   "department": 0.4017,
+   "urgency": 0.2427,
+   "false_other": 0.0156,
+   "other_caught": 0.0721
+  },
+  "short_all": {
+   "n": 714,
+   "intent": 0.2087,
+   "department": 0.3725,
+   "urgency": 0.2647,
+   "false_other": 0.0304
+  }
+ }
+}

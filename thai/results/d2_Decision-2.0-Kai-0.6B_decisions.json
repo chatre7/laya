@@ -1,0 +1,116 @@
+{
+ "Decision-2.0-Kai-0.6B": {
+  "massive_intent_th": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.73,
+   "errors": 0,
+   "by": {
+    "choice": [
+     73,
+     100,
+     0.73
+    ]
+   }
+  },
+  "wisesight_sampler_eval": {
+   "cases": 1052,
+   "questions": 1500,
+   "accuracy": 0.6173,
+   "errors": 0,
+   "by": {
+    "choice": [
+     243,
+     517,
+     0.47
+    ],
+    "noul": [
+     436,
+     503,
+     0.8668
+    ],
+    "score": [
+     247,
+     480,
+     0.5146
+    ]
+   }
+  },
+  "probe_noul_negation": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.8137,
+   "errors": 0,
+   "by": {
+    "claim": [
+     332,
+     400,
+     0.83
+    ],
+    "negated": [
+     319,
+     400,
+     0.7975
+    ],
+    "noul": [
+     651,
+     800,
+     0.8137
+    ]
+   },
+   "flip": 0.9325
+  },
+  "probe_score_orientation": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.5675,
+   "errors": 0,
+   "by": {
+    "normal": [
+     222,
+     400,
+     0.555
+    ],
+    "reversed": [
+     232,
+     400,
+     0.58
+    ],
+    "score": [
+     454,
+     800,
+     0.5675
+    ]
+   },
+   "mirrored": 0.935,
+   "polar": {
+    "n": 184,
+    "mirrored": 0.9239,
+    "both_right": 0.5652
+   }
+  },
+  "synth_eval_domains_th": {
+   "cases": 300,
+   "questions": 761,
+   "accuracy": 0.7332,
+   "errors": 0,
+   "by": {
+    "choice": [
+     276,
+     298,
+     0.9262
+    ],
+    "noul": [
+     181,
+     252,
+     0.7183
+    ],
+    "score": [
+     101,
+     211,
+     0.4787
+    ]
+   }
+  }
+ }
+}

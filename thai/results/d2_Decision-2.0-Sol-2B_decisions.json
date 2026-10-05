@@ -1,0 +1,116 @@
+{
+ "Decision-2.0-Sol-2B": {
+  "massive_intent_th": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.53,
+   "errors": 0,
+   "by": {
+    "choice": [
+     53,
+     100,
+     0.53
+    ]
+   }
+  },
+  "wisesight_sampler_eval": {
+   "cases": 1052,
+   "questions": 1500,
+   "accuracy": 0.57,
+   "errors": 0,
+   "by": {
+    "choice": [
+     240,
+     517,
+     0.4642
+    ],
+    "noul": [
+     381,
+     503,
+     0.7575
+    ],
+    "score": [
+     234,
+     480,
+     0.4875
+    ]
+   }
+  },
+  "probe_noul_negation": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.71,
+   "errors": 0,
+   "by": {
+    "claim": [
+     284,
+     400,
+     0.71
+    ],
+    "negated": [
+     284,
+     400,
+     0.71
+    ],
+    "noul": [
+     568,
+     800,
+     0.71
+    ]
+   },
+   "flip": 0.945
+  },
+  "probe_score_orientation": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.4675,
+   "errors": 0,
+   "by": {
+    "normal": [
+     185,
+     400,
+     0.4625
+    ],
+    "reversed": [
+     189,
+     400,
+     0.4725
+    ],
+    "score": [
+     374,
+     800,
+     0.4675
+    ]
+   },
+   "mirrored": 0.93,
+   "polar": {
+    "n": 184,
+    "mirrored": 0.9348,
+    "both_right": 0.5707
+   }
+  },
+  "synth_eval_domains_th": {
+   "cases": 300,
+   "questions": 761,
+   "accuracy": 0.6518,
+   "errors": 0,
+   "by": {
+    "choice": [
+     254,
+     298,
+     0.8523
+    ],
+    "noul": [
+     138,
+     252,
+     0.5476
+    ],
+    "score": [
+     104,
+     211,
+     0.4929
+    ]
+   }
+  }
+ }
+}

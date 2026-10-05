@@ -1,0 +1,36 @@
+{
+ "Decision-2.0-Kai-0.6B": {
+  "telecom": {
+   "n": 51,
+   "intent": 0.4314,
+   "department": 0.6078,
+   "urgency": 0.549,
+   "false_other": 0.1613,
+   "other_caught": 0.6
+  },
+  "banking": {
+   "n": 175,
+   "intent": 0.5029,
+   "department": 0.6514,
+   "urgency": 0.5714,
+   "false_other": 0.1754,
+   "other_caught": 0.623
+  },
+  "insurance": {
+   "n": 74,
+   "intent": 0.6892,
+   "department": 0.4595,
+   "urgency": 0.5,
+   "false_other": 0.1538,
+   "other_caught": 0.7705
+  },
+  "all": {
+   "n": 300,
+   "intent": 0.5367,
+   "department": 0.5967,
+   "urgency": 0.55,
+   "false_other": 0.1709,
+   "other_caught": 0.6831
+  }
+ }
+}

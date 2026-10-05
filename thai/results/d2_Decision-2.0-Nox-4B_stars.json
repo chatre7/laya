@@ -1,0 +1,226 @@
+{
+ "laya-th-run16": {
+  "sentiment_matches_stars": 0.8511,
+  "opposite": 0.1057,
+  "frustration_mean_by_star": {
+   "1": 1.05,
+   "2": 0.869,
+   "3": 0.863,
+   "4": 0.498,
+   "5": 0.339
+  },
+  "frustration_auc_low_vs_high_stars": 0.9095,
+  "by_business": {
+   "banking": 0.8258,
+   "insurance": 0.8966,
+   "telecom": 0.8867
+  },
+  "table": {
+   "1": {
+    "negative": 413,
+    "positive": 7,
+    "neutral": 3,
+    "question": 2
+   },
+   "2": {
+    "negative": 65,
+    "positive": 9,
+    "question": 1,
+    "neutral": 3
+   },
+   "3": {
+    "neutral": 6,
+    "negative": 58,
+    "positive": 9
+   },
+   "4": {
+    "negative": 17,
+    "positive": 28,
+    "neutral": 4,
+    "question": 1
+   },
+   "5": {
+    "positive": 283,
+    "negative": 65,
+    "neutral": 21,
+    "question": 5
+   }
+  },
+  "ambiguous": {
+   "accuracy": 0.5524,
+   "by_type": {
+    "ประชดประชัน (Sarcasm)": [
+     43,
+     100
+    ],
+    "ชมแบบซ่อนรูป / ติเพื่อชม": [
+     79,
+     100
+    ],
+    "ได้อย่างเสียอย่าง (Mixed/Balanced)": [
+     0,
+     50
+    ],
+    "เป็นกลาง / ข้อเท็จจริง (Neutral/Fact)": [
+     16,
+     50
+    ],
+    "ประชดประชัน/คำวิจารณ์เชิงลบ": [
+     410,
+     1000
+    ],
+    "ชมแบบซ่อนรูป/เชิงบวกทางอ้อม": [
+     889,
+     1000
+    ],
+    "ข้อเท็จจริง/กลางๆ/สอบถาม": [
+     386,
+     1000
+    ]
+   },
+   "confusion": {
+    "negative->negative": 453,
+    "negative->positive": 647,
+    "positive->positive": 968,
+    "positive->negative": 129,
+    "neutral->positive": 500,
+    "neutral->negative": 53,
+    "neutral->neutral": 402,
+    "neutral->question": 145,
+    "positive->neutral": 3
+   }
+  },
+  "composed": {
+   "sarcastic": [
+    181,
+    185
+   ],
+   "sincere": [
+    192,
+    194
+   ],
+   "plain_negative": [
+    102,
+    102
+   ],
+   "indirect_praise": [
+    57,
+    58
+   ]
+  }
+ },
+ "Decision-2.0-Nox-4B": {
+  "sentiment_matches_stars": 0.6559,
+  "opposite": 0.0906,
+  "frustration_mean_by_star": {
+   "1": 1.205,
+   "2": 1.143,
+   "3": 1.119,
+   "4": 1.067,
+   "5": 0.989
+  },
+  "frustration_auc_low_vs_high_stars": 0.7956,
+  "by_business": {
+   "banking": 0.6115,
+   "insurance": 0.7488,
+   "telecom": 0.7
+  },
+  "table": {
+   "1": {
+    "neutral": 18,
+    "question": 64,
+    "negative": 338,
+    "positive": 5
+   },
+   "2": {
+    "negative": 40,
+    "question": 27,
+    "neutral": 9,
+    "positive": 2
+   },
+   "3": {
+    "question": 22,
+    "negative": 39,
+    "positive": 6,
+    "neutral": 6
+   },
+   "4": {
+    "negative": 16,
+    "neutral": 6,
+    "question": 16,
+    "positive": 12
+   },
+   "5": {
+    "question": 58,
+    "positive": 218,
+    "negative": 61,
+    "neutral": 37
+   }
+  },
+  "ambiguous": {
+   "accuracy": 0.5667,
+   "by_type": {
+    "ประชดประชัน (Sarcasm)": [
+     34,
+     100
+    ],
+    "ชมแบบซ่อนรูป / ติเพื่อชม": [
+     75,
+     100
+    ],
+    "ได้อย่างเสียอย่าง (Mixed/Balanced)": [
+     5,
+     50
+    ],
+    "เป็นกลาง / ข้อเท็จจริง (Neutral/Fact)": [
+     16,
+     50
+    ],
+    "ประชดประชัน/คำวิจารณ์เชิงลบ": [
+     368,
+     1000
+    ],
+    "ชมแบบซ่อนรูป/เชิงบวกทางอ้อม": [
+     822,
+     1000
+    ],
+    "ข้อเท็จจริง/กลางๆ/สอบถาม": [
+     550,
+     1000
+    ]
+   },
+   "confusion": {
+    "negative->positive": 487,
+    "negative->negative": 402,
+    "negative->question": 25,
+    "negative->neutral": 186,
+    "positive->negative": 156,
+    "positive->positive": 897,
+    "neutral->negative": 34,
+    "neutral->neutral": 571,
+    "neutral->positive": 222,
+    "neutral->question": 273,
+    "positive->neutral": 44,
+    "positive->question": 3
+   }
+  },
+  "composed": {
+   "sarcastic": [
+    94,
+    185
+   ],
+   "sincere": [
+    157,
+    194
+   ],
+   "plain_negative": [
+    90,
+    102
+   ],
+   "indirect_praise": [
+    29,
+    58
+   ]
+  }
+ }
+}

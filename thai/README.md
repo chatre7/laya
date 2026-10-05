@@ -1046,6 +1046,48 @@ question kinds and robustness to phrasing, option keys and scale direction - not
 Not served: nothing on the desk asks those questions yet, the mood side loses a little (ambiguous set, Wisesight in our
 form), and the licences of the new training data are per source (wongnai LGPL-3.0, teacher outputs of a commercial LLM).
 
+## Decision 2.0 (vllm-sr), untrained, on our sets (2026-10-04/05)
+
+[Decision 2.0](https://huggingface.co/collections/vllm-sr/decision-20) is a family of open decision models from the vLLM
+Semantic Router team (published 2026-10-03): fine-tuned Qwen backbones from 0.6B to 27B with a decision head, Apache-2.0,
+same request as ours (`system_one(state, questions)` with choice / noul / score, same answer fields), 8k-16k tokens of
+input, loaded with `AutoModel(..., trust_remote_code=True)` on the transformers already in the training image. Their cards
+report their own benchmarks only and say nothing about Thai. `cs/agents.py` gives the eval scripts one loader for both
+kinds of model; `d2/eval_all.sh` ran Kai-0.6B, Sol-2B and Nox-4B beside the cascade on the A2, no training.
+`results/d2*`.
+
+| | run 16 (served) | Kai 0.6B | Sol 2B | Nox 4B |
+|---|---|---|---|---|
+| reviews (300 hand labels): intent / department / urgency | 0.723 / 0.747 / 0.840 | 0.537 / 0.597 / 0.550 | 0.167 / 0.537 / 0.553 | 0.317 / 0.710 / 0.530 |
+| real posts, long: intent / department / urgency | 0.614 / 0.722 / 0.811 | 0.369 / 0.461 / 0.242 | 0.206 / 0.353 / 0.256 | 0.447 / 0.417 / 0.242 |
+| real posts, short: intent / department / urgency | 0.560 / 0.695 / 0.809 | 0.370 / 0.443 / 0.244 | 0.209 / 0.372 / 0.265 | 0.381 / 0.423 / 0.244 |
+| 1,000 reviews: stars agreement / frustration AUC | 0.851 / 0.909 | 0.672 / 0.845 | 0.614 / 0.703 | 0.656 / 0.796 |
+| ambiguous set, all 3,300 / sarcasm (100) | 0.552 / 43 | 0.444 / 35 | 0.331 / 48 | 0.567 / 34 |
+| our composed sarcastic / sincere | 0.98 / 0.99 | 0.34 / 0.77 | 0.68 / 0.29 | 0.51 / 0.81 |
+| new questions (`cs/new_questions_demo.py`, 12) | 5 (run 18: 7) | 8 | 7 | 8 |
+| laya-thai-decisions: unseen synthetic domains (300) | 0.553 (run 18: 0.765) | 0.733 | 0.652 | 0.719 |
+| laya-thai-decisions: negation flips / reversed scale mirrors | 0.280 / 0.850 (run 18: 0.938 / 0.900) | 0.932 / 0.935 | 0.945 / 0.930 | 0.902 / 0.728 |
+| laya-thai-decisions: MASSIVE th 20 options (100) / wisesight phrasings | 0.930 / 0.661 | 0.730 / 0.617 | 0.530 / 0.570 | 0.800 / 0.603 |
+| one request with intent + department + urgency, on the A2 | 0.03 s | 1.4 s | 2.0 s | 4.8 s |
+| one short yes/no or score question, on the A2 | 25 ms | 39 ms | 224 ms | 305 ms |
+| GPU memory | 3 GB | 2 GB | - | - |
+
+- **On our questions the trained laya is far ahead of all three**, as a model trained on those questions should be. On
+  urgency they do nothing: the probabilities are flat, the rounded expectation is the middle level 292 times of 300 (0.55 is
+  the share of that level), and the most probable level is right 0.35-0.40 of the time (`d2/urgency_check.py`).
+- **On questions nobody trained on they are ahead of run 16** and level with run 18, which was trained on that dataset:
+  negation and scale direction work out of the box, an unseen domain is 0.65-0.73 against 0.55, the twelve new questions 7-8
+  against 5. That is what a foundation decision model is for, and it holds in Thai.
+- **Bigger is not better in Thai here.** Sol-2B is the worst of the three on almost every Thai set (intent 0.17-0.21) and
+  Nox-4B does not beat Kai-0.6B overall. The sizes have different backbones (Qwen3, Qwen3.5); their published ranking is on
+  their own, mostly English, benchmarks.
+- **Speed on the A2 is the opposite of the card**: 5 ms on their GPU, 39 ms here for one short question and 1.4 s once the
+  45-option intent question is in the request, because every question is a separate pass over a 600M-parameter decoder.
+
+Not a replacement for laya on the desk, and not usable as a labelling teacher for our questions (worse than the model it
+would teach). The use that fits: Kai-0.6B next to laya for a yes/no question the desk has not asked before, at 40 ms and
+2 GB, until there are examples to train that question into laya.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).

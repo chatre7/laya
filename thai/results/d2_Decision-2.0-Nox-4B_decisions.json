@@ -1,0 +1,116 @@
+{
+ "Decision-2.0-Nox-4B": {
+  "massive_intent_th": {
+   "cases": 100,
+   "questions": 100,
+   "accuracy": 0.8,
+   "errors": 0,
+   "by": {
+    "choice": [
+     80,
+     100,
+     0.8
+    ]
+   }
+  },
+  "wisesight_sampler_eval": {
+   "cases": 1052,
+   "questions": 1500,
+   "accuracy": 0.6027,
+   "errors": 0,
+   "by": {
+    "choice": [
+     250,
+     517,
+     0.4836
+    ],
+    "noul": [
+     398,
+     503,
+     0.7913
+    ],
+    "score": [
+     256,
+     480,
+     0.5333
+    ]
+   }
+  },
+  "probe_noul_negation": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.7987,
+   "errors": 0,
+   "by": {
+    "claim": [
+     331,
+     400,
+     0.8275
+    ],
+    "negated": [
+     308,
+     400,
+     0.77
+    ],
+    "noul": [
+     639,
+     800,
+     0.7987
+    ]
+   },
+   "flip": 0.9025
+  },
+  "probe_score_orientation": {
+   "cases": 400,
+   "questions": 800,
+   "accuracy": 0.4325,
+   "errors": 0,
+   "by": {
+    "normal": [
+     178,
+     400,
+     0.445
+    ],
+    "reversed": [
+     168,
+     400,
+     0.42
+    ],
+    "score": [
+     346,
+     800,
+     0.4325
+    ]
+   },
+   "mirrored": 0.7275,
+   "polar": {
+    "n": 184,
+    "mirrored": 0.8043,
+    "both_right": 0.6196
+   }
+  },
+  "synth_eval_domains_th": {
+   "cases": 300,
+   "questions": 761,
+   "accuracy": 0.7188,
+   "errors": 0,
+   "by": {
+    "choice": [
+     279,
+     298,
+     0.9362
+    ],
+    "noul": [
+     147,
+     252,
+     0.5833
+    ],
+    "score": [
+     121,
+     211,
+     0.5735
+    ]
+   }
+  }
+ }
+}
