@@ -1088,6 +1088,50 @@ Not a replacement for laya on the desk, and not usable as a labelling teacher fo
 would teach). The use that fits: Kai-0.6B next to laya for a yes/no question the desk has not asked before, at 40 ms and
 2 GB, until there are examples to train that question into laya.
 
+## Clef-Flash (Cloudflare, 9B), untrained, 4-bit on the A2 (2026-10-06)
+
+[Cloudflare/clef-flash](https://huggingface.co/Cloudflare/clef-flash) (2026-10-01, Apache-2.0) is a decision model on
+Qwen3.5-9B with a "joint schema head" that scores every option of every question in one forward pass; same request and
+answer fields as ours. Its card reports English benchmarks and says nothing about Thai. The 27B Clef is 55 GB and out of
+reach here. The 9B is 19 GB in BF16, so it runs 4-bit (bitsandbytes NF4, `d2/Dockerfile.clef`), which the card does not
+test: 8.7 GB peak, beside the cascade. `cs/agents.py` loads the repo's own `joint_schema_model.py` minus its image / video
+processor (torchvision is not in the image; text records never touch it). Same `d2/eval_all.sh` as Decision 2.0.
+`results/d2_clef-flash_*`, `results/clef.log`.
+
+| | run 16 (served) | Decision 2.0 Kai 0.6B | Clef-Flash 9B, 4-bit |
+|---|---|---|---|
+| new questions (`cs/new_questions_demo.py`, 12) / the 8 nobody trained | 5 / 3 (run 18: 7 / 3) | 8 / 4 | **10 / 7** |
+| laya-thai-decisions: unseen synthetic domains (300) | 0.553 (run 18: 0.765) | 0.733 | **0.777** |
+| laya-thai-decisions: negation flips / reversed scale mirrors | 0.280 / 0.850 | 0.932 / 0.935 | 0.868 / 0.880 |
+| laya-thai-decisions: MASSIVE th 20 options (100) / wisesight phrasings | 0.930 / 0.661 | 0.730 / 0.617 | **0.960** / 0.657 |
+| ambiguous set, all 3,300 / neutral called neutral (of 1,100) | 0.552 / 402 | 0.444 / 464 | **0.612 / 691** |
+| ambiguous set: sarcasm (100) / our composed sarcastic | 43 / 0.98 | 35 / 0.34 | 21 / 0.41 |
+| 1,000 reviews: stars agreement (opposite polarity) / frustration AUC | 0.851 (0.106) / 0.909 | 0.672 (0.093) / 0.845 | 0.647 (0.068) / 0.893 |
+| reviews (300 hand labels): intent / department / urgency | **0.723 / 0.747 / 0.840** | 0.537 / 0.597 / 0.550 | 0.403 / 0.667 / 0.767 |
+| real posts, long: intent / department / urgency | **0.614 / 0.722 / 0.811** | 0.369 / 0.461 / 0.242 | 0.400 / 0.547 / 0.767 |
+| real posts, short: intent / department / urgency | **0.560 / 0.695 / 0.809** | 0.370 / 0.443 / 0.244 | 0.387 / 0.541 / 0.740 |
+| `other` caught: reviews (142) / long posts (95) | 131 / 74 | 97 / - | 34 / 25 |
+| one request with intent + department + urgency, on the A2 | 0.03 s | 1.4 s | 3 s |
+| one short question, on the A2 | 25 ms | 39 ms | 650 ms |
+| GPU memory | 3 GB | 2 GB | 8.7 GB |
+
+- **The best model here on questions it was never given**: 7 of the 8 untrained new questions (a 4-level "customer effort"
+  scale both right, a threat to go to the regulator, writing for someone else), 0.78 on the unseen domains, and it reads a
+  neutral sentence as neutral. Unlike Decision 2.0 it also does our urgency untrained (0.74-0.77; asked alone 0.68) and its
+  frustration ranks reviews almost as well as the trained model (AUC 0.893 against 0.909).
+- **On the desk's own questions laya is still ahead**, by 15-20 points on department and by more on intent. Most of the
+  intent gap is one decision: Clef-Flash almost never answers `other` (34 of 142 out-of-scope reviews caught, laya 131). On
+  the in-scope reviews alone the two are level (0.55 and 0.54); on in-scope long posts laya leads 0.55 to 0.45.
+- Sarcasm of the "praise, then the fault" kind is not there untrained (0.41 on our composed set; star agreement 0.65 with
+  42% of 2-star reviews called neutral).
+- **Too slow and too large to serve here**: 3 s for the desk's three questions and 0.65 s for one, 4-bit, on a card it
+  shares; the card's 39 ms is an H200 at full precision. 4-bit also means these numbers are a lower bound on the model.
+
+What it is good for on this hardware is offline work: a labelling teacher for a **new** question (churn threat, regulator
+threat, third party, effort) over our real texts, whose answers are then trained into laya - the recipe of runs 13-14 with
+a teacher that, for new questions, is better than anything tried before. For the questions laya already has it would be
+teaching a better student.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).

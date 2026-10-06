@@ -1,0 +1,71 @@
+==== [12:15] clef-flash: new questions
+== clef-flash
+  ok  churn       want True  p(yes) 0.94  | เน็ตหลุดทุกวัน แจ้งไปสามรอบแล้วยังไม่มีใครมาดู ถ้าสิ้นเดือนน
+  ok  churn       want False p(yes) 0.09  | ขอสอบถามโปรเน็ตรายเดือนที่ถูกที่สุดตอนนี้หน่อยครับ
+  ok  not_churn   want False p(yes) 0.05  | เน็ตหลุดทุกวัน แจ้งไปสามรอบแล้วยังไม่มีใครมาดู ถ้าสิ้นเดือนน
+  BAD not_churn   want True  p(yes) 0.25  | ขอสอบถามโปรเน็ตรายเดือนที่ถูกที่สุดตอนนี้หน่อยครับ
+  ok  scam        want True  p(yes) 0.94  | มีคนโทรมาบอกว่าเป็นเจ้าหน้าที่ธนาคาร ให้กดลิงก์แล้วกรอกรหัส 
+  BAD scam        want False p(yes) 0.61  | อยากทราบว่าบัตรเดบิตใบใหม่ใช้กดเงินต่างประเทศได้ไหมคะ
+  ok  threat      want True  p(yes) 0.96  | จะไปร้องเรียน สคบ. กับลงโซเชียลให้หมด ถ้าไม่คืนเงินภายในวันน
+  ok  threat      want False p(yes) 0.02  | รบกวนช่วยตรวจสอบยอดให้หน่อยนะคะ ขอบคุณค่ะ
+  ok  third_party want True  p(yes) 0.91  | แม่ผมอายุ 78 ใช้แอปไม่เป็น ผมเลยทำรายการแทนให้ครับ แต่ระบบให
+  ok  third_party want False p(yes) 0.04  | ผมลืมรหัสผ่านแอปครับ ต้องทำยังไง
+  ok  effort      want 0     level 0      | ขอบคุณน้องพนักงานที่ช่วยแก้ปัญหาให้เร็วมากครับ ประทับใจ
+  ok  effort      want 3     level 3      | โทรไปห้ารอบ รอสายรอบละครึ่งชั่วโมง ไปสาขาอีกสองครั้งก็ยังไม่
+  10/12
+==== [12:16] clef-flash: reviews (300 hand labels)
+
+== clef-flash  (300 hand-labelled reviews)
+telecom    n=  51 intent 0.333 dept 0.686 urg 0.922 false-other 0/31 other-caught 0/20
+banking    n= 175 intent 0.446 dept 0.640 urg 0.754 false-other 5/114 other-caught 10/61
+insurance  n=  74 intent 0.351 dept 0.716 urg 0.689 false-other 2/13 other-caught 24/61
+all        n= 300 intent 0.403 dept 0.667 urg 0.767 false-other 7/158 other-caught 34/142
+==== [12:32] clef-flash: real posts
+
+== clef-flash
+set    business      n  intent   dept    urg  false-other  other-caught | frustration exact / MAE / mean pred vs true
+long   telecom     120   0.517  0.533  0.708     0/107        2/13    | 0.733 / 0.36 / 0.84 vs 0.66
+long   banking     120   0.350  0.483  0.775     1/94         4/26    | 0.692 / 0.40 / 0.68 vs 0.37
+long   insurance   120   0.333  0.625  0.817     5/64        19/56    | 0.633 / 0.40 / 0.67 vs 0.35
+long   all         360   0.400  0.547  0.767        0.023
+short  telecom     237   0.536  0.565  0.684     0/211        2/26    | 
+short  banking     238   0.328  0.483  0.752     0/188        5/50    | 
+short  insurance   239   0.297  0.573  0.782     4/128       26/111   | 
+short  all         714   0.387  0.541  0.740        0.008
+==== [13:24] clef-flash: mood (1000 reviews, ambiguous set, composed sets), run 16 on the same sample
+1000 reviews, stars {1: 425, 2: 78, 3: 73, 4: 50, 5: 374}
+3300 ambiguous sentences, labels {'neg': 1100, 'pos': 1100, 'neu': 1100}, types {'ประชดประชัน (Sarcasm)': 100, 'ชมแบบซ่อนรูป / ติเพื่อชม': 100, 'ได้อย่างเสียอย่าง (Mixed/Balanced)': 50, 'เป็นกลาง / ข้อเท็จจริง (Neutral/Fact)': 50, 'ประชดประชัน/คำวิจารณ์เชิงลบ': 1000, 'ชมแบบซ่อนรูป/เชิงบวกทางอ้อม': 1000, 'ข้อเท็จจริง/กลางๆ/สอบถาม': 1000}
+
+== laya-th-run16: reviews
+stars   n   negative  neutral  positive  question   mean frustration
+  1     425      0.97     0.01      0.02      0.00   1.05
+  2      78      0.83     0.04      0.12      0.01   0.87
+  3      73      0.79     0.08      0.12      0.00   0.86
+  4      50      0.34     0.08      0.56      0.02   0.50
+  5     374      0.17     0.06      0.76      0.01   0.34
+1-2 stars called negative or 4-5 stars called positive: 0.851; the opposite: 0.106; by business {'banking': 0.8258, 'insurance': 0.8966, 'telecom': 0.8867}
+frustration separates 1-2 stars from 4-5 stars with AUC 0.909
+ambiguous / sarcastic sentences: 0.552; by type ประชดประชัน (Sarcasm) 43/100, ชมแบบซ่อนรูป / ติเพื่อชม 79/100, ได้อย่างเสียอย่าง (Mixed/Balanced) 0/50, เป็นกลาง / ข้อเท็จจริง (Neutral/Fact) 16/50, ประชดประชัน/คำวิจารณ์เชิงลบ 410/1000, ชมแบบซ่อนรูป/เชิงบวกทางอ้อม 889/1000, ข้อเท็จจริง/กลางๆ/สอบถาม 386/1000
+  gold -> answer: {'positive->positive': 968, 'negative->positive': 647, 'neutral->positive': 500, 'negative->negative': 453, 'neutral->neutral': 402, 'neutral->question': 145, 'positive->negative': 129, 'neutral->negative': 53, 'positive->neutral': 3}
+held-out composed sets: indirect_praise 57/58 = 0.98, plain_negative 102/102 = 1.00, sarcastic 181/185 = 0.98, sincere 192/194 = 0.99
+
+== clef-flash: reviews
+stars   n   negative  neutral  positive  question   mean frustration
+  1     425      0.76     0.19      0.00      0.04   1.39
+  2      78      0.49     0.42      0.04      0.05   1.07
+  3      73      0.51     0.38      0.05      0.05   0.98
+  4      50      0.24     0.42      0.30      0.04   0.73
+  5     374      0.12     0.25      0.60      0.03   0.49
+1-2 stars called negative or 4-5 stars called positive: 0.647; the opposite: 0.068; by business {'banking': 0.5976, 'insurance': 0.734, 'telecom': 0.72}
+frustration separates 1-2 stars from 4-5 stars with AUC 0.893
+ambiguous / sarcastic sentences: 0.612; by type ประชดประชัน (Sarcasm) 21/100, ชมแบบซ่อนรูป / ติเพื่อชม 90/100, ได้อย่างเสียอย่าง (Mixed/Balanced) 16/50, เป็นกลาง / ข้อเท็จจริง (Neutral/Fact) 31/50, ประชดประชัน/คำวิจารณ์เชิงลบ 329/1000, ชมแบบซ่อนรูป/เชิงบวกทางอ้อม 890/1000, ข้อเท็จจริง/กลางๆ/สอบถาม 644/1000
+  gold -> answer: {'positive->positive': 980, 'neutral->neutral': 691, 'negative->positive': 451, 'negative->negative': 350, 'negative->neutral': 299, 'neutral->positive': 242, 'neutral->question': 159, 'positive->neutral': 106, 'positive->negative': 14, 'neutral->negative': 8}
+held-out composed sets: indirect_praise 42/58 = 0.72, plain_negative 82/102 = 0.80, sarcastic 76/185 = 0.41, sincere 164/194 = 0.85
+==== [14:07] clef-flash: laya-thai-decisions, Thai suites
+== clef-flash
+massive_intent_th                        100 cases  acc 0.960  [choice 96/100=0.960]
+wisesight_sampler_eval                  1052 cases  acc 0.657  [choice 267/517=0.516  noul 464/503=0.922  score 254/480=0.529]
+probe_noul_negation                      400 cases  acc 0.839  [claim 356/400=0.890  negated 315/400=0.787  noul 671/800=0.839] flip 0.868
+probe_score_orientation                  400 cases  acc 0.535  [normal 200/400=0.500  reversed 228/400=0.570  score 428/800=0.535] mirrored 0.880; non-neutral cases n=184: mirrored 0.897, both right 0.457
+synth_eval_domains_th                    300 cases  acc 0.777  [choice 279/298=0.936  noul 180/252=0.714  score 132/211=0.626]
+==== [14:31] done

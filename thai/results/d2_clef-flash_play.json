@@ -1,0 +1,36 @@
+{
+ "clef-flash": {
+  "telecom": {
+   "n": 51,
+   "intent": 0.3333,
+   "department": 0.6863,
+   "urgency": 0.9216,
+   "false_other": 0.0,
+   "other_caught": 0.0
+  },
+  "banking": {
+   "n": 175,
+   "intent": 0.4457,
+   "department": 0.64,
+   "urgency": 0.7543,
+   "false_other": 0.0439,
+   "other_caught": 0.1639
+  },
+  "insurance": {
+   "n": 74,
+   "intent": 0.3514,
+   "department": 0.7162,
+   "urgency": 0.6892,
+   "false_other": 0.1538,
+   "other_caught": 0.3934
+  },
+  "all": {
+   "n": 300,
+   "intent": 0.4033,
+   "department": 0.6667,
+   "urgency": 0.7667,
+   "false_other": 0.0443,
+   "other_caught": 0.2394
+  }
+ }
+}
