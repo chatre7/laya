@@ -59,7 +59,18 @@ class ClefAgent:
         self.model = ClefModel(backbone, head.to(device="cuda", dtype=torch.bfloat16)).eval()
         self.processor = type("TokenizerOnly", (), {"tokenizer": AutoTokenizer.from_pretrained(path)})()
         self._systemone = systemone
+        self._jsm = __import__("joint_schema_model")
         self.truncated = 0
+
+    def predict_batch(self, states, questions):
+        """One forward pass for several states under the same questions; the `answers` dict of each, in order."""
+        import torch
+        m, tok = self._jsm, self.processor.tokenizer
+        enc = [m.encode_record(tok, {"state": s, "questions": questions}) for s in states]
+        with torch.inference_mode():
+            logits = self.model(m.collate_records(enc, tok.pad_token_id, torch.device("cuda")))
+        return [{q.question_id: m.systemone_answer(questions[q.question_id], dict(zip(q.option_ids, lg.float().softmax(-1).tolist())))
+                 for q, lg in zip(e.questions, rec)} for e, rec in zip(enc, logits)]
 
     def predict(self, state, questions):
         return self._systemone(self.model, self.processor, {"model": "clef", "state": state, "questions": questions})
