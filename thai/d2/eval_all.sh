@@ -3,9 +3,10 @@
 # new questions, hand-labelled reviews, real posts (long + short), mood against stars / ambiguous set (run 16 on the same
 # sample), and the Thai suites of laya-thai-decisions. One model after another; a model that fails does not stop the rest.
 #   nohup bash thai/d2/eval_all.sh vllm-sr/Decision-2.0-Kai-0.6B vllm-sr/Decision-2.0-Sol-2B > thai/out/d2.log 2>&1 &
+#   IMAGE=laya-train-clef nohup bash thai/d2/eval_all.sh Cloudflare/clef-flash > thai/out/clef.log 2>&1 &   (4-bit, see Dockerfile.clef)
 set -uo pipefail
 cd "$(dirname "$0")/../.."
-RUN=(docker run --rm --gpus '"device=1"' -v "$PWD":/work -w /work/thai/cs -v docker_hf-cache:/hf --shm-size 2g -e PYTHONUNBUFFERED=1 laya-train)
+RUN=(docker run --rm --gpus '"device=1"' -v "$PWD":/work -w /work/thai/cs -v docker_hf-cache:/hf --shm-size 2g -e PYTHONUNBUFFERED=1 "${IMAGE:-laya-train}")
 QUIET='warn|Fetching|Downloading|Generating|it/s\]|B/s\]|^\[transformers\]|^- '
 STARS_N=${STARS_N:-1000}
 SUITES=synth_eval_domains_th,probe_noul_negation,probe_score_orientation,wisesight_sampler_eval,massive_intent_th

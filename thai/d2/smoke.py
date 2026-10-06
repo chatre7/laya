@@ -1,7 +1,8 @@
-"""Load one Decision 2.0 model (vllm-sr, Hugging Face) and answer our call-center questions on a few Thai messages:
+"""Load one Decision 2.0 (vllm-sr) or Clef (Cloudflare) model and answer our call-center questions on a few Thai messages:
 what do the answers look like, how long does a request take on this GPU, how much memory does it hold.
 
     python smoke.py vllm-sr/Decision-2.0-Kai-0.6B
+    python smoke.py Cloudflare/clef-flash
 """
 import json
 import os
@@ -9,9 +10,9 @@ import sys
 import time
 
 import torch
-from transformers import AutoModel
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "cs"))
+from agents import load_agent  # noqa: E402
 from cs_questions import SHARED, intent_question  # noqa: E402
 
 TEXTS = [
@@ -22,13 +23,13 @@ TEXTS = [
 ]
 
 repo = sys.argv[1]
-model = AutoModel.from_pretrained(repo, trust_remote_code=True)
+agent = load_agent(repo)
 print("loaded", repo, "| gpu MiB", torch.cuda.memory_allocated() // 2**20, flush=True)
 for biz, text in TEXTS:
     qs = {"intent": intent_question(biz), **{k: SHARED[k] for k in ("department", "urgency", "frustration", "wants_refund", "sentiment")}}
-    out = model.system_one(state=text, questions=qs)
+    out = agent.predict(text, qs)
     t = time.perf_counter()
-    out = model.system_one(state=text, questions=qs)
+    out = agent.predict(text, qs)
     ms = (time.perf_counter() - t) * 1000
     print(f"\n{ms:.0f} ms, {out['usage']['input_tokens']} tokens | {text[:60]}")
     for qid, a in out["answers"].items():

@@ -1,0 +1,5 @@
+# The training image plus what Clef-Flash (Cloudflare) needs to run 4-bit on a 16 GB card: bitsandbytes for the
+# quantised backbone, accelerate for device_map, pillow for the image/video processor it loads even for text.
+#   docker build -t laya-train-clef -f thai/d2/Dockerfile.clef thai/d2
+FROM laya-train
+RUN pip install --no-cache-dir "bitsandbytes>=0.45" accelerate pillow
