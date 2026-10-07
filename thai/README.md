@@ -1230,6 +1230,30 @@ where it is provably better, and "a result that is better than expected is a sig
   lifts what laya keeps from 61% to 67% on intent, 72% to 79% on department, 81% to 85% on urgency; the handed part is right
   37-64% of the time, so a person does earn their share. Abstain is worth having as a workload dial, not as a safety net.
 
+## Run table
+
+Every run on every set it was measured on, in percent, from `results/` (`cs/runs_table.py --write`). Long = 360 hand-labelled Pantip posts, short = their 714 chat versions, reviews = 300 hand-labelled Google Play reviews, stars = 1-2 stars called negative or 4-5 positive (3,000 reviews, from run 15), ambiguous = 3,300 sentences of Tippawan/thai-ambiguous-sentiment, cs9 = 11,720 held-out decisions of the synthetic call-center set, public = the 2,455 public-dataset decisions. Differences under about 3 points on the 360-post set are noise.
+
+| run | what changed | long posts: intent / dept / urgency | short: intent / dept / urgency | reviews: intent / dept / urgency | stars | ambiguous | cs9 | public |
+|---|---|---|---|---|---|---|---|---|
+| 3 | bigger distillation set + human labels, option budget 768 | - | - | - | - | - | - | 77.1 |
+| 4 | call-center distillation | - | - | - | - | - | - | 78.3 |
+| 5 | calibration, more score items, an `other` intent | - | - | - | - | - | - | 78.2 |
+| 6 | telecom / banking / insurance / e-commerce | - | - | - | - | - | - | 78.5 |
+| 7 | in-register out-of-scope texts | - | - | - | - | - | - | 78.2 |
+| 8 | first real Thai in-domain text (Pantip), served 09-28 to 10-02 | 57 / 65 / 75 | 52 / 59 / 60 | - | 63 | 49 | 96.8 | 78.0 |
+| 9 | 1,000 more hand-labelled Pantip rows | - | - | - | - | - | 95.4 | 77.6 |
+| 10 | short second pass on the real rows | 55 / 68 / 80 | 50 / 65 / 72 | - | - | - | 96.3 | 77.3 |
+| 11 | short chat versions, human frustration labels, hard examples | 58 / 70 / 80 | 55 / 69 / 79 | 56 / 62 / 47 | - | - | 96.5 | 77.3 |
+| 12 | Google Play reviews, teacher + student agreement labels | 56 / 69 / 80 | 55 / 69 / 76 | 63 / 62 / 25 | - | - | 96.2 | 76.9 |
+| 13 | reviews labelled by Qwen3-8B | 56 / 68 / 82 | 55 / 70 / 80 | 74 / 74 / 81 | - | - | 95.5 | 75.7 |
+| 14 | Qwen labels on forum posts where the student agrees, served 10-02 to 10-03 | 56 / 72 / 81 | 56 / 71 / 79 | 74 / 74 / 82 | 72 | 49 | 95.7 | 76.3 |
+| 15 | composed sarcasm + star-labelled mood; neutral collapsed, not served | 59 / 73 / 81 | 55 / 71 / 80 | 73 / 75 / 83 | 88 | 51 | 94.9 | 74.4 |
+| 16 | 15 + Wisesight neutral / question, served 10-03 to 10-07 | 61 / 72 / 81 | 56 / 69 / 81 | 72 / 75 / 84 | 86 | 55 | 95.7 | 76.0 |
+| 17 | 16 with neutral x2; long-post triage down, not served | 58 / 70 / 79 | 56 / 70 / 79 | 73 / 75 / 83 | 84 | 55 | 95.5 | 77.0 |
+| 18 | 16 + hagsmand1/laya-thai-decisions Thai split, not served | 61 / 71 / 81 | 58 / 71 / 79 | 72 / 75 / 83 | 87 | 52 | 95.4 | 76.1 |
+| 19 | 16 + churn threat and contact effort from Qwen3-8B rules, served since 10-07 | 60 / 71 / 81 | 56 / 71 / 80 | 74 / 74 / 82 | 87 | 55 | 95.1 | 75.7 |
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
