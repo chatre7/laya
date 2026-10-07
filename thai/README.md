@@ -1182,6 +1182,11 @@ The churn question is learned to the teacher's level exactly (the same 39 of 51 
 not take: 51 positive examples, even repeated, give a model that says yes 32 times for 4 hits; it needs more examples or a
 different source. A churn question answered 0.03 s after the message, from laya, is what this was for.
 
+**Served since 2026-10-07: `:8011` runs run 19** (roll back by mounting `out/laya-th-run16`). The test desk (`ui/`) now shows
+the two new answers on the slip: "พูดถึงการเลิกใช้ / ย้ายค่าย" and "ตามเรื่องนี้มาแล้ว" (4 levels); the outside threat is not
+shown. Spot check through the desk: "เน็ตหลุดทุกวัน โทรแจ้งไปสามรอบแล้ว ... จะย้ายค่ายแล้วนะ" -> churn 90%, contacted before;
+"อยากสมัครบัตรเครดิต" -> churn 11%, no contact.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).

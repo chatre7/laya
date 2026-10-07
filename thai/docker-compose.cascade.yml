@@ -1,4 +1,4 @@
-# Student -> teacher cascade on the dev GPU box: laya run 16 (telecom / banking / insurance / e-commerce, business + per-business intent with `other`, mood incl. sarcasm; run 14 until 2026-10-03, run 8 until 2026-10-02) on GPU 1 at :8011, teacher = the existing
+# Student -> teacher cascade on the dev GPU box: laya run 19 (telecom / banking / insurance / e-commerce, business + per-business intent with `other`, mood incl. sarcasm, churn threat + contact effort; run 16 until 2026-10-07, run 14 until 2026-10-03) on GPU 1 at :8011, teacher = the existing
 # openthai-systemone container at :8010 (GPU 0). The image tag stays run8: it holds the server code only, the model is the mounted directory. Run from the fork root:
 #   docker compose -f thai/docker-compose.cascade.yml up -d --build
 services:
@@ -18,7 +18,7 @@ services:
       CASCADE_MAX_OPTIONS: "0"     # 0 = no option-count gate (run 3 has the 768-token option budget)
       STUDENT_COMPILE: "1"         # torch.compile the student (dynamic shapes); set 0 to disable
     volumes:
-      - ./out/laya-th-run16:/model:ro   # roll back: ./out/laya-th-run14
+      - ./out/laya-th-run19:/model:ro   # roll back: ./out/laya-th-run16
       - docker_hf-cache:/hf
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8011/healthz', timeout=5).status == 200 else 1)"]

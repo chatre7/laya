@@ -78,6 +78,14 @@
   .meter[data-level="0"] i:nth-child(1) { background: var(--calm); }
   .meter[data-level="1"] i:nth-child(-n+2) { background: var(--amber); }
   .meter[data-level="2"] i { background: var(--red); }
+  .facts.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .meter4 { display: flex; gap: 4px; margin-top: 6px; }
+  .meter4 i { flex: 1; height: 8px; border-radius: 2px; background: var(--desk); }
+  .meter4[data-level="0"] i:nth-child(1) { background: var(--calm); }
+  .meter4[data-level="1"] i:nth-child(-n+2) { background: var(--amber); }
+  .meter4[data-level="2"] i:nth-child(-n+3) { background: var(--amber); }
+  .meter4[data-level="3"] i { background: var(--red); }
+  .flag { color: var(--red); }
 
   .actions { margin: 0 0 18px; padding-left: 1.4em; }
   .actions li { margin-bottom: 6px; }
@@ -146,6 +154,10 @@
           <div><p class="field-name">ส่งแผนก</p><b id="dept"></b></div>
           <div><p class="field-name">ความด่วน</p><b id="urg"></b><div class="meter" id="urgm"><i></i><i></i><i></i></div></div>
           <div><p class="field-name">อารมณ์ลูกค้า</p><b id="fru"></b><div class="meter" id="frum"><i></i><i></i><i></i></div></div>
+        </div>
+        <div class="facts two">
+          <div><p class="field-name">พูดถึงการเลิกใช้ / ย้ายค่าย</p><b id="churn"></b></div>
+          <div><p class="field-name">ตามเรื่องนี้มาแล้ว</p><b id="eff"></b><div class="meter4" id="effm"><i></i><i></i><i></i><i></i></div></div>
         </div>
         <p class="field-name">ขั้นตอนที่ควรทำต่อ (เรียงตามความเหมาะสม)</p>
         <ol class="actions" id="actions"></ol>
@@ -219,6 +231,8 @@ async function analyze() {
     $("dept").textContent = r.department.name;
     $("urg").textContent = r.urgency.label; $("urgm").dataset.level = r.urgency.level;
     $("fru").textContent = r.frustration.label; $("frum").dataset.level = r.frustration.level;
+    $("churn").textContent = r.churn.label; $("churn").className = r.churn.yes ? "flag" : "";
+    $("eff").textContent = r.effort.label; $("effm").dataset.level = r.effort.level;
     $("actions").replaceChildren(...r.actions.filter((a) => a.p >= 0.02).map((a) => { const li = document.createElement("li"), sm = document.createElement("small"); li.textContent = a.name + " "; sm.textContent = pct(a.p); li.append(sm); return li; }));
     $("foot").textContent = `เรื่องย่อยที่ระบบเลือก: ${r.fine.name} (${pct(r.fine.p)})  ใช้เวลา ${r.ms} มิลลิวินาที`;
     $("review").hidden = false; $("fix").hidden = true; $("saved").hidden = true;

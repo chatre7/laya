@@ -1,5 +1,6 @@
 """Test desk for the call-center team: type a customer message, see what the served model (:8011) decides (merged intent
-group, department, urgency, frustration, next best action), and mark it right or wrong. Every right/wrong click appends one
+group, department, urgency, frustration, next best action; since run 19 also a churn threat and how much the customer has
+already chased the matter), and mark it right or wrong. Every right/wrong click appends one
 line to FEEDBACK_FILE: that is human-labelled real text, the thing this project lacks most. Nothing is stored on analyze.
 
     CASCADE_URL=http://172.18.72.145:8011 FEEDBACK_FILE=/data/feedback.jsonl uvicorn app:app --host 0.0.0.0 --port 8020
@@ -20,7 +21,7 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "cs"))
-from cs_questions import INTENTS, SHARED, intent_question  # noqa: E402
+from cs_questions import EXTRA, INTENTS, SHARED, intent_question  # noqa: E402
 from intent_groups import GROUPS, group_probs  # noqa: E402
 from nba_actions import PLAYBOOKS, apply_context  # noqa: E402
 
@@ -36,6 +37,7 @@ DEPT_TH = {"billing": "การเงิน / ค่าบริการ", "te
 OTHER_TH = "ไม่เกี่ยวข้อง หรือไม่เข้าหมวดใด"
 URGENCY_TH = ["ไม่รีบ", "ควรตอบภายในวันนี้", "ด่วน"]
 FRUSTRATION_TH = ["ใจเย็น", "หงุดหงิด", "โกรธมาก"]
+EFFORT_TH = ["ยังไม่เคยติดต่อ", "ติดต่อมาแล้ว 1 ครั้ง", "ติดต่อซ้ำ 2-3 ครั้ง", "ติดต่อหลายครั้ง ยังไม่จบ"]  # run 19
 SAMPLES = {
     "banking": ["โอนเงินไปตั้งแต่เมื่อวาน ยังไม่เข้าเลยครับ", "ทำบัตรเครดิตหาย ต้องทำยังไงคะ", "แอปเข้าไม่ได้ ขึ้นว่ารหัสผิด ลองมาทั้งวันแล้ว",
                 "อยากสมัครบัตรเครดิต เงินเดือน 18,000 ได้ไหมคะ", "โดนหักเงินซ้ำสองครั้ง ขอเงินคืนด้วยครับ"],
@@ -85,7 +87,8 @@ def meta():
 @app.post("/api/analyze")
 def analyze(inp: AnalyzeIn):
     biz = inp.business
-    questions = {"intent": intent_question(biz), "department": SHARED["department"], "urgency": SHARED["urgency"], "frustration": SHARED["frustration"]}
+    questions = {"intent": intent_question(biz), "department": SHARED["department"], "urgency": SHARED["urgency"], "frustration": SHARED["frustration"],
+                 "churn": EXTRA["churn_threat"], "effort": EXTRA["contact_effort"]}  # the last two since run 19
     body = json.dumps({"state": inp.message.strip(), "questions": questions}, ensure_ascii=False).encode()
     t = time.perf_counter()
     try:
@@ -111,6 +114,10 @@ def analyze(inp: AnalyzeIn):
             "urgency": {"level": level(ans["urgency"]["score"]), "label": URGENCY_TH[level(ans["urgency"]["score"])], "score": round(ans["urgency"]["score"], 2)},
             "frustration": {"level": level(ans["frustration"]["score"]), "label": FRUSTRATION_TH[level(ans["frustration"]["score"])],
                             "score": round(ans["frustration"]["score"], 2)},
+            "churn": {"yes": ans["churn"]["noul"] > 0.5, "p": round(ans["churn"]["noul"], 3),
+                      "label": ("มี" if ans["churn"]["noul"] > 0.5 else "ไม่มี") + f' ({round(ans["churn"]["noul"] * 100)}%)'},
+            "effort": {"level": max(0, min(3, round(ans["effort"]["score"]))), "label": EFFORT_TH[max(0, min(3, round(ans["effort"]["score"])))],
+                       "score": round(ans["effort"]["score"], 2)},
             "actions": [{"id": a, "name": pb["actions"][a], "p": round(p, 3)} for a, p in actions], "ms": ms}
 
 
