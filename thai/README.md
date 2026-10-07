@@ -1254,6 +1254,17 @@ Every run on every set it was measured on, in percent, from `results/` (`cs/runs
 | 18 | 16 + hagsmand1/laya-thai-decisions Thai split, not served | 61 / 71 / 81 | 58 / 71 / 79 | 72 / 75 / 83 | 87 | 52 | 95.4 | 76.1 |
 | 19 | 16 + churn threat and contact effort from Qwen3-8B rules, served since 10-07 | 60 / 71 / 81 | 56 / 71 / 80 | 74 / 74 / 82 | 87 | 55 | 95.1 | 75.7 |
 
+## Syncing with upstream laya (2026-10-07)
+
+The fork point is 2026-09-25 (0.3.20); upstream `NandhaKishorM/laya` is 1,050 commits further (0.3.28: an official trainer,
+order-invariant option layout, calibration / abstention fixes, verify tools, integrations). Nothing outside `thai/` was
+changed here, so `upstream/main` merges into branch `sync-upstream` without a conflict. Before the merge touches the
+served checkpoints: `cs/parity_check.py` / `cs/parity.sh` run run 19 under both trees on 200 texts x 7 questions -
+**1,400 answers identical, largest probability gap 0.0012**; `eval_play` and `eval_real` under 0.3.28 reproduce the run 19
+numbers to the digit; every laya symbol our scripts import still exists. A side finding: the training box's copy of the
+package (`~/laya/laya`, synced by scp) has been 0.3.5 all along, so runs 3-19 were trained and evaluated on 0.3.5 code;
+the parity result covers that gap too (0.3.5 vs 0.3.28).
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
