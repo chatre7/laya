@@ -1,7 +1,7 @@
 """Back up served checkpoints to a private Hugging Face repo, one folder per run, with a short card. Needs a write token
 on the box (`~/.cache/huggingface/token`, see hf_push.sh). `checkpoint_latest` (the trainer's resume state) is left out.
 
-    python hf_push.py --repo chatre7/laya-th --runs 16,19
+    python hf_push.py --repo Chatre7/laya-th --runs 16,19
 """
 import argparse
 import os
@@ -33,7 +33,7 @@ answers of teacher models; this repo is private and not for redistribution. Code
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--repo", default="chatre7/laya-th")
+    ap.add_argument("--repo", default="Chatre7/laya-th")
     ap.add_argument("--runs", default="16,19")
     ap.add_argument("--out", default="/work/thai/out")
     args = ap.parse_args()

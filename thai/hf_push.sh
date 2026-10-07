@@ -8,4 +8,4 @@ cd "$(dirname "$0")/.."
 TOKEN=$(cat ~/.cache/huggingface/token 2>/dev/null || true)
 [ -n "$TOKEN" ] || { echo "no token in ~/.cache/huggingface/token"; exit 1; }
 docker run --rm -v "$PWD":/work -w /work/thai -e HF_TOKEN="$TOKEN" -e HF_HUB_ENABLE_HF_TRANSFER=0 laya-train \
-  python hf_push.py --repo "${REPO:-chatre7/laya-th}" --runs "${1:-16,19}"
+  python hf_push.py --repo "${REPO:-Chatre7/laya-th}" --runs "${1:-16,19}"
