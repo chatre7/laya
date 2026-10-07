@@ -1187,6 +1187,28 @@ the two new answers on the slip: "พูดถึงการเลิกใช�
 shown. Spot check through the desk: "เน็ตหลุดทุกวัน โทรแจ้งไปสามรอบแล้ว ... จะย้ายค่ายแล้วนะ" -> churn 90%, contacted before;
 "อยากสมัครบัตรเครดิต" -> churn 11%, no contact.
 
+## Reflex (gist.rs) and the MegaWiz "decision ladder" (2026-10-07)
+
+[Reflex](https://reflex.gist.rs) is a modelless decision engine (Rust, MIT): a state is scored against a corpus of
+markdown documents per domain by compression distance and cosine similarity, answers carry a calibrated confidence and
+**abstain is a first-class output**. Same question kinds as laya (`noul` / `choice` / `score`; the wire is
+`{"state", "questions": [{"id", "kind", "prompt"}]}` on `POST 127.0.0.1:7331/decide`). Installed v0.2.4 on the box and
+asked it a Thai ticket: `outcome: null, confidence 0.00009`. That is by design and documented in the engine's own
+`.docs/02_protocols/thai_posture.md`: tokens are split on ASCII whitespace and trimmed to ASCII alphanumerics, so a Thai
+sentence embeds to the zero vector and the distance gate abstains; "the engine's Thai capability is genuinely absent, not
+collapsed" (their wording), `thai_wisesight` 0.12 against chance 0.25. Nothing to evaluate on our sets; the binary is left in
+`~/reflex` on the box, server stopped.
+
+The MegaWiz post ([Ultra Instinct ของบันไดตัดสินใจ](https://asgard.megawiz.co.th/blog/ultra-instinct-decision-ladder-th),
+2026-10-06) is the useful part: they built their own Thai ladder (`MegaWiz-Dev-Team/reflex-study`, AGPL-3.0, character
+n-gram tokeniser) - rung 0 an Instinct-style NBSVM classifier on CPU that answers when a conformal gate is confident, then
+an encoder, then an LLM read by first-token log-probabilities (~0.3 s), with "abstain, hand the set of still-possible
+labels to the teacher" at the top. Their numbers are on a 168-row synthetic 8-class task with a 64-row test set (±10
+points): NBSVM 87.5% against a bag-of-words 85.9%, not separable; distillation looked like a win until a second code
+review found leakage in the cross-validation, after which it called the LLM almost twice as often. What transfers to us:
+abstain as a designed output (our cascade's 0.7 threshold is that, unmeasured so far), a cheap rung in front of laya only
+where it is provably better, and "a result that is better than expected is a signal to read the code again".
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
