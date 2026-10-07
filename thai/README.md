@@ -1209,6 +1209,27 @@ review found leakage in the cross-validation, after which it called the LLM almo
 abstain as a designed output (our cascade's 0.7 threshold is that, unmeasured so far), a cheap rung in front of laya only
 where it is provably better, and "a result that is better than expected is a signal to read the code again".
 
+## Abstain, measured (2026-10-07)
+
+`cs/eval_abstain.py` and `cs/eval_abstain2.py` on the 1,374 hand-labelled real rows (360 long posts, 714 short versions,
+300 reviews), run 19, with the teacher (OpenThai-SystemOne, :8010) asked the same questions. `results/abstain19*.json`.
+
+| intent, all rows | answers itself | right when it does | right on the handed-over part | teacher on that part | cascade | hand to a person |
+|---|---|---|---|---|---|---|
+| threshold 0.7 (served) | 96% | 62.3% | 37.7% | 24.6% | 60.6% | 64.0% |
+| threshold 0.8 | 94% | 62.8% | 34.6% | 24.4% | 60.6% | 64.9% |
+| threshold 0.9 | 0% | - | 61.2% | 32.5% | 32.5% | - |
+| student alone / teacher alone | | 61.2% | | 32.5% | | |
+
+- **The served threshold hands over almost nothing**: the largest probability sits between 0.8 and 0.9 on nearly every
+  answer (label smoothing and the temperature put it there), so 0.7 passes 96% and 0.9 passes 0%. The cascade is laya alone.
+- **The teacher fallback costs accuracy**: on the part laya is unsure about, the teacher is right 24-33%, laya itself
+  35-50%. True for all three questions and all three sets. Turn it off, or hand over to a person instead.
+- **Confidence is weakly informative** (AUROC right-vs-wrong: intent 0.62-0.64, department 0.71-0.72, urgency 0.65; the
+  gap between the top two probabilities is the best of the signals, barely). Handing the least confident 20% to a person
+  lifts what laya keeps from 61% to 67% on intent, 72% to 79% on department, 81% to 85% on urgency; the handed part is right
+  37-64% of the time, so a person does earn their share. Abstain is worth having as a workload dial, not as a safety net.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
