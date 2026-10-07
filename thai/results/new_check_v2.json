@@ -1,0 +1,200 @@
+{
+ "teacher": {
+  "churn_threat@0.5": {
+   "said": 60,
+   "right": 5,
+   "found": 5,
+   "yes": 5
+  },
+  "churn_threat@0.7": {
+   "said": 36,
+   "right": 4,
+   "found": 4,
+   "yes": 5
+  },
+  "churn_threat@0.9": {
+   "said": 5,
+   "right": 1,
+   "found": 1,
+   "yes": 5
+  },
+  "external_threat@0.5": {
+   "said": 30,
+   "right": 1,
+   "found": 1,
+   "yes": 1
+  },
+  "external_threat@0.7": {
+   "said": 14,
+   "right": 0,
+   "found": 0,
+   "yes": 1
+  },
+  "external_threat@0.9": {
+   "said": 0,
+   "right": 0,
+   "found": 0,
+   "yes": 1
+  },
+  "third_party@0.5": {
+   "said": 7,
+   "right": 2,
+   "found": 2,
+   "yes": 6
+  },
+  "third_party@0.7": {
+   "said": 5,
+   "right": 2,
+   "found": 2,
+   "yes": 6
+  },
+  "third_party@0.9": {
+   "said": 0,
+   "right": 0,
+   "found": 0,
+   "yes": 6
+  },
+  "contact_effort": {
+   "n": 127,
+   "exact": 56,
+   "within_one": 77,
+   "any_contact": 64,
+   "said": 77,
+   "said_right": 14,
+   "found": 14,
+   "had": 14
+  }
+ },
+ "clef-flash": {
+  "churn_threat@0.5": {
+   "said": 41,
+   "right": 5,
+   "found": 5,
+   "yes": 5
+  },
+  "churn_threat@0.7": {
+   "said": 25,
+   "right": 5,
+   "found": 5,
+   "yes": 5
+  },
+  "churn_threat@0.9": {
+   "said": 2,
+   "right": 1,
+   "found": 1,
+   "yes": 5
+  },
+  "external_threat@0.5": {
+   "said": 3,
+   "right": 0,
+   "found": 0,
+   "yes": 1
+  },
+  "external_threat@0.7": {
+   "said": 1,
+   "right": 0,
+   "found": 0,
+   "yes": 1
+  },
+  "external_threat@0.9": {
+   "said": 0,
+   "right": 0,
+   "found": 0,
+   "yes": 1
+  },
+  "third_party@0.5": {
+   "said": 9,
+   "right": 4,
+   "found": 4,
+   "yes": 6
+  },
+  "third_party@0.7": {
+   "said": 6,
+   "right": 4,
+   "found": 4,
+   "yes": 6
+  },
+  "third_party@0.9": {
+   "said": 2,
+   "right": 1,
+   "found": 1,
+   "yes": 6
+  },
+  "contact_effort": {
+   "n": 127,
+   "exact": 89,
+   "within_one": 95,
+   "any_contact": 97,
+   "said": 34,
+   "said_right": 9,
+   "found": 9,
+   "had": 14
+  }
+ },
+ "clef-flash, one question per request": {
+  "churn_threat@0.5": {
+   "said": 41,
+   "right": 5,
+   "found": 5,
+   "yes": 5
+  },
+  "churn_threat@0.7": {
+   "said": 26,
+   "right": 5,
+   "found": 5,
+   "yes": 5
+  },
+  "churn_threat@0.9": {
+   "said": 2,
+   "right": 0,
+   "found": 0,
+   "yes": 5
+  },
+  "external_threat@0.5": {
+   "said": 4,
+   "right": 0,
+   "found": 0,
+   "yes": 1
+  },
+  "external_threat@0.7": {
+   "said": 1,
+   "right": 0,
+   "found": 0,
+   "yes": 1
+  },
+  "external_threat@0.9": {
+   "said": 0,
+   "right": 0,
+   "found": 0,
+   "yes": 1
+  },
+  "third_party@0.5": {
+   "said": 30,
+   "right": 3,
+   "found": 3,
+   "yes": 6
+  },
+  "third_party@0.7": {
+   "said": 9,
+   "right": 2,
+   "found": 2,
+   "yes": 6
+  },
+  "third_party@0.9": {
+   "said": 2,
+   "right": 1,
+   "found": 1,
+   "yes": 6
+  },
+  "contact_effort": {
+   "n": 127,
+   "exact": 88,
+   "within_one": 98,
+   "any_contact": 94,
+   "said": 33,
+   "said_right": 7,
+   "found": 7,
+   "had": 14
+  }
+ }
+}

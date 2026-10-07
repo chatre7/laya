@@ -1132,6 +1132,56 @@ threat, third party, effort) over our real texts, whose answers are then trained
 a teacher that, for new questions, is better than anything tried before. For the questions laya already has it would be
 teaching a better student.
 
+## Run 19: three questions laya had never been asked (2026-10-06/07)
+
+The desk may want questions the fixed set does not have. Four were tried: a churn threat, a threat to go outside (regulator,
+court, formal complaint), writing on behalf of someone else, and a 4-level "how much has the customer already had to chase
+this" (`cs_questions.EXTRA`). The recipe of runs 13-14: a larger model labels our real texts, laya is trained on the labels,
+a hand-labelled set that stayed out of training is the test. The teacher was checked **before** anything was trained:
+307 texts labelled by hand (`cs/make_new_labels.py`, two samples: 127 drawn by the first teacher's answers, 180 drawn by
+cue words so that a "yes" is not rare), `cs/eval_new.py`.
+
+| teacher on the 307 (yes said / right / found of hand yes) | churn threat (49 yes) | outside threat (7) | third party (20) | contact effort (57 with contact) |
+|---|---|---|---|---|
+| Clef-Flash 4-bit, first wording (127 texts only) | 60 / 5 / 5 of 5 | 30 / 1 / 1 of 1 | 7 / 2 / 2 of 6 | 77 / 14 / 14 of 14 |
+| Qwen3-4B, written rules | 33 / 19 / 19 of 40 | 12 / 6 / 6 of 8 | 19 / 11 / 11 of 20 | 23 / 20 / 20 of 57 |
+| Qwen3-8B, written rules, first definitions | 30 / 23 / 23 of 40 | 10 / 5 / 5 of 8 | 18 / 10 / 10 of 20 | 37 / 34 / 34 of 57 |
+| **Qwen3-8B, written rules, final definitions** | **51 / 39 / 39 of 49** | 6 / 5 / 5 of 7 | 17 / 10 / 10 of 20 | **62 / 46 / 46 of 57** |
+
+Clef-Flash, the best model on the twelve made-up questions a day earlier, reads an angry review as a threat to leave
+(5 right of 60) - its negatives in that demo were too clean to show it. A generative model that reads the rules does far
+better, and the 8B is needed (the 4B misses "ต้องการย้ายค่ายจาก dtac ไปทรู"). Part of the first gap was the definitions:
+"leaving" depended on which company is being asked, which the text does not say, so it became "talks about leaving the
+provider they use now, including asking for port-out deals". The rules were tuned on these same 307 texts, so the final
+row is a little optimistic. Third party stayed at 10 of 17 and was dropped. The eval set is small on the outside threat
+(7 yes).
+
+Items (`cs/label_cs19.py`): Qwen3-8B over 27,716 pool texts (`cs/label_new_gen.py`, 2 h 8 min beside the cascade), the
+307 hand-checked texts left out; per question every "yes" (churn 2,113, outside threat 51 x6, contact 2,414), every "no"
+with a cue word and random "no" to 3:1; 19,536 new items + 60,000 replayed run 16 items, a pass from run 16.
+`results/new19.json`, `results/*19*`.
+
+| on the 307 hand-labelled texts (said / right / found) | teacher (Qwen3-8B) | run 16 | **run 19** |
+|---|---|---|---|
+| churn threat | 51 / 39 / 39 of 49 | 19 / 6 / 6 of 49 | **51 / 39 / 39 of 49** |
+| outside threat | 6 / 5 / 5 of 7 | 66 / 5 / 5 of 7 | 32 / 4 / 4 of 7 |
+| contact effort: exact level / within one / any contact right | 266 / 302 / 280 of 307 | 76 / 126 / 115 | 249 / 296 / 261 |
+| contact effort: says contact / right / found of 57 | 62 / 46 / 46 | 235 / 50 / 50 | 79 / 45 / 45 |
+| twelve made-up new questions (other wordings) | - | 5 | 6 |
+
+| our sets | run 16 | run 19 |
+|---|---|---|
+| real posts, long: intent / department / urgency | 0.614 / 0.722 / 0.811 | 0.603 / 0.711 / 0.814 |
+| real posts, short | 0.560 / 0.695 / 0.809 | 0.562 / 0.707 / 0.804 |
+| reviews (300 hand labels) | 0.723 / 0.747 / 0.840 | 0.737 / 0.743 / 0.817 |
+| stars agreement / frustration AUC / ambiguous set | 0.861 / 0.910 / 0.552 | 0.872 / 0.916 / 0.553 |
+| cs9 held-out / public set | 0.957 / 0.760 | 0.951 / 0.757 |
+
+The churn question is learned to the teacher's level exactly (the same 39 of 51 and 39 of 49), contact effort nearly
+(81% exact level against the teacher's 87%), and nothing the desk already has moved beyond noise. The outside threat did
+not take: 51 positive examples, even repeated, give a model that says yes 32 times for 4 hits; it needs more examples or a
+different source. A churn question answered 0.03 s after the message, from laya, is what this was for.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
