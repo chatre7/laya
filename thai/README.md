@@ -1265,6 +1265,10 @@ numbers to the digit; every laya symbol our scripts import still exists. A side 
 package (`~/laya/laya`, synced by scp) has been 0.3.5 all along, so runs 3-19 were trained and evaluated on 0.3.5 code;
 the parity result covers that gap too (0.3.5 vs 0.3.28).
 
+**Merged 2026-10-07**: `thai` now carries upstream 0.3.28, and `~/laya` on the box is a git clone of it (`git init` in place,
+`git checkout -f thai`; the untracked model, data and feedback folders stayed where they were). From now on the box is
+synced with `git pull`, not scp. The serving image (`laya-cascade:run8`) is unchanged; the next training run uses 0.3.28.
+
 ## Known limits of laya for our use
 
 - No abstain output (OpenThai's browser-agent demo depends on it).
