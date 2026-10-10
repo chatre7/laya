@@ -1229,7 +1229,8 @@ which a rule can trim. The price is speed: about 1.8 tokens/s generation on the 
 after run 19 (outside threat, third party) are teachable with this teacher. `data_domain/new_teacher_saluki_eval.jsonl`.
 
 Qwen3.5-9B-FP8 (the 8B's direct successor) does not fit: 14 GB with its vision tower and 248k vocabulary, out of memory
-beside the cascade; its 4-bit build was tried next (see below when done).
+beside the cascade; its 4-bit build (`RedHatAI/Qwen3.5-9B-quantized.w4a16`) is still 11 GB for the same reason and also runs out of
+memory next to the cascade. Either would need the card to itself (cascade stopped), untested.
 
 ## Abstain, measured (2026-10-07)
 
