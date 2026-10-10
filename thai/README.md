@@ -1209,6 +1209,28 @@ review found leakage in the cross-validation, after which it called the LLM almo
 abstain as a designed output (our cascade's 0.7 threshold is that, unmeasured so far), a cheap rung in front of laya only
 where it is provably better, and "a result that is better than expected is a signal to read the code again".
 
+## A bigger teacher: Qwen3.8-27B at 2 bits (2026-10-10)
+
+`ConwayResearch/Underdog-Saluki-27B-1.0` is Qwen3.8-27B (Aug 2026, two generations after the Qwen3-8B that taught run 19)
+cut to 7.9 GB (IQ2 GGUF), tuned to keep tool calling, Apache-2.0. It runs on llama.cpp (`cs/saluki_up.sh`, :8013) beside
+the cascade: 12.7 GB on the card together. The same 307-text check as before (`label_new_gen.py --eval --url
+http://localhost:8013`, same rules), scored with `eval_new.py`:
+
+| teacher on the 307 (said / right / found of hand yes) | churn threat (49) | outside threat (7) | third party (20) | contact effort: exact level / says contact right of said / found of 57 |
+|---|---|---|---|---|
+| Qwen3-8B FP8 (run 19's teacher) | 51 / 39 / 39 | 6 / 5 / 5 | 17 / 10 / 10 | 266 of 307 / 46 of 62 / 46 |
+| **Qwen3.8-27B 2-bit (Saluki)** | **42 / 41 / 41** | 9 / 7 / **7** | 30 / 19 / **19** | **288 of 307 / 51 of 57 / 51** |
+| time for the 307 | 1.7 min | | | 24.7 min |
+
+Better on every question; what it misses on churn are mostly the texts the hand labels themselves found borderline
+(port-in requests, cancelling a line in a parent's name), and it over-says third party on news and adverts (11 extra),
+which a rule can trim. The price is speed: about 1.8 tokens/s generation on the A2, 10x slower than the 8B, so the whole
+27,716-text pool would take ~37 h; labelling only the texts with a cue word (~4,500) is ~6 h. The two questions dropped
+after run 19 (outside threat, third party) are teachable with this teacher. `data_domain/new_teacher_saluki_eval.jsonl`.
+
+Qwen3.5-9B-FP8 (the 8B's direct successor) does not fit: 14 GB with its vision tower and 248k vocabulary, out of memory
+beside the cascade; its 4-bit build was tried next (see below when done).
+
 ## Abstain, measured (2026-10-07)
 
 `cs/eval_abstain.py` and `cs/eval_abstain2.py` on the 1,374 hand-labelled real rows (360 long posts, 714 short versions,
