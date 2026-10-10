@@ -6,6 +6,7 @@ hard answers (yes = 1.0, the level = 1.0), so eval_new.py and the item builder r
 
     python3 thai/cs/label_new_gen.py --eval                                   # the hand-labelled texts only
     python3 thai/cs/label_new_gen.py --out thai/data/cs/new_gen.jsonl         # the whole pool; resumes
+    python3 thai/cs/label_new_gen.py --cue-only --url http://localhost:8013 --model saluki --out thai/data/cs/new_saluki.jsonl --workers 4
 """
 import argparse
 import json
@@ -83,6 +84,7 @@ def main():
     ap.add_argument("--eval", action="store_true", help="label only the hand-checked texts -> <out>.eval.jsonl")
     ap.add_argument("--workers", type=int, default=16)
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--cue-only", action="store_true", help="only pool texts that contain a cue word of any question (sample_new_check2.CUES)")
     args = ap.parse_args()
     if args.eval:
         rows = [json.loads(l) for l in open(f"{args.root}/data_domain/new_check_all.jsonl", encoding="utf-8")]
@@ -91,6 +93,11 @@ def main():
             os.remove(out)
     else:
         rows = label_new_llm.pool(args.root)
+        if args.cue_only:  # a slow teacher goes only where a "yes" can be: ~4,000 of the 27,716 texts
+            import re
+            from sample_new_check2 import CUES
+            rx = re.compile("|".join(f"(?:{p})" for p in CUES.values()), re.I)
+            rows = [r for r in rows if rx.search(r["text"])]
         out = args.out
     done = {json.loads(l)["id"] for l in open(out, encoding="utf-8") if l.strip()} if os.path.exists(out) else set()
     todo = [r for r in rows if r["id"] not in done][: args.limit or None]
