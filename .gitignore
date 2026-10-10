@@ -98,3 +98,12 @@ research/*_benchmark_results.json
 # local checkpoint weights, kept out of the tree
 # (fetch them with: python verify/checkpoints.py --fetch)
 models/
+
+# scraped raw text stays off git (lives on the box; see thai/README.md), and the hand-labelling print-outs
+thai/data_domain/_print_*.txt
+thai/data_domain/krathu500_*
+thai/data_domain/pantip_banking.jsonl
+thai/data_domain/pantip_telecom.jsonl
+thai/data_domain/pantip_insurance.jsonl
+thai/data_domain/pantip_insurance_extra2.jsonl
+thai/data_domain/play_reviews.jsonl
