@@ -1,0 +1,200 @@
+{
+ "teacher": {
+  "churn_threat@0.5": {
+   "said": 42,
+   "right": 41,
+   "found": 41,
+   "yes": 49
+  },
+  "churn_threat@0.7": {
+   "said": 42,
+   "right": 41,
+   "found": 41,
+   "yes": 49
+  },
+  "churn_threat@0.9": {
+   "said": 42,
+   "right": 41,
+   "found": 41,
+   "yes": 49
+  },
+  "external_threat@0.5": {
+   "said": 9,
+   "right": 7,
+   "found": 7,
+   "yes": 7
+  },
+  "external_threat@0.7": {
+   "said": 9,
+   "right": 7,
+   "found": 7,
+   "yes": 7
+  },
+  "external_threat@0.9": {
+   "said": 9,
+   "right": 7,
+   "found": 7,
+   "yes": 7
+  },
+  "third_party@0.5": {
+   "said": 30,
+   "right": 19,
+   "found": 19,
+   "yes": 20
+  },
+  "third_party@0.7": {
+   "said": 30,
+   "right": 19,
+   "found": 19,
+   "yes": 20
+  },
+  "third_party@0.9": {
+   "said": 30,
+   "right": 19,
+   "found": 19,
+   "yes": 20
+  },
+  "contact_effort": {
+   "n": 307,
+   "exact": 288,
+   "within_one": 304,
+   "any_contact": 295,
+   "said": 57,
+   "said_right": 51,
+   "found": 51,
+   "had": 57
+  }
+ },
+ "laya-th-run19": {
+  "churn_threat@0.5": {
+   "said": 51,
+   "right": 39,
+   "found": 39,
+   "yes": 49
+  },
+  "churn_threat@0.7": {
+   "said": 47,
+   "right": 38,
+   "found": 38,
+   "yes": 49
+  },
+  "churn_threat@0.9": {
+   "said": 5,
+   "right": 4,
+   "found": 4,
+   "yes": 49
+  },
+  "external_threat@0.5": {
+   "said": 32,
+   "right": 4,
+   "found": 4,
+   "yes": 7
+  },
+  "external_threat@0.7": {
+   "said": 19,
+   "right": 3,
+   "found": 3,
+   "yes": 7
+  },
+  "external_threat@0.9": {
+   "said": 1,
+   "right": 1,
+   "found": 1,
+   "yes": 7
+  },
+  "third_party@0.5": {
+   "said": 8,
+   "right": 2,
+   "found": 2,
+   "yes": 20
+  },
+  "third_party@0.7": {
+   "said": 3,
+   "right": 0,
+   "found": 0,
+   "yes": 20
+  },
+  "third_party@0.9": {
+   "said": 0,
+   "right": 0,
+   "found": 0,
+   "yes": 20
+  },
+  "contact_effort": {
+   "n": 307,
+   "exact": 249,
+   "within_one": 296,
+   "any_contact": 261,
+   "said": 79,
+   "said_right": 45,
+   "found": 45,
+   "had": 57
+  }
+ },
+ "laya-th-run20": {
+  "churn_threat@0.5": {
+   "said": 41,
+   "right": 38,
+   "found": 38,
+   "yes": 49
+  },
+  "churn_threat@0.7": {
+   "said": 40,
+   "right": 38,
+   "found": 38,
+   "yes": 49
+  },
+  "churn_threat@0.9": {
+   "said": 38,
+   "right": 38,
+   "found": 38,
+   "yes": 49
+  },
+  "external_threat@0.5": {
+   "said": 26,
+   "right": 6,
+   "found": 6,
+   "yes": 7
+  },
+  "external_threat@0.7": {
+   "said": 24,
+   "right": 6,
+   "found": 6,
+   "yes": 7
+  },
+  "external_threat@0.9": {
+   "said": 11,
+   "right": 5,
+   "found": 5,
+   "yes": 7
+  },
+  "third_party@0.5": {
+   "said": 36,
+   "right": 19,
+   "found": 19,
+   "yes": 20
+  },
+  "third_party@0.7": {
+   "said": 33,
+   "right": 19,
+   "found": 19,
+   "yes": 20
+  },
+  "third_party@0.9": {
+   "said": 26,
+   "right": 18,
+   "found": 18,
+   "yes": 20
+  },
+  "contact_effort": {
+   "n": 307,
+   "exact": 270,
+   "within_one": 299,
+   "any_contact": 282,
+   "said": 50,
+   "said_right": 41,
+   "found": 41,
+   "had": 57
+  }
+ }
+}

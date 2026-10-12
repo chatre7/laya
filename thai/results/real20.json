@@ -1,0 +1,78 @@
+{
+ "laya-th-run20": {
+  "long_telecom": {
+   "n": 120,
+   "intent": 0.6333,
+   "department": 0.775,
+   "urgency": 0.7917,
+   "false_other": 0.0093,
+   "other_caught": 0.6154,
+   "frustration_exact": 0.7583,
+   "frustration_mae": 0.2765,
+   "frustration_mean_pred": 0.6484,
+   "frustration_mean_true": 0.6583
+  },
+  "long_banking": {
+   "n": 120,
+   "intent": 0.5917,
+   "department": 0.625,
+   "urgency": 0.8417,
+   "false_other": 0.0957,
+   "other_caught": 0.6154,
+   "frustration_exact": 0.7667,
+   "frustration_mae": 0.2807,
+   "frustration_mean_pred": 0.4939,
+   "frustration_mean_true": 0.3667
+  },
+  "long_insurance": {
+   "n": 120,
+   "intent": 0.5667,
+   "department": 0.75,
+   "urgency": 0.7917,
+   "false_other": 0.3125,
+   "other_caught": 0.875,
+   "frustration_exact": 0.7167,
+   "frustration_mae": 0.3323,
+   "frustration_mean_pred": 0.4617,
+   "frustration_mean_true": 0.35
+  },
+  "long_all": {
+   "n": 360,
+   "intent": 0.5972,
+   "department": 0.7167,
+   "urgency": 0.8083,
+   "false_other": 0.1132
+  },
+  "short_telecom": {
+   "n": 237,
+   "intent": 0.6076,
+   "department": 0.7722,
+   "urgency": 0.8017,
+   "false_other": 0.0379,
+   "other_caught": 0.5
+  },
+  "short_banking": {
+   "n": 238,
+   "intent": 0.5294,
+   "department": 0.6261,
+   "urgency": 0.8403,
+   "false_other": 0.0904,
+   "other_caught": 0.6
+  },
+  "short_insurance": {
+   "n": 239,
+   "intent": 0.5439,
+   "department": 0.6444,
+   "urgency": 0.8033,
+   "false_other": 0.25,
+   "other_caught": 0.7748
+  },
+  "short_all": {
+   "n": 714,
+   "intent": 0.5602,
+   "department": 0.6807,
+   "urgency": 0.8151,
+   "false_other": 0.1082
+  }
+ }
+}

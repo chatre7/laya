@@ -30,7 +30,8 @@ WHAT = {
     16: "15 + Wisesight neutral / question, served 10-03 to 10-07",
     17: "16 with neutral x2; long-post triage down, not served",
     18: "16 + hagsmand1/laya-thai-decisions Thai split, not served",
-    19: "16 + churn threat and contact effort from Qwen3-8B rules, served since 10-07",
+    19: "16 + churn threat and contact effort from Qwen3-8B rules, served 10-07 to 10-12",
+    20: "19 + all four new questions from Qwen3.8-27B (Saluki) labels on cue-word texts",
 }
 
 

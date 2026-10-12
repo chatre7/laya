@@ -1232,6 +1232,38 @@ Qwen3.5-9B-FP8 (the 8B's direct successor) does not fit: 14 GB with its vision t
 beside the cascade; its 4-bit build (`RedHatAI/Qwen3.5-9B-quantized.w4a16`) is still 11 GB for the same reason and also runs out of
 memory next to the cascade. Either would need the card to itself (cascade stopped), untested.
 
+## Run 20: the four new questions taught by the bigger teacher (2026-10-11/12)
+
+Saluki (`cs/saluki_label.sh`: llama.cpp beside the cascade, 4 at a time) labelled the 4,080 pool texts that contain a cue word
+of any new question (`label_new_gen.py --cue-only`; 1,594 forum posts, 927 short versions, 1,446 reviews, 113 Wisesight) in
+4 h 12 min, none failed. It said yes to churn 1,391 times, outside threat 52, third party 238, and contact effort above 0
+for 965 (672 / 172 / 121 at levels 1 / 2 / 3). `cs/label_cs20.py` builds the items: per question every Saluki yes, Saluki
+"no" texts with the question's cue word (capped at 3x the yes count), then other "no" texts (Saluki's first, then Qwen3-8B's
+run 19 labels outside the cue pool, where a yes is almost never found), rare questions repeated (outside threat x6, third
+party x3), smoothing 0.1, the 307 hand-checked texts out, 60k run 16 items replayed: 12,632 new + 60,000 = 72,632 items.
+`cs/run20.sh`: a pass from run 19, 2 epochs, LR 1e-5 / 4e-5, 2 h 39 min on the A2 (the cascade down only for that; the
+evals ran beside it). Log in `results/run20.log`.
+
+| on the 307 hand labels (said yes / right / found of hand yes) | churn threat (49) | outside threat (7) | third party (20) | contact effort: exact level / says contact right of said / found of 57 |
+|---|---|---|---|---|
+| run 19 (taught by Qwen3-8B) | 51 / 39 / 39 | 32 / 4 / 4 | 8 / 2 / 2 (not taught) | 249 of 307 / 45 of 79 / 45 |
+| **run 20 (taught by Saluki)** | **41 / 38 / 38** | 26 / 6 / 6 | **36 / 19 / 19** | **270 of 307 / 41 of 50 / 41** |
+| Saluki itself | 42 / 41 / 41 | 9 / 7 / 7 | 30 / 19 / 19 | 288 of 307 / 51 of 57 / 51 |
+
+| our sets | run 19 | run 20 |
+|---|---|---|
+| real posts, long: intent / department / urgency | 0.603 / 0.711 / 0.814 | 0.597 / 0.717 / 0.808 |
+| real posts, short | 0.562 / 0.707 / 0.804 | 0.560 / 0.681 / 0.815 |
+| reviews (300 hand labels) | 0.737 / 0.743 / 0.817 | 0.737 / 0.740 / 0.820 |
+| stars agreement / frustration AUC / ambiguous set | 0.872 / 0.916 / 0.553 | 0.871 / 0.910 / 0.595 |
+| cs9 held-out / public set | 0.951 / 0.757 | 0.952 / 0.758 |
+
+Churn is now precise: 38 of the 41 texts it calls churn are churn (run 19: 39 of 51), and at confidence above 0.9 all 38 are
+right (run 19 had 4 there). Third party is learned to the teacher's recall (19 of 20) with 17 false yeses to the teacher's
+11. Contact effort gains 21 exact levels. The outside threat is still not usable: 43 positive examples give 6 of 7 found but
+20 false yeses; it needs a few hundred positives, which the pool does not hold. The desk's own tasks are unchanged within
+noise except department on the short set (-2.6 points, mostly insurance), the ambiguous set is up 4 points.
+
 ## Abstain, measured (2026-10-07)
 
 `cs/eval_abstain.py` and `cs/eval_abstain2.py` on the 1,374 hand-labelled real rows (360 long posts, 714 short versions,
@@ -1275,7 +1307,8 @@ Every run on every set it was measured on, in percent, from `results/` (`cs/runs
 | 16 | 15 + Wisesight neutral / question, served 10-03 to 10-07 | 61 / 72 / 81 | 56 / 69 / 81 | 72 / 75 / 84 | 86 | 55 | 95.7 | 76.0 |
 | 17 | 16 with neutral x2; long-post triage down, not served | 58 / 70 / 79 | 56 / 70 / 79 | 73 / 75 / 83 | 84 | 55 | 95.5 | 77.0 |
 | 18 | 16 + hagsmand1/laya-thai-decisions Thai split, not served | 61 / 71 / 81 | 58 / 71 / 79 | 72 / 75 / 83 | 87 | 52 | 95.4 | 76.1 |
-| 19 | 16 + churn threat and contact effort from Qwen3-8B rules, served since 10-07 | 60 / 71 / 81 | 56 / 71 / 80 | 74 / 74 / 82 | 87 | 55 | 95.1 | 75.7 |
+| 19 | 16 + churn threat and contact effort from Qwen3-8B rules, served 10-07 to 10-12 | 60 / 71 / 81 | 56 / 71 / 80 | 74 / 74 / 82 | 87 | 55 | 95.1 | 75.7 |
+| 20 | 19 + all four new questions from Qwen3.8-27B (Saluki) labels on cue-word texts | 60 / 72 / 81 | 56 / 68 / 82 | 74 / 74 / 82 | 87 | 60 | 95.2 | 75.8 |
 
 ## Syncing with upstream laya (2026-10-07)
 
