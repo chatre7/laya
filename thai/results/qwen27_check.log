@@ -1,0 +1,34 @@
+== [15:31] 1/4 download (once)
+288K
+== [15:31] 2/4 stop :8010 and :8011, start vLLM on both cards
+== [15:37] qwen3-27b up after 330 s
+0, 12645 MiB
+1, 12645 MiB
+== [15:37] 3/4 label the 307 hand-checked texts
+307 texts {'play': 145, 'pantip': 81, 'short': 66, 'wisesight': 15}; 0 already labelled, 307 to do
+labelled 307/307 in 20.7 min (0 failed) -> thai/data/cs/new_gen27.eval.jsonl
+
+real	20m43.111s
+user	0m1.938s
+sys	0m0.146s
+== [15:57] 4/4 score against the hand labels (Saluki and Qwen3-8B for reference)
+307 hand-labelled texts; yes per question [49, 7, 20, 57]
+== teacher (307 of the sample)
+  churn_threat     >0.5: 42/43 right, finds 42/49 | >0.7: 42/43 right, finds 42/49 | >0.9: 42/43 right, finds 42/49
+  external_threat  >0.5: 7/7 right, finds 7/7 | >0.7: 7/7 right, finds 7/7 | >0.9: 7/7 right, finds 7/7
+  third_party      >0.5: 18/27 right, finds 18/20 | >0.7: 18/27 right, finds 18/20 | >0.9: 18/27 right, finds 18/20
+  contact_effort   exact 281/307  within one 303/307  any-contact 291/307; says contact 55, right 48, finds 48/57
+--- Saluki (2-bit) for reference:
+== teacher (307 of the sample)
+  churn_threat     >0.5: 41/42 right, finds 41/49 | >0.7: 41/42 right, finds 41/49 | >0.9: 41/42 right, finds 41/49
+  external_threat  >0.5: 7/9 right, finds 7/7 | >0.7: 7/9 right, finds 7/7 | >0.9: 7/9 right, finds 7/7
+  third_party      >0.5: 19/30 right, finds 19/20 | >0.7: 19/30 right, finds 19/20 | >0.9: 19/30 right, finds 19/20
+  contact_effort   exact 288/307  within one 304/307  any-contact 295/307; says contact 57, right 51, finds 51/57
+--- Qwen3-8B for reference:
+== teacher (307 of the sample)
+  churn_threat     >0.5: 39/51 right, finds 39/49 | >0.7: 39/51 right, finds 39/49 | >0.9: 39/51 right, finds 39/49
+  external_threat  >0.5: 5/6 right, finds 5/7 | >0.7: 5/6 right, finds 5/7 | >0.9: 5/6 right, finds 5/7
+  third_party      >0.5: 10/17 right, finds 10/20 | >0.7: 10/17 right, finds 10/20 | >0.9: 10/17 right, finds 10/20
+  contact_effort   exact 266/307  within one 302/307  any-contact 280/307; says contact 62, right 46, finds 46/57
+== [15:57] done
+== [15:59] services back: laya-cascade Up About a minute (health: starting);openthai-systemone Up About a minute (healthy);

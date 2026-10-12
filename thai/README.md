@@ -1232,6 +1232,24 @@ Qwen3.5-9B-FP8 (the 8B's direct successor) does not fit: 14 GB with its vision t
 beside the cascade; its 4-bit build (`RedHatAI/Qwen3.5-9B-quantized.w4a16`) is still 11 GB for the same reason and also runs out of
 memory next to the cascade. Either would need the card to itself (cascade stopped), untested.
 
+## The same 27B at 4 bits on vLLM: no better than Saluki, and it needs both cards (2026-10-12)
+
+`RedHatAI/Qwen3.8-27B-INT4` (18.6 GB, compressed-tensors) on `vllm/vllm-openai` 0.26, tensor-parallel over both A2s
+(`cs/qwen27_check.sh`): the teacher (:8010) and the cascade (:8011) stopped, and the OmniVoice voicebot service on the box
+too (it holds 6.3 GB of GPU 0 and 2.1 GB of GPU 1; the first two attempts died on "free memory on device cuda:0 8.31/14.61
+GiB is less than desired 0.92", `cs/qwen27_debug.sh` kept the full log). Up in 5.5 min at 12.6 GB per card; the 307-text check
+took 20.7 min (4.3 tokens/s over 16 parallel requests, so no faster than the 2-bit on llama.cpp on one card).
+
+| teacher on the 307 (said / right / found of hand yes) | churn threat (49) | outside threat (7) | third party (20) | contact effort: exact level / says contact right of said / found of 57 |
+|---|---|---|---|---|
+| Qwen3-8B FP8 | 51 / 39 / 39 | 6 / 5 / 5 | 17 / 10 / 10 | 266 of 307 / 46 of 62 / 46 |
+| Qwen3.8-27B 2-bit (Saluki, one card) | 42 / 41 / 41 | 9 / 7 / 7 | 30 / 19 / 19 | **288 of 307** / 51 of 57 / 51 |
+| Qwen3.8-27B 4-bit (INT4, both cards) | 43 / 42 / 42 | **7 / 7 / 7** | 27 / 18 / 18 | 281 of 307 / 48 of 55 / 48 |
+
+A wash: one more churn text found, the outside threat perfect on 7 cases, two fewer false third parties, seven fewer exact
+contact levels. Two more bits of weight buy nothing the hand check can see, while the 2-bit build labels beside the
+cascade with nothing stopped. Saluki stays the teacher. `data_domain/new_teacher_qwen27_eval.jsonl`, `results/qwen27_check.log`.
+
 ## Run 20: the four new questions taught by the bigger teacher (2026-10-11/12)
 
 Saluki (`cs/saluki_label.sh`: llama.cpp beside the cascade, 4 at a time) labelled the 4,080 pool texts that contain a cue word
