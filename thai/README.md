@@ -1264,7 +1264,7 @@ right (run 19 had 4 there). Third party is learned to the teacher's recall (19 o
 20 false yeses; it needs a few hundred positives, which the pool does not hold. The desk's own tasks are unchanged within
 noise except department on the short set (-2.6 points, mostly insurance), the ambiguous set is up 4 points.
 
-**Served since 2026-10-12 14:40: `:8011` runs run 20** (roll back by mounting `out/laya-th-run19` in `docker-compose.cascade.yml`). The desk shows the same two new answers as before; third party and the outside threat are answered by the model but not shown.
+**Served since 2026-10-12 14:40: `:8011` runs run 20** (roll back by mounting `out/laya-th-run19` in `docker-compose.cascade.yml`). The desk shows the same two new answers as before; third party and the outside threat are answered by the model but not shown. Backed up with run 16 and run 19 at `Chatre7/laya-th` (private, `thai/hf_push.sh 20`).
 
 ## Abstain, measured (2026-10-07)
 
