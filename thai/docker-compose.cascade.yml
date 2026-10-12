@@ -18,7 +18,7 @@ services:
       CASCADE_MAX_OPTIONS: "0"     # 0 = no option-count gate (run 3 has the 768-token option budget)
       STUDENT_COMPILE: "1"         # torch.compile the student (dynamic shapes); set 0 to disable
     volumes:
-      - ./out/laya-th-run19:/model:ro   # roll back: ./out/laya-th-run16
+      - ./out/laya-th-run20:/model:ro   # roll back: ./out/laya-th-run19
       - docker_hf-cache:/hf
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8011/healthz', timeout=5).status == 200 else 1)"]
